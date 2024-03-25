@@ -1,8 +1,5 @@
 #include "xVMTranslator.h"
-
 #include "llvm/IR/IRBuilder.h"
-
-#define VMPTRANSLATOR_DEBUG
 
 using namespace llvm;
 
