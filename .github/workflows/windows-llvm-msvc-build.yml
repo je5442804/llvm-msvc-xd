@@ -10,13 +10,9 @@ on:
         description: 'Log level'
         required: true
         default: 'warning'
-      tags:
-        description: 'MSVC-LLVM Build'
 
 jobs:
   build:
-    # Skip building pull requests from the same repository
-    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository) }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
