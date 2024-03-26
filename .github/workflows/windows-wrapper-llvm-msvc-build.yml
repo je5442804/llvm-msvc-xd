@@ -3,7 +3,8 @@ name: windows-wrapper-llvm-msvc-build
 permissions:
   contents: write
   
-on: [push, pull_request]
+
+
 
 jobs:
   build:
