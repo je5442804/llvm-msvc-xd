@@ -14,6 +14,8 @@
 #include "CombineFunctions.h"
 #include "FlatteningEnhanced.h"
 #include "VariableRotation.h"
+#include "Linearize.h"
+#include "EasyCFG.hpp"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
 
@@ -25,6 +27,7 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
       [](PassBuilder &PB) {
         PB.registerPipelineStartEPCallback([](llvm::ModulePassManager &MPM,
                                               OptimizationLevel Level) {
+
           MPM.addPass(createModuleToFunctionPassAdaptor(SplitBasicBlockPass()));
           MPM.addPass(
               createModuleToFunctionPassAdaptor(BogusControlFlowPass()));
@@ -32,6 +35,7 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(createModuleToFunctionPassAdaptor(MBAObfuscationPass()));
           MPM.addPass(createModuleToFunctionPassAdaptor(FlatteningPass()));
           MPM.addPass(createModuleToFunctionPassAdaptor(VmProtectPass()));
+          
         });
         PB.registerOptimizerEarlyEPCallback([](llvm::ModulePassManager &MPM,
                                                OptimizationLevel Level) {
@@ -41,6 +45,8 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(CombineFunctionsPass());
           MPM.addPass(createModuleToFunctionPassAdaptor(FlatteningEnhanced()));
           MPM.addPass(VariableRotationPass());
+          
+          
         });
 
         PB.registerOptimizerLastEPCallback([](llvm::ModulePassManager &MPM,
@@ -51,6 +57,9 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(createModuleToFunctionPassAdaptor(IndirectCallPass()));
           MPM.addPass(IngvObfuscationPass());
           MPM.addPass(createModuleToFunctionPassAdaptor(VmFlatObfuscationPass()));
+          MPM.addPass(Linearize());
+          MPM.addPass(EasyCfgPass());
+        
         });
         //PB.registerVectorizerStartEPCallback(
         //    [](FunctionPassManager &FPM, OptimizationLevel Level) {});
