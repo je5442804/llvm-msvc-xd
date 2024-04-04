@@ -2045,10 +2045,8 @@ void LinkerDriver::linkerMain(ArrayRef<const char *> argsArr) {
       parseMerge(".edata=.rdata");
     parseMerge(".xdata=.rdata");
     parseMerge(".00cfg=.rdata");
-    
     parseMerge(".voltbl=.rdata");
-    parseMerge("newworld=.rdata");
-    
+
     if (config->driver)
       parseMerge("INIT2=INIT");
     
