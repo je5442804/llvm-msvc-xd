@@ -3,7 +3,13 @@ name: windows-wrapper-llvm-msvc-build
 permissions:
   contents: write
   
-
+on:  
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
 
 
 jobs:
@@ -44,20 +50,20 @@ jobs:
         
     - name: Package llvm
       run: |
-        7z a -v1500m windows-wrapper-llvm-msvc.zip install
+        7z a -mx=9 windows-wrapper-llvm-msvc.zip install
         
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         name: windows-wrapper-llvm-msvc
-        path: windows-wrapper-llvm-msvc.zip.00*
+        path: windows-wrapper-llvm-msvc.zip
         
     - name: Release
       uses: softprops/action-gh-release@v1
       if: ${{ startsWith(github.ref, 'refs/tags/') }}
       with:
         prerelease: ${{ !startsWith(github.ref, 'refs/tags/v') || contains(github.ref, '-pre') }}
-        files: windows-wrapper-llvm-msvc.zip.00*
+        files: windows-wrapper-llvm-msvc.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
