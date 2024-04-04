@@ -2281,7 +2281,8 @@ void Writer::writeBuildId() {
     memcpy(buildId->buildId->PDB70.Signature, &hash, 8);
     // xxhash only gives us 8 bytes, so put some fixed data in the other half.
     // Change PDB signature.
-    memcpy(&buildId->buildId->PDB70.Signature[8], "NewWorld", 8);
+    // PDB Only? hope this way could avoid crash
+    // memcpy(&buildId->buildId->PDB70.Signature[8], "NewWorld", 8);
   }
 
   if (debugDirectory)
