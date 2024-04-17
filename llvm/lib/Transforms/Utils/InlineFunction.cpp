@@ -2018,6 +2018,14 @@ inlineRetainOrClaimRVCalls(CallBase &CB, objcarc::ARCInstKind RVCallKind,
 // Set volatile attribute for inlined basic block and instructions.
 // This is used to preserve the volatile attribute of the original call instruction.
 static void setVolatileForInlinedBB(BasicBlock *BB) {
+
+  // We need BBs belong to a function.
+  if (!BB->getParent()->getParent())
+    return;
+
+  // Set volatile attribute for the basic block if the module flag is set.
+  if (!BB->getParent()->getParent()->getModuleFlag("DisableInlineOpt"))
+    return;
   
   // Do not set volatile attribute for basic block with only one instruction.
   if (BB->size() <= 1)
@@ -2830,10 +2838,10 @@ llvm::InlineResult llvm::InlineFunction(CallBase &CB, InlineFunctionInfo &IFI,
 
     if (MergeAttributes)
       AttributeFuncs::mergeAttributesForInlining(*Caller, *CalledFunc);
-#ifdef _WIN32
+
     // Set 'volatile' to the new BB and instructions.
     setVolatileForInlinedBB(OrigBB);
-#endif
+
     // We are now done with the inlining.
     return InlineResult::success();
   }
@@ -2997,9 +3005,9 @@ llvm::InlineResult llvm::InlineFunction(CallBase &CB, InlineFunctionInfo &IFI,
 
   if (MergeAttributes)
     AttributeFuncs::mergeAttributesForInlining(*Caller, *CalledFunc);
-#ifdef _WIN32
+
   // Set 'volatile' to the new BB and instructions.
   setVolatileForInlinedBB(AfterCallBB);
-#endif
+
   return InlineResult::success();
 }

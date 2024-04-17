@@ -197,10 +197,13 @@ Function *xvmm::virtualization(Function &f) {
   Function *vm_func =
       Function::Create(f.getFunctionType(), f.getLinkage(),
                        f.getName() + Twine("_VM"), f.getParent());
-  if (const auto ann = readAnnotate(&f);
-      ann.find("x-full") != std::string::npos) {
-    vm_func->setAnnotationStrings("vm-fla,x-full,x-fla-enh");
-  }
+    auto ann = readAnnotate(&f);
+    ann.erase(ann.find("x-vm"),4);
+    if (ann.find("x-full") != std::string::npos) {
+        ann+= "vm-fla,x-full,x-fla-enh";
+    }
+  vm_func->setAnnotationStrings(ann.c_str());
+  
   buildVMFunction(f, *vm_func, ops, new_mem_size, oparr_var, 256, remap,
                   alloca_map);
   turnOffOptimization(vm_func);
@@ -354,7 +357,6 @@ void xvmm::buildVMFunction(Function &f, Function &vm,
     for(std::pair<int,int> p:remap)
     {
         int ptr_addr=p.first,real_addr=p.second;
-        //��������
         Value *ptr=irb.CreateGEP(memory->getAllocatedType(),memory,{irb.getInt32(0),irb.getInt32(real_addr)});
         Value *to_store=irb.CreateGEP(memory->getAllocatedType(),memory,{irb.getInt32(0),irb.getInt32(ptr_addr)});
         irb.CreateStore(ptr,irb.CreateBitCast(to_store,ptr->getType()->getPointerTo()));

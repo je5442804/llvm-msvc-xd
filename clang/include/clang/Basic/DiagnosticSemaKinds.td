@@ -2606,7 +2606,7 @@ def warn_inconsistent_destructor_marked_not_override_overriding : Warning <
   InGroup<CXX11WarnInconsistentOverrideDestructor>, DefaultIgnore;
 def warn_inconsistent_function_marked_not_override_overriding : Warning <
   "%sub{warn_function_marked_not_override_overriding}0">,
-  InGroup<CXX11WarnInconsistentOverrideMethod>;
+  InGroup<CXX11WarnInconsistentOverrideMethod>, DefaultIgnore;
 def warn_suggest_destructor_marked_not_override_overriding : Warning <
   "%sub{warn_destructor_marked_not_override_overriding}0">,
   InGroup<CXX11WarnSuggestOverrideDestructor>, DefaultIgnore;

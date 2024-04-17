@@ -2435,6 +2435,10 @@ def fjumptable_rdata : Flag<["-"], "fjumptable-rdata">,
                                           Group<f_clang_Group>,
                                           HelpText<"Put switch case jump tables in .rdata">,
                                           MarshallingInfoFlag<CodeGenOpts<"Jumptablerdata">>;
+def fdisable_inline_opt : Flag<["-"], "fdisable-inline-opt">,
+                                          Group<f_clang_Group>,
+                                          HelpText<"Disables the optimization of inline functions">,
+                                          MarshallingInfoFlag<CodeGenOpts<"DisableInlineOpt">>;
 def fdisable_cfi_check : Flag<["-"], "fdisable-cfi-check">,
                                           Group<f_clang_Group>,
                                           HelpText<"Disables the checks in CFI">,

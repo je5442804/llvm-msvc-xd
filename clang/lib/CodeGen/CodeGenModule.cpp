@@ -1042,6 +1042,11 @@ void CodeGenModule::Release() {
     getModule().addModuleFlag(llvm::Module::Override, "Cross-DSO CFI", 1);
   }
 
+  if (CodeGenOpts.DisableInlineOpt) {
+    // Indicate that we want to disable optimization of inlined functions.
+    getModule().addModuleFlag(llvm::Module::Override, "DisableInlineOpt", 1);
+  }
+  
   if (CodeGenOpts.Jumptablerdata) {
     // Indicate that we want to emit jump table to .rdata.
     getModule().addModuleFlag(llvm::Module::Override, "Jumptablerdata", 1);
