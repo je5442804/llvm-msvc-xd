@@ -2130,6 +2130,10 @@ void Writer::createRuntimePseudoRelocs() {
     auto *sc = dyn_cast<SectionChunk>(c);
     if (!sc || !sc->live)
       continue;
+    // Don't create pseudo relocations for sections that won't be
+    // mapped at runtime.
+    if (sc->header->Characteristics & IMAGE_SCN_MEM_DISCARDABLE)
+      continue;
     sc->getRuntimePseudoRelocs(rels);
   }
 
