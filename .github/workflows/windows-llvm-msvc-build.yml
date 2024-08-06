@@ -1,0 +1,55 @@
+name: windows-llvm-msvc-build
+
+permissions:
+  contents: write
+  
+on:  
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+    env:
+      BUILD_TYPE: Release
+    steps:
+    
+    - name: Checkout Repo
+      uses: actions/checkout@main
+      with:
+          path: llvm-msvc
+          submodules: 'recursive'
+          
+    - name: Build llvm
+      run: |
+        cmake -Bbuild -A X64 -DLLDB_ENABLE_PYTHON=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_ENABLE_LIBXML2=OFF -DLLVM_ENABLE_ZLIB=OFF -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -DLLVM_USE_CRT_RELEASE=MT -DCPACK_GENERATOR=ZIP -DCMAKE_INSTALL_PREFIX=install -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_OBFUSCATION_LINK_INTO_TOOLS=ON -DLLVM_ENABLE_PROJECTS="clang;lld;lldb" llvm-msvc\\llvm
+        cmake --build build --config ${{ env.BUILD_TYPE }}
+        cmake --build build --config ${{ env.BUILD_TYPE }} --target install
+
+    - name: Package llvm
+      run: |
+        7z a -t7z -mmt -mf -mhc -mhcf -m0=LZMA2 -mx=9 windows-llvm-msvc.7z install
+        
+    - name: Upload Artifact
+      uses: actions/upload-artifact@main
+      with:
+        name: windows-llvm-msvc
+        path: windows-llvm-msvc.7z
+        
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: ${{ startsWith(github.ref, 'refs/tags/') }}
+      with:
+        prerelease: ${{ !startsWith(github.ref, 'refs/tags/v') || contains(github.ref, '-pre') }}
+        files: windows-llvm-msvc.7z
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
