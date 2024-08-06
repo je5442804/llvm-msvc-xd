@@ -61,7 +61,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: windows-llvm-msvc
-        path: windows-llvm-msvc.zip.00*
+        path: windows-llvm-msvc.7z
         
     - name: Release
       uses: softprops/action-gh-release@v1
