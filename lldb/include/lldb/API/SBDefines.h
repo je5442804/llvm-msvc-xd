@@ -9,6 +9,8 @@
 #ifndef LLDB_API_SBDEFINES_H
 #define LLDB_API_SBDEFINES_H
 
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
+
 #include "lldb/lldb-defines.h"
 #include "lldb/lldb-enumerations.h"
 #include "lldb/lldb-forward.h"

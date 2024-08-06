@@ -2019,7 +2019,14 @@ inlineRetainOrClaimRVCalls(CallBase &CB, objcarc::ARCInstKind RVCallKind,
 // This is used to preserve the volatile attribute of the original call instruction.
 static void setVolatileForInlinedBB(BasicBlock *BB) {
 
+  if (!BB)
+    return;
+
   // We need BBs belong to a function.
+  if (!BB->getParent())
+    return;
+
+  // We need BBs belong to a module.
   if (!BB->getParent()->getParent())
     return;
 

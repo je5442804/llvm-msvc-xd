@@ -287,6 +287,7 @@ namespace{
         for (const auto &func : func_list) {
           func->eraseFromParent();
         }
+        return true;
     }
 
     bool CombineFunction::runOnModule(Module &module) {

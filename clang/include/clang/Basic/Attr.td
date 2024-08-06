@@ -1824,6 +1824,12 @@ def Volatile : InheritableAttr {
   let Documentation = [Undocumented];
 }
 
+def DisableTryStmt : InheritableAttr {
+  let Spellings = [GCC<"disable_try_stmt">, Declspec<"disable_try_stmt">];
+  let Subjects = SubjectList<[Function]>;
+  let Documentation = [Undocumented];
+}
+
 def Naked : InheritableAttr {
   let Spellings = [GCC<"naked">, Declspec<"naked">];
   let Subjects = SubjectList<[Function]>;

@@ -60,7 +60,7 @@ bool FlaEnhPass::runOnFunction(Function *f) {
     return false;
   }
 
-  if (f->getName().startswith("??") || f->getName().contains("std@")) {
+  if (f->getName().starts_with("??") || f->getName().contains("std@")) {
     return false;
   }
 
@@ -106,7 +106,7 @@ bool FlaEnhPass::runOnFunction(Function *f) {
   BasicBlock *loopBegin =
       BasicBlock::Create(f->getContext(), "LoopBegin", f, newEntry);
   std::vector<BasicBlock *> loopEndBlocks;
-  for (int i = 0; i < loopEndNum; i++) {
+  for (size_t i = 0; i < loopEndNum; i++) {
     BasicBlock *tmp =
         BasicBlock::Create(f->getContext(), "LoopEnd", f, newEntry);
     loopEndBlocks.push_back(tmp);
@@ -188,7 +188,7 @@ std::list<TreeNode *>::iterator
 FlaEnhPass::random_element(std::list<TreeNode *> *x) {
   auto iter = x->begin();
   const int val = x->size();
-  for (int i = 0; i < cryptoutils->get_uint32_t() % val; i++)
+  for (uint32_t i = 0; i < cryptoutils->get_uint32_t() % val; i++)
     ++iter;
   return iter;
 }

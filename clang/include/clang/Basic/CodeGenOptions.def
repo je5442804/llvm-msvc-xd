@@ -247,6 +247,7 @@ CODEGENOPT(SanitizeMemoryUseAfterDtor, 1, 0) ///< Enable use-after-delete detect
 CODEGENOPT(SanitizeCfiCrossDso, 1, 0) ///< Enable cross-dso support in CFI.
 CODEGENOPT(Jumptablerdata, 1, 0) ///< Put switch case jump tables in .rdata
 CODEGENOPT(DisableInlineOpt, 1, 0) ///< Disables the optimization of inline functions.
+CODEGENOPT(DisableTryStmt, 1, 0) ///< Disables the try statements.
 CODEGENOPT(DisableCFICheckFail, 1, 0) ///< Disables the failure checks in CFI.
 CODEGENOPT(DisableCFICheck, 1, 0) ///< Disables the checks in CFI.
 CODEGENOPT(DisableCFISlowPathCheck, 1, 0) ///< Disables the slow path checks in CFI.

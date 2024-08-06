@@ -69,7 +69,7 @@ bool DataObfuscator::runOnFunction(Function &F) {
   // dataFlowObfu(f, allocaInsts);
   // fixStack(f);
   CONTEXT = &F.getContext();
-  if (F.getName().startswith("genrand.")) {
+  if (F.getName().starts_with("genrand.")) {
     return false;
   }
   for (int i = 0; i < ObfDataTimes; i++) {

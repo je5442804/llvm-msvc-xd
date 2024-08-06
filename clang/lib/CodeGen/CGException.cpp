@@ -435,6 +435,12 @@ llvm::Value *CodeGenFunction::getSelectorFromSlot() {
 
 void CodeGenFunction::EmitCXXThrowExpr(const CXXThrowExpr *E,
                                        bool KeepInsertionPoint) {
+  // If try statements are disabled, just turn the throw into a no-op.
+  if (CGM.getCodeGenOpts().DisableTryStmt ||
+      (CurCodeDecl && CurCodeDecl->hasAttr<DisableTryStmtAttr>())) {
+    return;
+  }
+  
   // If the exception is being emitted in an OpenMP target region,
   // and the target is a GPU, we do not support exception handling.
   // Therefore, we emit a trap which will abort the program, and
@@ -630,6 +636,15 @@ void CodeGenFunction::FixSEHEnd(llvm::InvokeInst *InvokeIst) {
 }
 
 void CodeGenFunction::EmitCXXTryStmt(const CXXTryStmt &S) {
+
+  // If try statements are disabled, just emit the try statement as a compound
+  // stmt.
+  if (CGM.getCodeGenOpts().DisableTryStmt ||
+      (CurCodeDecl && CurCodeDecl->hasAttr<DisableTryStmtAttr>())) {
+    EmitStmt(S.getTryBlock());
+    return;
+  }
+
   const llvm::Triple &T = Target.getTriple();
   // If we encounter a try statement on in an OpenMP target region offloaded to
   // a GPU, we treat it as a basic block.
@@ -1741,6 +1756,15 @@ llvm::BasicBlock *CodeGenFunction::getEHResumeBlock(bool isCleanup) {
 }
 
 void CodeGenFunction::EmitSEHTryStmt(const SEHTryStmt &S) {
+
+  // If try statements are disabled, just emit the try statement as a compound
+  // stmt.
+  if (CGM.getCodeGenOpts().DisableTryStmt ||
+      (CurCodeDecl && CurCodeDecl->hasAttr<DisableTryStmtAttr>())) {
+    EmitStmt(S.getTryBlock());
+    return;
+  }
+  
   bool ContainsRetStmt = false;
   EnterSEHTryStmt(S, ContainsRetStmt);
   {

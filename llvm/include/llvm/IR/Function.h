@@ -255,6 +255,15 @@ public:
              : removeFnAttr("no-stack-arg-probe");
   }
 
+  /// Indicate that whether we should disable the try statements.
+  bool doesDisableTryStmt() const {
+    return hasFnAttribute("no-try-stmt");
+  }
+  void setDoesDisableTryStmt(bool Disabled = true) {
+    Disabled ? addFnAttr("no-try-stmt")
+             : removeFnAttr("no-try-stmt");
+  }
+
   /// Is SEHFilterFunction?
   bool isSEHFilterFunction() const {
     return hasFnAttribute(Attribute::IsSEHFilterFunction);

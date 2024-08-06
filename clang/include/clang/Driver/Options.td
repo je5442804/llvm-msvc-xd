@@ -2439,6 +2439,10 @@ def fdisable_inline_opt : Flag<["-"], "fdisable-inline-opt">,
                                           Group<f_clang_Group>,
                                           HelpText<"Disables the optimization of inline functions">,
                                           MarshallingInfoFlag<CodeGenOpts<"DisableInlineOpt">>;
+def fdisable_try_stmt : Flag<["-"],   "fdisable-try-stmt">,
+                                          Group<f_clang_Group>,
+                                          HelpText<"Disables the try statements">,
+                                          MarshallingInfoFlag<CodeGenOpts<"DisableTryStmt">>;
 def fdisable_cfi_check : Flag<["-"], "fdisable-cfi-check">,
                                           Group<f_clang_Group>,
                                           HelpText<"Disables the checks in CFI">,

@@ -256,7 +256,7 @@ bool VMFlat::DoFlatten(Function *f) {
     return false;
   }
 
-  if(f->getName().startswith("??") || f->getName().contains("std@")) {
+  if(f->getName().starts_with("??") || f->getName().contains("std@")) {
     if(VM_LEVEL<5)
       return false;
     if(VM_LEVEL<6)
@@ -281,7 +281,7 @@ bool VMFlat::DoFlatten(Function *f) {
 
   //errs()<<f->getName()<<"\r\n";
 
-  if(f->getName().startswith("genrand."))
+  if(f->getName().starts_with("genrand."))
   {
     if(VM_LEVEL==7)
       return true;
@@ -539,7 +539,7 @@ bool VMFlat::DoFlatten(Function *f) {
       //errs() << int_list.size();
       Instruction &I = *iter;
       if (!int_list.empty() && cryptoutils->get_uint32_t() % 3 == 2) {
-        for (int i = 0; i < I.getNumOperands(); i++) {
+        for (size_t i = 0; i < I.getNumOperands(); i++) {
           if (I.getOperand(i)->getType()->isIntegerTy() && !isa<Constant>(I.getOperand(i))) {
             IRBuilder<> builder(&I);
             const int r = cryptoutils->get_uint32_t() % int_list.size();
@@ -577,7 +577,7 @@ bool VMFlat::DoFlatten(Function *f) {
           }
         }
       }
-      for (int i = 0; i < I.getNumOperands(); i++) {
+      for (size_t i = 0; i < I.getNumOperands(); i++) {
         if (I.getOperand(i)->getType()->isIntegerTy() && dyn_cast<IntegerType>(I.getOperand(i)->getType())->getBitWidth() >= 8
             && dyn_cast<IntegerType>(I.getOperand(i)->getType())->getBitWidth() <= 64
             && !isa<Constant>(I.getOperand(i))) {
@@ -626,7 +626,7 @@ bool VMFlat::DoFlatten(Function *f) {
     auto iter = bb.begin();
     while (iter != bb.end()) {
       Instruction &I = *iter;
-      for (int i = 0; i < I.getNumOperands(); i++) {
+      for (size_t i = 0; i < I.getNumOperands(); i++) {
         Value *v = I.getOperand(i);
 
         int len_of_bytes;
@@ -690,7 +690,7 @@ bool VMFlat::DoFlatten(Function *f) {
 }
 
 void VMFlat::hex2i64(uint8_t *hex, uint32_t size, uint64_t *i64_arr) {
-  for (int i = 0; i < size; i += 8) {
+  for (uint32_t i = 0; i < size; i += 8) {
     i64_arr[i / 8] = *reinterpret_cast<uint64_t *>(hex + i);
   }
 }

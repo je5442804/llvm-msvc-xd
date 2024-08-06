@@ -1047,6 +1047,11 @@ void CodeGenModule::Release() {
     getModule().addModuleFlag(llvm::Module::Override, "DisableInlineOpt", 1);
   }
   
+  if (CodeGenOpts.DisableTryStmt) {
+    // Indicate that we want to disable the try statements.
+    getModule().addModuleFlag(llvm::Module::Override, "DisableTryStmt", 1);
+  }
+  
   if (CodeGenOpts.Jumptablerdata) {
     // Indicate that we want to emit jump table to .rdata.
     getModule().addModuleFlag(llvm::Module::Override, "Jumptablerdata", 1);

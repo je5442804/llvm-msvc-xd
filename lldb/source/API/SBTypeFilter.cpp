@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
-
 #include "lldb/API/SBTypeFilter.h"
 #include "lldb/Utility/Instrumentation.h"
 

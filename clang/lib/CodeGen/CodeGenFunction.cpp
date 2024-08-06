@@ -408,6 +408,10 @@ void CodeGenFunction::FinishFunction(SourceLocation EndLoc) {
   if (CurCodeDecl && CurCodeDecl->hasAttr<VolatileAttr>())
     CurFn->setVolatileAndAppendToUsed();
   
+  // Check 'DisableTryStmt' attribute
+  if (CurCodeDecl && CurCodeDecl->hasAttr<DisableTryStmtAttr>())
+    CurFn->addFnAttr("no-try-stmt");
+  
   // Reset the debug location to that of the simple 'return' expression, if any
   // rather than that of the end of the function's scope '}'.
   ApplyDebugLocation AL(*this, Loc);

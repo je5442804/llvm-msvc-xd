@@ -15,8 +15,10 @@ https://github.com/gmh5225, 日天同学的llvm-msvc让人心情激动
 ### 参考
 ```
 https://github.com/gmh5225/awesome-llvm-security#ollvm
-
 ```
+
+### 更新
+放弃TAG自动Build了，自己build吧
 
 ### 计划
 - [x] 在vm-fla-sym添加反符号执行和反内存追踪
@@ -31,10 +33,13 @@ https://github.com/gmh5225/awesome-llvm-security#ollvm
 - [x] x-full 功能，在function上使用vm-fla-level=7
 - [x] 字符串加密等相似加了combine
 - [x] 自定義分割合併 combine_func[tag_number] 模式
-- [ ] x-var-rot 待处理
+- ~~[ ] x-var-rot 待处理~~
+- [ ] 新功能
+
 
 [![windows-llvm-msvc-build](https://github.com/backengineering/llvm-msvc/actions/workflows/windows-llvm-msvc-build.yml/badge.svg?branch=dev)](https://github.com/backengineering/llvm-msvc/actions/workflows/windows-llvm-msvc-build.yml)
 [![android-llvm-msvc-build](https://github.com/backengineering/llvm-msvc/actions/workflows/android-llvm-msvc-build.yml/badge.svg?branch=dev)](https://github.com/backengineering/llvm-msvc/actions/workflows/android-llvm-msvc-build.yml)
+[![macos-arm64-llvm-msvc-build](https://github.com/backengineering/llvm-msvc/actions/workflows/macos-arm64-llvm-msvc-build.yml/badge.svg)](https://github.com/backengineering/llvm-msvc/actions/workflows/macos-arm64-llvm-msvc-build.yml)
 
 ![image](https://github.com/backengineering/llvm-msvc/assets/13917777/86a7eb6a-466a-4290-8ec5-e3affc3e3c0a)
 [![Github All Releases](https://img.shields.io/github/downloads/backengineering/llvm-msvc/total.svg)](https://github.com/backengineering/llvm-msvc/releases) 
@@ -99,14 +104,14 @@ X86：clang+lld+RelWithDebInfo
 
 mkdir build-RelWithDebInfo-64
 pushd build-RelWithDebInfo-64
-cmake .. -G "Visual Studio 17 2022" -A X64 -DLLDB_ENABLE_PYTHON=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_ENABLE_PROJECTS="clang;lld;lldb" -DCMAKE_INSTALL_PREFIX=E:\llvm\install-RelWithDebInfo-64 -DLLVM_ENABLE_LIBXML2=OFF -DLLVM_ENABLE_ZLIB=OFF -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_OBFUSCATION_LINK_INTO_TOOLS=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLLVM_USE_CRT_RELEASE=MT ../llvm
+cmake .. -G "Visual Studio 17 2022" -A X64 -DCMAKE_CXX_FLAGS="/utf-8" -DCMAKE_C_FLAGS="/utf-8" -DLLDB_ENABLE_PYTHON=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_ENABLE_PROJECTS="clang;lld;lldb" -DCMAKE_INSTALL_PREFIX=E:\llvm\install-RelWithDebInfo-64 -DLLVM_ENABLE_LIBXML2=OFF -DLLVM_ENABLE_ZLIB=OFF -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_OBFUSCATION_LINK_INTO_TOOLS=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLLVM_USE_CRT_RELEASE=MT ../llvm
 msbuild /m -p:Configuration=RelWithDebInfo INSTALL.vcxproj 
 
 X86：clang+lld+release
 
 mkdir build-release-64
 pushd build-release-64
-cmake .. -G "Visual Studio 17 2022" -A X64 -DLLDB_ENABLE_PYTHON=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_ENABLE_PROJECTS="clang;lld;lldb" -DCMAKE_INSTALL_PREFIX=E:\llvm\install-release-64 -DLLVM_ENABLE_LIBXML2=OFF -DLLVM_ENABLE_ZLIB=OFF -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_OBFUSCATION_LINK_INTO_TOOLS=ON -DCMAKE_BUILD_TYPE=release -DLLVM_USE_CRT_RELEASE=MT ../llvm
+cmake .. -G "Visual Studio 17 2022" -A X64 -DCMAKE_CXX_FLAGS="/utf-8" -DCMAKE_C_FLAGS="/utf-8" -DLLDB_ENABLE_PYTHON=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_ENABLE_PROJECTS="clang;lld;lldb" -DCMAKE_INSTALL_PREFIX=E:\llvm\install-release-64 -DLLVM_ENABLE_LIBXML2=OFF -DLLVM_ENABLE_ZLIB=OFF -DLLVM_TARGETS_TO_BUILD=X86 -DLLVM_OBFUSCATION_LINK_INTO_TOOLS=ON -DCMAKE_BUILD_TYPE=release -DLLVM_USE_CRT_RELEASE=MT ../llvm
 msbuild /m -p:Configuration=release INSTALL.vcxproj 
 ```
 
@@ -181,7 +186,7 @@ If you don't know how to learn ``LLVM``, you can check out this [repository](htt
 Yes.
 
 ### Can it run on macos?
-No.
+Yes.
 
 ## Credits
 - ``LLVM``

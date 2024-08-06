@@ -6797,6 +6797,10 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
   if (Args.hasArg(options::OPT_fdisable_inline_opt))
     CmdArgs.push_back("-fdisable-inline-opt");
   
+  // -fdisable-try-stmt(Disables the try statements)
+  if (Args.hasArg(options::OPT_fdisable_try_stmt))
+    CmdArgs.push_back("-fdisable-try-stmt");
+  
   // -fdisable-cfi-check(Disables the checks in CFI)
   if (Args.hasArg(options::OPT_fdisable_cfi_check))
     CmdArgs.push_back("-fdisable-cfi-check");
