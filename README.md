@@ -34,7 +34,8 @@ https://github.com/gmh5225/awesome-llvm-security#ollvm
 - [x] 字符串加密等相似加了combine
 - [x] 自定義分割合併 combine_func[tag_number] 模式
 - ~~[ ] x-var-rot 待处理~~
-- [ ] 新功能
+- [x] 新功能
+- [ ] new functions
 
 
 [![windows-llvm-msvc-build](https://github.com/backengineering/llvm-msvc/actions/workflows/windows-llvm-msvc-build.yml/badge.svg?branch=dev)](https://github.com/backengineering/llvm-msvc/actions/workflows/windows-llvm-msvc-build.yml)
@@ -127,7 +128,7 @@ set /O2 on
 ```
 #### 单纯使用特色部分（轻量模式 不加Light会导致文件飞升到10MB）
 ```
--mllvm -data-obfus -mllvm -const-obfus -mllvm -string-obfus -mllvm -ind-call -mllvm -vm-fla -mllvm -vm-fla-level=0 -mllvm -x-fla-enh -mllvm -x-combine
+-mllvm -data-obfus -mllvm -const-obfus -mllvm -string-obfus -mllvm -ind-call -mllvm -vm-fla -mllvm -vm-fla-level=0 -mllvm -x-fla-enh -mllvm -x-combine -mllvm -x-linear
 ```
 #### 需要修改载研究的部分
 ```
@@ -136,12 +137,24 @@ set /O2 on
 
 #### vm sample and x-full sample
 ```c++
-__attribute((__annotate__(("x-vm,x-full")))) void crypt_func(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
+__attribute((__annotate__(("x-vm,x-full,x-cfg")))) void crypt_func1(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
+    for(auto i=0;i<var_size;i++){
+        var[i]^=key[i%key_size];
+    }
+}
+__attribute((__annotate__(("x-cfg,ind-br,alias-access")))) void crypt_func2(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
+    for(auto i=0;i<var_size;i++){
+        var[i]^=key[i%key_size];
+    }
+}
+__attribute((__annotate__(("x-cfg,x-vm,ind-br,alias-access")))) void crypt_func3(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
     for(auto i=0;i<var_size;i++){
         var[i]^=key[i%key_size];
     }
 }
 ```
+
+
 
 #### combine sample
 ```c++

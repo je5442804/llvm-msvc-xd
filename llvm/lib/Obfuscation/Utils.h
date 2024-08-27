@@ -25,4 +25,7 @@ void OutputIR(llvm::Function &Func);
 void turnOffOptimization(llvm::Function *f);
 bool isMemberFunction(llvm::Function *F);
 bool valueEscapes(const llvm::Instruction &Inst);
+void getRandomNoRepeat(unsigned upper_bound, unsigned size,
+                       std::vector<unsigned> &result);
+unsigned int getUniqueNumber(std::vector<unsigned int> &rand_list);
 #endif

@@ -1,23 +1,27 @@
 #include "BogusControlFlow.h"
+#include "CombineFunctions.h"
 #include "ConstObfuscation.h"
 #include "DataObfuscation.h"
+#include "EasyCFG.hpp"
 #include "Flattening.h"
+#include "FlatteningEnhanced.h"
 #include "IndirectCall.h"
 #include "IndirectGlobalVars.h"
+#include "Linearize.h"
 #include "MBAObfuscation.h"
 #include "SplitBasicBlock.h"
 #include "StringObfuscation.h"
 #include "Substitution.h"
 #include "VMFlatten.h"
+#include "VariableRotation.h"
 #include "xVMP.h"
 #include "xVMProtect.h"
-#include "CombineFunctions.h"
-#include "FlatteningEnhanced.h"
-#include "VariableRotation.h"
-#include "Linearize.h"
-#include "EasyCFG.hpp"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
+
+#include <AliasAccess.h>
+#include <GlobalsEncryption.h>
+#include <IndirectBranch.h>
 
 using namespace llvm;
 
@@ -35,7 +39,7 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(createModuleToFunctionPassAdaptor(MBAObfuscationPass()));
           MPM.addPass(createModuleToFunctionPassAdaptor(FlatteningPass()));
           MPM.addPass(createModuleToFunctionPassAdaptor(VmProtectPass()));
-          
+
         });
         PB.registerOptimizerEarlyEPCallback([](llvm::ModulePassManager &MPM,
                                                OptimizationLevel Level) {
@@ -45,8 +49,8 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(CombineFunctionsPass());
           MPM.addPass(createModuleToFunctionPassAdaptor(FlatteningEnhanced()));
           MPM.addPass(VariableRotationPass());
-          
-          
+          MPM.addPass(AliasAccess());
+          MPM.addPass(GlobalsEncryption());
         });
 
         PB.registerOptimizerLastEPCallback([](llvm::ModulePassManager &MPM,
@@ -59,7 +63,9 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(createModuleToFunctionPassAdaptor(VmFlatObfuscationPass()));
           MPM.addPass(Linearize());
           MPM.addPass(EasyCfgPass());
-        
+          MPM.addPass(createModuleToFunctionPassAdaptor(IndirectBranch()));
+
+
         });
         //PB.registerVectorizerStartEPCallback(
         //    [](FunctionPassManager &FPM, OptimizationLevel Level) {});

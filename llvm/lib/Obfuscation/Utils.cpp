@@ -269,4 +269,35 @@ void LowerConstantExpr(Function &F) {
     }
   }
 }
+unsigned int getUniqueNumber(std::vector<unsigned int> &rand_list) {
+  unsigned int num = rand();
+  while (true) {
+    bool state = true;
+    for (auto n = rand_list.begin(); n != rand_list.end(); n++) {
+      if (*n == num) {
+        state = false;
+        break;
+      }
+    }
+
+    if (state)
+      break;
+    num = rand();
+  }
+  return num;
+}
+
+void getRandomNoRepeat(unsigned upper_bound, unsigned size,
+                       std::vector<unsigned> &result) {
+  assert(upper_bound >= size);
+  std::vector<unsigned> list;
+  for (unsigned i = 0; i < upper_bound; i++) {
+    list.push_back(i);
+  }
+
+  std::shuffle(list.begin(), list.end(), std::default_random_engine());
+  for (unsigned i = 0; i < size; i++) {
+    result.push_back(list[i]);
+  }
+}
 
