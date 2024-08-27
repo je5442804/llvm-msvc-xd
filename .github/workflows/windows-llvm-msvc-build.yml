@@ -45,7 +45,7 @@ jobs:
         path: windows-llvm-msvc.7z
         
     - name: Release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@master
       if: ${{ startsWith(github.ref, 'refs/tags/') }}
       with:
         prerelease: ${{ !startsWith(github.ref, 'refs/tags/v') || contains(github.ref, '-pre') }}
