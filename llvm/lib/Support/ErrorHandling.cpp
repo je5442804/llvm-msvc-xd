@@ -19,6 +19,7 @@
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/Errc.h"
 #include "llvm/Support/Error.h"
+#include "llvm/Support/Memory.h"
 #include "llvm/Support/Process.h"
 #include "llvm/Support/Signals.h"
 #include "llvm/Support/Threading.h"
@@ -39,11 +40,36 @@
 
 using namespace llvm;
 
+class MemoryReserver {
+private:
+  std::error_code EC;
+  sys::MemoryBlock Ptr;
+
+public:
+  MemoryReserver(size_t Pages): Ptr() {
+    using sys::Memory;
+    unsigned int PSize = sys::Process::getPageSizeEstimate();
+    Ptr = Memory::allocateMappedMemory(PSize * Pages, nullptr, Memory::MF_READ | Memory::MF_WRITE, EC);
+    assert(!EC);
+  }
+
+  ~MemoryReserver() {
+    release();
+  }
+
+  void release() {
+    EC = sys::Memory::releaseMappedMemory(Ptr);
+    assert(!EC);
+  }
+};
+
 static fatal_error_handler_t ErrorHandler = nullptr;
 static void *ErrorHandlerUserData = nullptr;
 
 static fatal_error_handler_t BadAllocErrorHandler = nullptr;
 static void *BadAllocErrorHandlerUserData = nullptr;
+
+static MemoryReserver OOMReservedMemory(1024);
 
 #if LLVM_ENABLE_THREADS == 1
 // Mutexes to synchronize installing error handlers and calling error handlers.
@@ -152,6 +178,7 @@ void llvm::report_bad_alloc_error(const char *Reason, bool GenCrashDiag) {
 #if LLVM_ENABLE_THREADS == 1
     std::lock_guard<std::mutex> Lock(BadAllocErrorHandlerMutex);
 #endif
+    OOMReservedMemory.release();
     Handler = BadAllocErrorHandler;
     HandlerData = BadAllocErrorHandlerUserData;
   }
@@ -172,7 +199,8 @@ void llvm::report_bad_alloc_error(const char *Reason, bool GenCrashDiag) {
   (void)!::write(2, OOMMessage, strlen(OOMMessage));
   (void)!::write(2, Reason, strlen(Reason));
   (void)!::write(2, Newline, strlen(Newline));
-  abort();
+  sys::PrintStackTrace(llvm::errs());
+  ::_Exit(235);
 #endif
 }
 

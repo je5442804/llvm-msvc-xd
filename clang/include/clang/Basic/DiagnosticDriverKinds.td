@@ -14,7 +14,7 @@ def err_drv_no_such_file_with_suggestion : Error<
 def err_drv_unsupported_opt : Error<"unsupported option '%0'">;
 def err_drv_unsupported_opt_with_suggestion : Error<
   "unsupported option '%0'; did you mean '%1'?">;
-def err_drv_unsupported_opt_for_target : Error<
+def err_drv_unsupported_opt_for_target : Warning<
   "unsupported option '%0' for target '%1'">;
 def err_drv_unsupported_opt_for_language_mode : Error<
   "unsupported option '%0' for language mode '%1'">;

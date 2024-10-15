@@ -3564,6 +3564,16 @@ void Verifier::visitCallBase(CallBase &Call) {
       Check(BU.Inputs[1]->getType()->isIntegerTy(64),
             "Ptrauth bundle discriminator operand must be an i64", Call);
     } else if (Tag == LLVMContext::OB_kcfi) {
+      // If the call has a grandparent and is associated with a module that has
+      // the "Disable CFI Check" flag,
+      // skip further processing for this call.
+      if (Call.getParent() && Call.getParent()->getParent() &&
+          Call.getModule()) {
+        if (Call.getModule()->getModuleFlag("Disable CFI Check")) {
+          continue;
+        }
+      }
+        
       Check(!FoundKCFIBundle, "Multiple kcfi operand bundles", Call);
       FoundKCFIBundle = true;
       Check(BU.Inputs.size() == 1, "Expected exactly one kcfi bundle operand",

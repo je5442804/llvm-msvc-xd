@@ -2015,16 +2015,38 @@ bool llvm::LowerConstantExpr(Function &F) {
 
     for (BasicBlock &BB : F) {
         // Skip EHPad basic block.
-        if (BB.isEHPad()) continue;
+        if (BB.isEHPad())
+          continue;
         for (Instruction &I : BB) {
-            // Skip EHPad instruction
-            if (I.isEHPad()) continue;
-            for (unsigned int Index = 0; Index < I.getNumOperands(); ++Index) {
-                if (ConstantExpr *CE =
-                        dyn_cast<ConstantExpr>(I.getOperand(Index))) {
-                    SavedList.push_back(&I);
+          // Skip EHPad instruction
+          if (I.isEHPad())
+            continue;
+
+          // Skip specific annotation instruction
+          if (I.hasMetadata("annotation")) {
+            MDNode *Annotations = I.getMetadata("annotation");
+            for (unsigned i = 0; i < Annotations->getNumOperands(); ++i) {
+              if (MDNode *Annotation =
+                      dyn_cast<MDNode>(Annotations->getOperand(i))) {
+                if (MDString *AnnotationName =
+                        dyn_cast<MDString>(Annotation->getOperand(0))) {
+                  if (AnnotationName->getString() == "kcfi") {
+                    // Skip kcfi
+                    goto NextInstruction;
+                  }
                 }
+              }
             }
+          }
+
+          for (unsigned int Index = 0; Index < I.getNumOperands(); ++Index) {
+            if (ConstantExpr *CE = dyn_cast<ConstantExpr>(I.getOperand(Index))) {
+              SavedList.push_back(&I);
+            }
+          }
+
+      NextInstruction:
+          ;
         }
     }
 
