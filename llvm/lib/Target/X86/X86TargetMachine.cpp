@@ -102,6 +102,7 @@ extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeX86Target() {
   initializeX86ReturnThunksPass(PR);
   initializeX86DAGToDAGISelPass(PR);
   initializeX86ArgumentStackSlotPassPass(PR);
+  initializeX86RubbishCodePassPass(PR);
 }
 
 static std::unique_ptr<TargetLoweringObjectFile> createTLOF(const Triple &TT) {
@@ -634,6 +635,8 @@ void X86PassConfig::addPreEmitPass2() {
             (M->getFunction("objc_retainAutoreleasedReturnValue") ||
              M->getFunction("objc_unsafeClaimAutoreleasedReturnValue")));
   }));
+
+  addPass(createX86RubbishCodePassPass());
 }
 
 bool X86PassConfig::addPostFastRegAllocRewrite() {
