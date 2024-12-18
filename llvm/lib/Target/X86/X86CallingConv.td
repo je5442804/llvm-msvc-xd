@@ -1060,6 +1060,133 @@ def CC_Intel_OCL_BI : CallingConv<[
 // X86 Root Argument Calling Conventions
 //===----------------------------------------------------------------------===//
 
+def CC_X86_64_ObfuSet_C : CallingConv<[
+  // Handles byval parameters.
+  CCIfByVal<CCPassByVal<8, 8>>,
+
+  // Promote i1/i8/i16/v1i1 arguments to i32.
+  CCIfType<[i1, i8, i16, v1i1], CCPromoteToType<i32>>,
+
+  // The 'nest' parameter, if any, is passed in R10.
+  CCIfNest<CCIfSubtarget<"isTarget64BitILP32()", CCAssignToReg<[R10D]>>>,
+  CCIfNest<CCAssignToReg<[R10]>>,
+
+  // Pass SwiftSelf in a callee saved register.
+  CCIfSwiftSelf<CCIfType<[i64], CCAssignToReg<[R13]>>>,
+
+  // A SwiftError is passed in R12.
+  CCIfSwiftError<CCIfType<[i64], CCAssignToReg<[R12]>>>,
+
+  // Pass SwiftAsync in an otherwise callee saved register so that calls to
+  // normal functions don't need to save it somewhere.
+  CCIfSwiftAsync<CCIfType<[i64], CCAssignToReg<[R14]>>>,
+
+  // For Swift Calling Conventions, pass sret in %rax.
+  CCIfCC<"CallingConv::Swift",
+    CCIfSRet<CCIfType<[i64], CCAssignToReg<[RAX]>>>>,
+  CCIfCC<"CallingConv::SwiftTail",
+    CCIfSRet<CCIfType<[i64], CCAssignToReg<[RAX]>>>>,
+
+  // Pointers are always passed in full 64-bit registers.
+  CCIfPtr<CCCustom<"CC_X86_64_Pointer">>,
+
+  // The first 6 integer arguments are passed in integer registers.
+
+  CCIfCC<"CallingConv::Obfu1",
+    CCIfType<[i32], CCAssignToReg<[EAX, ESI, EBX, R11D, R15D]>>>,
+  CCIfCC<"CallingConv::Obfu1",
+    CCIfType<[i64], CCAssignToReg<[RAX, RSI, RBX, R11, R15]>>>,
+
+  CCIfCC<"CallingConv::Obfu2",
+    CCIfType<[i32], CCAssignToReg<[R11D, R8D, EBX, R12D, R13D, EAX]>>>,
+  CCIfCC<"CallingConv::Obfu2",
+    CCIfType<[i64], CCAssignToReg<[R11, R8, RBX, R12, R13, RAX]>>>,
+
+  CCIfCC<"CallingConv::Obfu3",
+    CCIfType<[i32], CCAssignToReg<[EBX, ECX, EAX, EDX]>>>,
+  CCIfCC<"CallingConv::Obfu3",
+    CCIfType<[i64], CCAssignToReg<[RBX, RCX, RAX, RDX]>>>,
+
+  CCIfCC<"CallingConv::Obfu4",
+    CCIfType<[i32], CCAssignToReg<[R8D, R9D, R10D, R11D, R12D, R13D, R14D, R15D]>>>,
+  CCIfCC<"CallingConv::Obfu4",
+    CCIfType<[i64], CCAssignToStack<8, 8>>>,
+
+  CCIfCC<"CallingConv::Obfu5",
+    CCIfType<[i32], CCAssignToReg<[EAX]>>>,
+  CCIfCC<"CallingConv::Obfu5",
+    CCIfType<[i64], CCAssignToReg<[RAX]>>>,
+
+  CCIfCC<"CallingConv::Obfu6",
+    CCIfType<[i32], CCAssignToReg<[ESI, EDI, R15D, R12D, R11D]>>>,
+  CCIfCC<"CallingConv::Obfu6",
+    CCIfType<[i64], CCAssignToReg<[RSI, RDI, R15, R12, R11]>>>,
+
+  CCIfCC<"CallingConv::Obfu7",
+    CCIfType<[i32], CCAssignToStack<8, 8>>>,
+  CCIfCC<"CallingConv::Obfu7",
+    CCIfType<[i64], CCAssignToStack<8, 8>>>,
+
+  CCIfCC<"CallingConv::Obfu8",
+    CCIfType<[i32], CCAssignToReg<[R13D, ESI, EAX]>>>,
+  CCIfCC<"CallingConv::Obfu8",
+    CCIfType<[i64], CCAssignToReg<[R13, RSI, RAX]>>>,
+
+  // The first 8 MMX vector arguments are passed in XMM registers on Darwin.
+  CCIfType<[x86mmx],
+            CCIfSubtarget<"isTargetDarwin()",
+            CCIfSubtarget<"hasSSE2()",
+            CCPromoteToType<v2i64>>>>,
+
+  // Boolean vectors of AVX-512 are passed in SIMD registers.
+  // The call from AVX to AVX-512 function should work,
+  // since the boolean types in AVX/AVX2 are promoted by default.
+  CCIfType<[v2i1],  CCPromoteToType<v2i64>>,
+  CCIfType<[v4i1],  CCPromoteToType<v4i32>>,
+  CCIfType<[v8i1],  CCPromoteToType<v8i16>>,
+  CCIfType<[v16i1], CCPromoteToType<v16i8>>,
+  CCIfType<[v32i1], CCPromoteToType<v32i8>>,
+  CCIfType<[v64i1], CCPromoteToType<v64i8>>,
+
+  // The first 8 FP/Vector arguments are passed in XMM registers.
+  CCIfType<[f16, f32, f64, f128, v16i8, v8i16, v4i32, v2i64, v8f16, v4f32, v2f64],
+            CCIfSubtarget<"hasSSE1()",
+            CCAssignToReg<[XMM0, XMM1, XMM2, XMM3, XMM4, XMM5, XMM6, XMM7]>>>,
+
+  // The first 8 256-bit vector arguments are passed in YMM registers, unless
+  // this is a vararg function.
+  // FIXME: This isn't precisely correct; the x86-64 ABI document says that
+  // fixed arguments to vararg functions are supposed to be passed in
+  // registers.  Actually modeling that would be a lot of work, though.
+  CCIfNotVarArg<CCIfType<[v32i8, v16i16, v8i32, v4i64, v16f16, v8f32, v4f64],
+                          CCIfSubtarget<"hasAVX()",
+                          CCAssignToReg<[YMM0, YMM1, YMM2, YMM3,
+                                         YMM4, YMM5, YMM6, YMM7]>>>>,
+
+  // The first 8 512-bit vector arguments are passed in ZMM registers.
+  CCIfNotVarArg<CCIfType<[v64i8, v32i16, v16i32, v8i64, v32f16, v16f32, v8f64],
+            CCIfSubtarget<"hasAVX512()",
+            CCAssignToReg<[ZMM0, ZMM1, ZMM2, ZMM3, ZMM4, ZMM5, ZMM6, ZMM7]>>>>,
+
+  // Integer/FP values get stored in stack slots that are 8 bytes in size and
+  // 8-byte aligned if there are no more registers to hold them.
+  CCIfType<[i32, i64, f16, f32, f64], CCAssignToStack<8, 8>>,
+
+  // Long doubles get stack slots whose size and alignment depends on the
+  // subtarget.
+  CCIfType<[f80, f128], CCAssignToStack<0, 0>>,
+
+  // Vectors get 16-byte stack slots that are 16-byte aligned.
+  CCIfType<[v16i8, v8i16, v4i32, v2i64, v8f16, v4f32, v2f64], CCAssignToStack<16, 16>>,
+
+  // 256-bit vectors get 32-byte stack slots that are 32-byte aligned.
+  CCIfType<[v32i8, v16i16, v8i32, v4i64, v16f16, v8f32, v4f64],
+           CCAssignToStack<32, 32>>,
+
+  // 512-bit vectors get 64-byte stack slots that are 64-byte aligned.
+  CCIfType<[v64i8, v32i16, v16i32, v8i64, v32f16, v16f32, v8f64],
+           CCAssignToStack<64, 64>>
+]>;
 // This is the root argument convention for the X86-32 backend.
 def CC_X86_32 : CallingConv<[
   // X86_INTR calling convention is valid in MCU target and should override the
@@ -1096,6 +1223,15 @@ def CC_X86_64 : CallingConv<[
     CCIfSubtarget<"isTargetWin64()", CCDelegateTo<CC_X86_Win64_RegCall>>>,
   CCIfCC<"CallingConv::X86_RegCall", CCDelegateTo<CC_X86_SysV64_RegCall>>,
   CCIfCC<"CallingConv::X86_INTR", CCCustom<"CC_X86_Intr">>,
+
+  CCIfCC<"CallingConv::Obfu1", CCDelegateTo<CC_X86_64_ObfuSet_C>>,
+  CCIfCC<"CallingConv::Obfu2", CCDelegateTo<CC_X86_64_ObfuSet_C>>,
+  CCIfCC<"CallingConv::Obfu3", CCDelegateTo<CC_X86_64_ObfuSet_C>>,
+  CCIfCC<"CallingConv::Obfu4", CCDelegateTo<CC_X86_64_ObfuSet_C>>,
+  CCIfCC<"CallingConv::Obfu5", CCDelegateTo<CC_X86_64_ObfuSet_C>>,
+  CCIfCC<"CallingConv::Obfu6", CCDelegateTo<CC_X86_64_ObfuSet_C>>,
+  CCIfCC<"CallingConv::Obfu7", CCDelegateTo<CC_X86_64_ObfuSet_C>>,
+  CCIfCC<"CallingConv::Obfu8", CCDelegateTo<CC_X86_64_ObfuSet_C>>,
 
   // Mingw64 and native Win64 use Win64 CC
   CCIfSubtarget<"isTargetWin64()", CCDelegateTo<CC_X86_Win64_C>>,

@@ -1,5 +1,6 @@
 //
-// Created by root on 8/22/2024.
+// Ref to https://github.com/za233/Polaris-Obfuscator/
+// Copied by root on 12/11/2024.
 //
 
 #include "AliasAccess.h"
@@ -57,41 +58,32 @@ struct ReferenceNode {
 PreservedAnalyses AliasAccess::run(Module &M, ModuleAnalysisManager &AM) {
   static_assert(BRANCH_NUM > 1);
   srand(time(NULL));
-  Function *Getter = buildGetterFunction(M);
   for (Function &F : M) {
     if (readAnnotate(&F).find("alias-access") != std::string::npos) {
-      process(F, Getter);
+      process(F);
     }
   }
   return PreservedAnalyses::none();
 }
-
-Function* AliasAccess::buildGetterFunction(Module &M) {
+Function *AliasAccess::buildGetterFunction(Module &M, StructType *ST,
+                                           unsigned Index) {
   std::vector<Type *> Params;
   Params.push_back(Type::getInt8Ty(M.getContext())->getPointerTo());
   FunctionType *FT = FunctionType::get(
       Type::getInt8Ty(M.getContext())->getPointerTo(), Params, false);
   Function *F = Function::Create(FT, GlobalValue::PrivateLinkage,
-                                 Twine("__obfu_alias_access_getter"), M);
-  if (get_vm_fla_level()==7)
-    F->setAnnotationStrings("x-vm,x-full");
-
+                                 Twine("__obfu_aliasaccess_getter"), M);
   BasicBlock *Entry = BasicBlock::Create(M.getContext(), "entry", F);
   Function::arg_iterator Iter = F->arg_begin();
   Value *Ptr = Iter;
   IRBuilder<> IRB(Entry);
-  IRB.CreateRet(Ptr);
-  if(get_vm_fla_level()!=7) {
-    F->setAnnotationStrings("x-vm,x-cfg,ind-br");
-    ollvm::bogus(*F);
-    ollvm::doF(*F->getParent(),*F);
-  }
+  IRB.CreateRet(IRB.CreateGEP(ST, Ptr, {IRB.getInt32(0), IRB.getInt32(Index)}));
   return F;
 }
+void AliasAccess::process(Function &F) {
 
-void AliasAccess::process(Function &F, Function *Getter) {
   std::vector<AllocaInst *> AIs;
-
+  std::map<unsigned, Function *> Getter;
   Type *PtrType = Type::getInt8PtrTy(F.getContext());
   std::vector<alias::ReferenceNode *> Graph;
   StructType *TransST = StructType::create(F.getContext());
@@ -118,7 +110,7 @@ void AliasAccess::process(Function &F, Function *Getter) {
   }
 
   for (AllocaInst *AI : AIs) {
-    unsigned Index = rand() % AIs.size();
+    unsigned Index = getRandomNumber() % AIs.size();
     Bucket[Index].push_back(AI);
   }
   unsigned Count = 0;
@@ -162,7 +154,7 @@ void AliasAccess::process(Function &F, Function *Getter) {
     // RN->AI->setAlignment(Align(AlignVal));
     Graph.push_back(RN);
   }
-  unsigned Num = Graph.size() * 2;
+  unsigned Num = Graph.size() * 3;
   for (unsigned i = 0; i < Num; i++) {
     // std::shuffle(Graph.begin(), Graph.end(), std::default_random_engine());
 
@@ -171,12 +163,12 @@ void AliasAccess::process(Function &F, Function *Getter) {
     Parent->AI = Cur;
     Parent->IsRaw = false;
     Parent->Id = Count++;
-    unsigned BN = rand() % BRANCH_NUM;
+    unsigned BN = getRandomNumber() % BRANCH_NUM;
     std::vector<unsigned> Random;
     getRandomNoRepeat(BRANCH_NUM, BN, Random);
     for (unsigned j = 0; j < BN; j++) {
       unsigned Idx = Random[j];
-      alias::ReferenceNode *RN = Graph[rand() % Graph.size()];
+      alias::ReferenceNode *RN = Graph[getRandomNumber() % Graph.size()];
       Parent->Edges[Idx] = RN;
 
       IRB.CreateStore(
@@ -217,15 +209,22 @@ void AliasAccess::process(Function &F, Function *Getter) {
           }
         }
         assert(Ptr != nullptr);
-        Value *VP = IRB.CreateCall(FunctionCallee(Getter), {Ptr->AI});
+        Value *VP = Ptr->AI;
         while (!Ptr->IsRaw) {
 
           std::vector<unsigned> &Idxs = Ptr->Path[AI];
-          unsigned Idx = Idxs[rand() % Idxs.size()];
-          // printf("(s%d, %d) -> ", Ptr->Id, Idx);
+          unsigned Idx = Idxs[getRandomNumber() % Idxs.size()];
+          if (Getter.find(Idx) == Getter.end()) {
+            Function *G = buildGetterFunction(*F.getParent(), TransST, Idx);
+            Getter[Idx] = G;
+          }
           VP = IRB.CreateLoad(
-              PtrType,
-              IRB.CreateGEP(TransST, VP, {IRB.getInt32(0), IRB.getInt32(Idx)}));
+              PtrType, IRB.CreateCall(FunctionCallee(Getter[Idx]), {VP}));
+          // printf("(s%d, %d) -> ", Ptr->Id, Idx);
+          // VP = IRB.CreateLoad(
+          //   PtrType,
+          //    IRB.CreateGEP(TransST, VP, {IRB.getInt32(0),
+          //    IRB.getInt32(Idx)}));
           Ptr = Ptr->Edges[Idx];
         }
         // printf("s%d\n", Ptr->Id);

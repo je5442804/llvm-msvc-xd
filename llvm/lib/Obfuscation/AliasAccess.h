@@ -13,8 +13,8 @@ public:
   AliasAccess()=default;
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM);
 private:
-  Function *buildGetterFunction(Module &M);
-  void process(Function &F, Function *Getter);
+  Function *buildGetterFunction(Module &M, StructType *ST, unsigned Index);
+  void process(Function &F);
 public:
   static bool isRequired() { return true; }
 };

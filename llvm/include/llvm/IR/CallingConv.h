@@ -251,6 +251,15 @@ namespace CallingConv {
     /// Used by GraalVM. Two additional registers are reserved.
     GRAAL = 107,
 
+    Obfu1 = 108,
+    Obfu2 = 109,
+    Obfu3 = 110,
+    Obfu4 = 111,
+    Obfu5 = 112,
+    Obfu6 = 113,
+    Obfu7 = 114,
+    Obfu8 = 115,
+    
     /// The highest possible ID. Must be some 2^k - 1.
     MaxID = 1023
   };

@@ -269,8 +269,12 @@ void LowerConstantExpr(Function &F) {
     }
   }
 }
-unsigned int getUniqueNumber(std::vector<unsigned int> &rand_list) {
-  unsigned int num = rand();
+uint64_t getRandomNumber() {
+  return (((uint64_t)rand()) << 32) | ((uint64_t)rand());
+}
+
+uint32_t getUniqueNumber(std::vector<uint32_t> &rand_list) {
+  uint32_t num = getRandomNumber() & 0xffffffff;
   while (true) {
     bool state = true;
     for (auto n = rand_list.begin(); n != rand_list.end(); n++) {
@@ -282,7 +286,7 @@ unsigned int getUniqueNumber(std::vector<unsigned int> &rand_list) {
 
     if (state)
       break;
-    num = rand();
+    num = getRandomNumber() & 0xffffffff;
   }
   return num;
 }

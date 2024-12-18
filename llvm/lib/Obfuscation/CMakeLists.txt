@@ -25,6 +25,7 @@ add_llvm_pass_plugin(Obfuscation
         AliasAccess.cpp
         IndirectBranch.cpp
         GlobalsEncryption.cpp
+        CustomCC.cpp
         Plugin.cpp
 
         ADDITIONAL_HEADER_DIRS

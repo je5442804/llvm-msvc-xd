@@ -24,7 +24,7 @@
 #include "llvm/Transforms/Utils/Local.h"
 #include "llvm/Transforms/Utils/LowerSwitch.h"
 #include "llvm/Transforms/Utils/ValueMapper.h"
-
+#include "llvm/IR/InlineAsm.h"
 #include <cstdint>
 #include <cstring>
 #include <iomanip>
@@ -145,7 +145,7 @@ Function *xvmm::virtualization(Function &f) {
  //printf("\nFunction Name: %s\n",f.getName().str().c_str());
   if (!check(f))
     return nullptr;
-
+  bool need_obf = false;
  //printf("[1] start demote registers!\n");
   demote_registers(&f);
   std::map<Value *, int> alloca_map;
@@ -199,6 +199,10 @@ Function *xvmm::virtualization(Function &f) {
                        f.getName() + Twine("_VM"), f.getParent());
     auto ann = readAnnotate(&f);
     ann.erase(ann.find("x-vm"),4);
+    if (ann.find("x-vobf") !=  std::string::npos) {
+       ann.erase(ann.find("x-vobf"),6);
+       need_obf = true;
+    }
     if (ann.find("x-full") != std::string::npos) {
         ann+= "vm-fla,x-full,x-fla-enh";
     }
@@ -206,6 +210,19 @@ Function *xvmm::virtualization(Function &f) {
   
   buildVMFunction(f, *vm_func, ops, new_mem_size, oparr_var, 256, remap,
                   alloca_map);
+#if 1
+
+  if (need_obf) {
+    auto *AsmStr = InlineAsm::get(FunctionType::get(Type::getVoidTy(vm_func->getContext()), false),
+                                        "backend-obfu", /* Constraints */ "", /* hasSideEffects */ true);
+
+    // Add a call to the inline assembly at the beginning of the function
+    BasicBlock &EntryBB = vm_func->getEntryBlock();
+    Instruction *FirstInst = &*EntryBB.getFirstNonPHI();
+    IRBuilder<> Builder(FirstInst);
+    Builder.CreateCall(AsmStr);
+  }
+#endif
   turnOffOptimization(vm_func);
   return vm_func;
 }

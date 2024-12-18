@@ -22,6 +22,7 @@
 #include <AliasAccess.h>
 #include <GlobalsEncryption.h>
 #include <IndirectBranch.h>
+#include <CustomCC.h>
 
 using namespace llvm;
 
@@ -39,6 +40,7 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(createModuleToFunctionPassAdaptor(MBAObfuscationPass()));
           MPM.addPass(createModuleToFunctionPassAdaptor(FlatteningPass()));
           MPM.addPass(createModuleToFunctionPassAdaptor(VmProtectPass()));
+          
 
         });
         PB.registerOptimizerEarlyEPCallback([](llvm::ModulePassManager &MPM,
@@ -51,6 +53,7 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(VariableRotationPass());
           MPM.addPass(AliasAccess());
           MPM.addPass(GlobalsEncryption());
+          MPM.addPass(CustomCC());
         });
 
         PB.registerOptimizerLastEPCallback([](llvm::ModulePassManager &MPM,
@@ -64,8 +67,7 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(Linearize());
           MPM.addPass(EasyCfgPass());
           MPM.addPass(createModuleToFunctionPassAdaptor(IndirectBranch()));
-
-
+          
         });
         //PB.registerVectorizerStartEPCallback(
         //    [](FunctionPassManager &FPM, OptimizationLevel Level) {});

@@ -27,5 +27,6 @@ bool isMemberFunction(llvm::Function *F);
 bool valueEscapes(const llvm::Instruction &Inst);
 void getRandomNoRepeat(unsigned upper_bound, unsigned size,
                        std::vector<unsigned> &result);
-unsigned int getUniqueNumber(std::vector<unsigned int> &rand_list);
+uint32_t getUniqueNumber(std::vector<uint32_t> &rand_list);
+uint64_t getRandomNumber();
 #endif

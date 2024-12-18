@@ -35,6 +35,7 @@ https://github.com/gmh5225/awesome-llvm-security#ollvm
 - [x] 自定義分割合併 combine_func[tag_number] 模式
 - ~~[ ] x-var-rot 待处理~~
 - [x] 新功能
+- [x] custom-cc 参数传递和返回值的方法
 - [ ] new functions
 
 
@@ -138,17 +139,20 @@ set /O2 on
 
 #### vm sample and x-full sample
 ```c++
-__attribute((__annotate__(("x-vm,x-full,x-cfg")))) void crypt_func1(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
+[[clang::annotate("x-vm,x-full,x-cfg,custom-cc")]]
+void crypt_func1(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
     for(auto i=0;i<var_size;i++){
         var[i]^=key[i%key_size];
     }
 }
-__attribute((__annotate__(("x-cfg,ind-br,alias-access")))) void crypt_func2(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
+[[clang::annotate("x-cfg,ind-br,alias-access,custom-cc")]]
+void crypt_func2(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
     for(auto i=0;i<var_size;i++){
         var[i]^=key[i%key_size];
     }
 }
-__attribute((__annotate__(("x-cfg,x-vm,ind-br,alias-access")))) void crypt_func3(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
+[[clang::annotate("x-cfg,x-vm,ind-br,alias-access,custom-cc")]]
+void crypt_func3(uint8_t *var,uint8_t*key,size_t var_size,size_t key_size){
     for(auto i=0;i<var_size;i++){
         var[i]^=key[i%key_size];
     }
@@ -159,15 +163,16 @@ __attribute((__annotate__(("x-cfg,x-vm,ind-br,alias-access")))) void crypt_func3
 
 #### combine sample
 ```c++
-__attribute((__annotate__(("combine_func[tag1]")))) int a1(int a, int b)
+[[clang::annotate("combine_func[tag1]")]]
+int a1(int a, int b)
 {
     printf("%d , %d\r\n", a, b);
     printf("%x\r\n", a ^ b);
     return a + b;
 }
 
-
-__attribute((__annotate__(("combine_func[tag1]")))) int a2(int a, int b)
+[[clang::annotate("combine_func[tag1]")]]
+int a2(int a, int b)
 {
     std::cout << "hello1" << std::endl;
     for (auto i = std::min(a, b);i < std::max(a, b);i++)
@@ -179,8 +184,8 @@ __attribute((__annotate__(("combine_func[tag1]")))) int a2(int a, int b)
     return a * b+ a1(a, b);
 }
 
-
-__attribute((__annotate__(("combine_func[tag2]")))) int a3(int a,int b)
+[[clang::annotate("combine_func[tag2]")]]
+int a3(int a,int b)
 {
     printf("%d , %d\r\n", a+1, b+2);
     printf("%x\r\n", a ^ b);
