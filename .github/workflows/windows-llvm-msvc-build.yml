@@ -46,9 +46,8 @@ jobs:
         -DLLVM_TARGETS_TO_BUILD="X86;ARM;AArch64;Mips;RISCV" `
         -DLLVM_ENABLE_PROJECTS="clang;lld;lldb;clang-tools-extra" `
         llvm-msvc\\llvm
-        cmake --build build --config ${{ env.BUILD_TYPE }} --verbose
-        cmake --build build --config ${{ env.BUILD_TYPE }} --target install --verbose
-
+        cmake --build build --config ${{ env.BUILD_TYPE }} --target install --verbose --parallel 4 -- /p:CL_MPcount=4
+        
     - name: Package llvm
       run: |
         7z a -t7z -mmt -mf -mhc -mhcf -m0=LZMA2 -mx=9 windows-llvm-msvc.7z install
