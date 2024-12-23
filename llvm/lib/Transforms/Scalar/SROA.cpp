@@ -3504,16 +3504,22 @@ private:
     // for the new alloca slice.
     Type *PointerTy = IRB.getPtrTy(OldPtr->getType()->getPointerAddressSpace());
     Value *Ptr = getNewAllocaSlicePtr(IRB, PointerTy);
-#ifndef _WIN32
+    bool bShouldDisableLifetimeMarker = false;
+
+  if (II.getParent() && II.getParent()->getParent() && II.getParent()->getParent()->hasSEHOrCXXSEH()) {
+      bShouldDisableLifetimeMarker = true;
+    }
+
+    if (!bShouldDisableLifetimeMarker) {
     Value *New;
     if (II.getIntrinsicID() == Intrinsic::lifetime_start)
       New = IRB.CreateLifetimeStart(Ptr, Size);
     else
       New = IRB.CreateLifetimeEnd(Ptr, Size);
 
-    (void)New;
-    LLVM_DEBUG(dbgs() << "          to: " << *New << "\n");
-#endif
+      (void)New;
+      LLVM_DEBUG(dbgs() << "          to: " << *New << "\n");
+    }
     return true;
   }
 

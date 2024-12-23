@@ -2610,9 +2610,17 @@ llvm::InlineResult llvm::InlineFunction(CallBase &CB, InlineFunctionInfo &IFI,
                                         AllocaArraySize * AllocaTypeSize);
         }
       }
-#ifndef _WIN32
-      builder.CreateLifetimeStart(AI, AllocaSize);
-#endif
+
+
+      bool bShouldDisableLifetimeMarker = false;
+
+  if (AI->getParent() && AI->getParent()->getParent() && AI->getParent()->getParent()->hasSEHOrCXXSEH()) {
+        bShouldDisableLifetimeMarker = true;
+      }
+
+      if (!bShouldDisableLifetimeMarker)
+        builder.CreateLifetimeStart(AI, AllocaSize);
+
       for (ReturnInst *RI : Returns) {
         // Don't insert llvm.lifetime.end calls between a musttail or deoptimize
         // call and a return.  The return kills all local allocas.
@@ -2622,9 +2630,8 @@ llvm::InlineResult llvm::InlineFunction(CallBase &CB, InlineFunctionInfo &IFI,
         if (InlinedDeoptimizeCalls &&
             RI->getParent()->getTerminatingDeoptimizeCall())
           continue;
-#ifndef _WIN32
-        IRBuilder<>(RI).CreateLifetimeEnd(AI, AllocaSize);
-#endif
+        if (!bShouldDisableLifetimeMarker)
+          IRBuilder<>(RI).CreateLifetimeEnd(AI, AllocaSize);
       }
     }
   }
