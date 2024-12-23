@@ -51,7 +51,7 @@ jobs:
         
     - name: Package llvm
       run: |
-        7z a -t7z -ms=10m -mmt=on -mf=on -mhc=on -m0=LZMA2 -mx=9 windows-llvm-msvc.7z install
+        7z a -t7z -mmt -mf -mhc -mhcf -m0=LZMA2 -mx=9 windows-llvm-msvc.7z install
         
     - name: Upload Artifact
       uses: actions/upload-artifact@main
