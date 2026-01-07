@@ -259,6 +259,76 @@ public:
     unsigned Index;
   };
 
+  /// Try to fetch the innermost active break/continue destinations.
+  /// Note: these can be absent (e.g. `break`/`continue` emitted in UB contexts,
+  /// or in outlined SEH finally helpers where we intentionally avoid asserting).
+  bool tryGetInnermostBreakDest(JumpDest &Out) const {
+    if (BreakContinueStack.empty())
+      return false;
+    Out = BreakContinueStack.back().BreakBlock;
+    return Out.isValid();
+  }
+  bool tryGetInnermostContinueDest(JumpDest &Out) const {
+    if (BreakContinueStack.empty())
+      return false;
+    Out = BreakContinueStack.back().ContinueBlock;
+    return Out.isValid();
+  }
+
+  bool tryGetInnermostSEHLeaveDest(JumpDest &Out) const {
+    if (SEHTryEpilogueStack.empty() || !SEHTryEpilogueStack.back())
+      return false;
+    Out = *SEHTryEpilogueStack.back();
+    return Out.isValid();
+  }
+
+  /// True if cleanup.dest slot already exists.
+  bool hasNormalCleanupDestSlot() const { return NormalCleanupDest.isValid(); }
+  Address getNormalCleanupDestSlotIfExists() const { return NormalCleanupDest; }
+
+  /// Outlined SEH __finally helpers can't directly emit break/continue/goto
+  /// because they conceptually jump in the parent function. Instead, the
+  /// outlined helper records a "bailout request" into parent allocas and then
+  /// returns; the parent cleanup (PerformSEHFinally) performs the actual jump
+  /// (threading through any remaining cleanups) after the helper call.
+  enum class SEHFinallyBailoutKind : uint8_t {
+    None = 0,
+    Break = 1,
+    Continue = 2,
+    Goto = 3,
+    Leave = 4,
+    Longjmp = 5,
+  };
+
+  struct SEHFinallyBailoutInfo {
+    Address KindSlot = Address::invalid();   // i8
+    Address TargetSlot = Address::invalid(); // i32 (label code for goto)
+    Address LongjmpBufSlot = Address::invalid(); // i8*
+    Address LongjmpValSlot = Address::invalid(); // i32
+    llvm::SmallVector<const LabelDecl *, 4> GotoLabels; // code: 1..N
+  };
+
+  /// Per-parent-function mapping for outlined SEH finally helpers.
+  llvm::DenseMap<llvm::Function *, SEHFinallyBailoutInfo> SEHFinallyBailouts;
+
+  /// Parent allocas for the currently-generated outlined SEH finally helper.
+  /// These are set up by the parent before outlining and recovered into the
+  /// helper via llvm.localrecover.
+  Address SEHFinallyBailoutKindParentAlloca = Address::invalid();
+  Address SEHFinallyBailoutTargetParentAlloca = Address::invalid();
+  Address SEHFinallyBailoutLongjmpBufParentAlloca = Address::invalid();
+  Address SEHFinallyBailoutLongjmpValParentAlloca = Address::invalid();
+
+  /// Recovered addresses inside an outlined SEH finally helper.
+  Address SEHFinallyBailoutKindParent = Address::invalid();
+  Address SEHFinallyBailoutTargetParent = Address::invalid();
+  Address SEHFinallyBailoutLongjmpBufParent = Address::invalid();
+  Address SEHFinallyBailoutLongjmpValParent = Address::invalid();
+
+  /// CodeGen-time mapping used only while emitting an outlined SEH finally
+  /// helper: LabelDecl* -> small integer code stored in TargetSlot.
+  llvm::DenseMap<const LabelDecl *, unsigned> SEHFinallyGotoLabelToCode;
+
   CodeGenModule &CGM;  // Per-module state.
   const TargetInfo &Target;
 
