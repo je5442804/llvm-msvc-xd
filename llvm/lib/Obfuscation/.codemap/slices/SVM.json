@@ -1,0 +1,2204 @@
+{
+  "module": "SVM",
+  "path": "SVM",
+  "files": [
+    {
+      "path": "SVM/FuncRedirector.hpp",
+      "language": "cpp",
+      "lines": 217,
+      "functions": [
+        {
+          "name": "constGEP_0_0",
+          "signature": "constGEP_0_0( PointeeTy,  Base)",
+          "startLine": 36,
+          "endLine": 42
+        },
+        {
+          "name": "getOrCreateVMExec",
+          "signature": "getOrCreateVMExec(& M, Name, GenerateInterpreter)",
+          "startLine": 46,
+          "endLine": 64
+        },
+        {
+          "name": "rewriteToVMExec",
+          "signature": "rewriteToVMExec(& F,  CodeGV, CodeSize)",
+          "startLine": 70,
+          "endLine": 214
+        }
+      ],
+      "classes": [
+        {
+          "name": "VMExecOptions",
+          "startLine": 27,
+          "endLine": 33
+        }
+      ],
+      "types": [
+        {
+          "name": "VMExecOptions",
+          "kind": "struct",
+          "startLine": 27,
+          "endLine": 33
+        },
+        {
+          "name": "frx",
+          "kind": "namespace",
+          "startLine": 23,
+          "endLine": 216
+        }
+      ],
+      "imports": [
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "string",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cassert",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DataLayout.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/Twine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/Casting.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SVMInterpreterGen.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "GlobalInit.hpp",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "VMExecOptions",
+        "constGEP_0_0",
+        "getOrCreateVMExec",
+        "rewriteToVMExec"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:5123cb3b87da7568"
+    },
+    {
+      "path": "SVM/GlobalInit.hpp",
+      "language": "cpp",
+      "lines": 252,
+      "functions": [
+        {
+          "name": "IntPtrTy",
+          "signature": "IntPtrTy(& M)",
+          "startLine": 21,
+          "endLine": 23
+        },
+        {
+          "name": "PrefPtrAlign",
+          "signature": "PrefPtrAlign(& M)",
+          "startLine": 24,
+          "endLine": 26
+        },
+        {
+          "name": "isDefinableGlobal",
+          "signature": "isDefinableGlobal( GV)",
+          "startLine": 27,
+          "endLine": 30
+        },
+        {
+          "name": "makePrivateROStringPtr",
+          "signature": "makePrivateROStringPtr(& M, NameHint, Bytes)",
+          "startLine": 33,
+          "endLine": 50
+        },
+        {
+          "name": "setZero",
+          "signature": "setZero( GV)",
+          "startLine": 54,
+          "endLine": 58
+        },
+        {
+          "name": "setInt",
+          "signature": "setInt( GV, Val)",
+          "startLine": 60,
+          "endLine": 66
+        },
+        {
+          "name": "setFP",
+          "signature": "setFP( GV, Val)",
+          "startLine": 68,
+          "endLine": 74
+        },
+        {
+          "name": "setBytes",
+          "signature": "setBytes( GV, Bytes)",
+          "startLine": 77,
+          "endLine": 88
+        },
+        {
+          "name": "setFuncAddress",
+          "signature": "setFuncAddress( GV,  F, & M)",
+          "startLine": 91,
+          "endLine": 107
+        },
+        {
+          "name": "setGlobalAddress",
+          "signature": "setGlobalAddress( GV,  Target, & M)",
+          "startLine": 110,
+          "endLine": 126
+        },
+        {
+          "name": "emitCtorStore",
+          "signature": "emitCtorStore(& M,  GV,  RHS)",
+          "startLine": 129,
+          "endLine": 164
+        },
+        {
+          "name": "ensureDefinableGV",
+          "signature": "ensureDefinableGV(& M, Name,  Ty)",
+          "startLine": 168,
+          "endLine": 176
+        },
+        {
+          "name": "createChar2DGV",
+          "signature": "createChar2DGV(& M, Name, Strings)",
+          "startLine": 179,
+          "endLine": 214
+        },
+        {
+          "name": "createGlobalCStringTable",
+          "signature": "createGlobalCStringTable(&M, Name, Items)",
+          "startLine": 216,
+          "endLine": 249
+        }
+      ],
+      "classes": [],
+      "types": [
+        {
+          "name": "ginit",
+          "kind": "namespace",
+          "startLine": 17,
+          "endLine": 251
+        }
+      ],
+      "imports": [
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "string",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/Casting.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ModuleUtils.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "IntPtrTy",
+        "PrefPtrAlign",
+        "isDefinableGlobal",
+        "makePrivateROStringPtr",
+        "setZero",
+        "setInt",
+        "setFP",
+        "setBytes",
+        "setFuncAddress",
+        "setGlobalAddress",
+        "emitCtorStore",
+        "ensureDefinableGV",
+        "createChar2DGV",
+        "createGlobalCStringTable"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:28a70874fa1fd34b"
+    },
+    {
+      "path": "SVM/HandleCallTool.h",
+      "language": "cpp",
+      "lines": 550,
+      "functions": [
+        {
+          "name": "dumpTypeRec",
+          "signature": "dumpTypeRec(T, &OS)",
+          "startLine": 22,
+          "endLine": 30
+        },
+        {
+          "name": "signatureKey",
+          "signature": "signatureKey(FTy)",
+          "startLine": 32,
+          "endLine": 40
+        },
+        {
+          "name": "HandleCallTool",
+          "signature": "HandleCallTool()",
+          "startLine": 44,
+          "endLine": 44
+        },
+        {
+          "name": "HandleCallTool",
+          "signature": "HandleCallTool(&M)",
+          "startLine": 45,
+          "endLine": 45
+        },
+        {
+          "name": "bindModule",
+          "signature": "bindModule(&M)",
+          "startLine": 47,
+          "endLine": 54
+        },
+        {
+          "name": "collectFromFunction",
+          "signature": "collectFromFunction(&F)",
+          "startLine": 56,
+          "endLine": 64
+        },
+        {
+          "name": "ensureCallId",
+          "signature": "ensureCallId( CB)",
+          "startLine": 67,
+          "endLine": 73
+        },
+        {
+          "name": "getCallId",
+          "signature": "getCallId( CB)",
+          "startLine": 75,
+          "endLine": 79
+        },
+        {
+          "name": "tryGetCallId",
+          "signature": "tryGetCallId( CB, &out)",
+          "startLine": 81,
+          "endLine": 84
+        },
+        {
+          "name": "tryMakeConstPtrExpr",
+          "signature": "tryMakeConstPtrExpr(V)",
+          "startLine": 87,
+          "endLine": 113
+        },
+        {
+          "name": "ensureConstAddrId",
+          "signature": "ensureConstAddrId(PtrConst)",
+          "startLine": 116,
+          "endLine": 123
+        },
+        {
+          "name": "ensureConstIntId",
+          "signature": "ensureConstIntId(CI)",
+          "startLine": 126,
+          "endLine": 136
+        },
+        {
+          "name": "ensureConstFPBitsId",
+          "signature": "ensureConstFPBitsId(CFP)",
+          "startLine": 139,
+          "endLine": 156
+        },
+        {
+          "name": "materializeHandle",
+          "signature": "materializeHandle()",
+          "startLine": 159,
+          "endLine": 163
+        },
+        {
+          "name": "materializeHandle",
+          "signature": "materializeHandle(&M)",
+          "startLine": 165,
+          "endLine": 168
+        },
+        {
+          "name": "registerCallSite",
+          "signature": "registerCallSite(CB)",
+          "startLine": 172,
+          "endLine": 208
+        },
+        {
+          "name": "readIdFromMD",
+          "signature": "readIdFromMD( CB, &out)",
+          "startLine": 213,
+          "endLine": 222
+        },
+        {
+          "name": "writeIdMD",
+          "signature": "writeIdMD( CB, id)",
+          "startLine": 224,
+          "endLine": 230
+        },
+        {
+          "name": "getOrCreateMethodId",
+          "signature": "getOrCreateMethodId(FTy, key)",
+          "startLine": 233,
+          "endLine": 240
+        },
+        {
+          "name": "ensureModuleBoundOrDerive",
+          "signature": "ensureModuleBoundOrDerive()",
+          "startLine": 242,
+          "endLine": 259
+        },
+        {
+          "name": "toU64",
+          "signature": "toU64(&B, V, RTy)",
+          "startLine": 262,
+          "endLine": 274
+        },
+        {
+          "name": "loadFromArgsAt",
+          "signature": "loadFromArgsAt(&B, Ty, idx, ArgArgs, I64, PtrTy)",
+          "startLine": 277,
+          "endLine": 288
+        },
+        {
+          "name": "buildFreshDispatch",
+          "signature": "buildFreshDispatch(HF, hasNumArg)",
+          "startLine": 291,
+          "endLine": 366
+        },
+        {
+          "name": "prependDispatchChain",
+          "signature": "prependDispatchChain(HF, hasNumArg)",
+          "startLine": 369,
+          "endLine": 435
+        },
+        {
+          "name": "materializeImpl",
+          "signature": "materializeImpl(&M, forceCreateStubIfEmpty)",
+          "startLine": 438,
+          "endLine": 478
+        },
+        {
+          "name": "AddrOf",
+          "signature": "AddrOf(id, C)",
+          "startLine": 500,
+          "endLine": 502
+        },
+        {
+          "name": "IntBits",
+          "signature": "IntBits(id, bits)",
+          "startLine": 503,
+          "endLine": 505
+        },
+        {
+          "name": "FPBits",
+          "signature": "FPBits(id, bits)",
+          "startLine": 506,
+          "endLine": 508
+        },
+        {
+          "name": "operator==",
+          "signature": "operator==(&o)",
+          "startLine": 513,
+          "endLine": 513
+        },
+        {
+          "name": "operator()",
+          "signature": "operator()(& k)",
+          "startLine": 516,
+          "endLine": 518
+        },
+        {
+          "name": "operator==",
+          "signature": "operator==(&o)",
+          "startLine": 522,
+          "endLine": 522
+        },
+        {
+          "name": "operator()",
+          "signature": "operator()(& k)",
+          "startLine": 525,
+          "endLine": 527
+        }
+      ],
+      "classes": [
+        {
+          "name": "HandleCallTool",
+          "startLine": 42,
+          "endLine": 547
+        },
+        {
+          "name": "ArgSpec",
+          "startLine": 481,
+          "endLine": 483
+        },
+        {
+          "name": "CallEntry",
+          "startLine": 485,
+          "endLine": 492
+        },
+        {
+          "name": "ConstEntry",
+          "startLine": 494,
+          "endLine": 509
+        },
+        {
+          "name": "ConstIntKey",
+          "startLine": 511,
+          "endLine": 514
+        },
+        {
+          "name": "ConstIntKeyHash",
+          "startLine": 515,
+          "endLine": 519
+        },
+        {
+          "name": "ConstFPKey",
+          "startLine": 520,
+          "endLine": 523
+        },
+        {
+          "name": "ConstFPKeyHash",
+          "startLine": 524,
+          "endLine": 528
+        }
+      ],
+      "types": [
+        {
+          "name": "HandleCallTool",
+          "kind": "class",
+          "startLine": 42,
+          "endLine": 547
+        },
+        {
+          "name": "ArgSpec",
+          "kind": "struct",
+          "startLine": 481,
+          "endLine": 483
+        },
+        {
+          "name": "CallEntry",
+          "kind": "struct",
+          "startLine": 485,
+          "endLine": 492
+        },
+        {
+          "name": "ConstEntry",
+          "kind": "struct",
+          "startLine": 494,
+          "endLine": 509
+        },
+        {
+          "name": "ConstIntKey",
+          "kind": "struct",
+          "startLine": 511,
+          "endLine": 514
+        },
+        {
+          "name": "ConstIntKeyHash",
+          "kind": "struct",
+          "startLine": 515,
+          "endLine": 519
+        },
+        {
+          "name": "ConstFPKey",
+          "kind": "struct",
+          "startLine": 520,
+          "endLine": 523
+        },
+        {
+          "name": "ConstFPKeyHash",
+          "kind": "struct",
+          "startLine": 524,
+          "endLine": 528
+        },
+        {
+          "name": "Kind",
+          "kind": "enum",
+          "startLine": 495,
+          "endLine": 495
+        },
+        {
+          "name": "vmp",
+          "kind": "namespace",
+          "startLine": 19,
+          "endLine": 549
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InstIterator.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/DenseMap.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "unordered_map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "string",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cassert",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "HandleCallTool",
+        "bindModule",
+        "collectFromFunction",
+        "ensureCallId",
+        "getCallId",
+        "tryGetCallId",
+        "tryMakeConstPtrExpr",
+        "ensureConstAddrId",
+        "ensureConstIntId",
+        "ensureConstFPBitsId",
+        "materializeHandle",
+        "registerCallSite",
+        "readIdFromMD",
+        "writeIdMD",
+        "getOrCreateMethodId",
+        "ensureModuleBoundOrDerive",
+        "toU64",
+        "buildFreshDispatch",
+        "prependDispatchChain",
+        "materializeImpl",
+        "ArgSpec",
+        "CallEntry",
+        "ConstEntry",
+        "Kind",
+        "ConstIntKey",
+        "operator==",
+        "ConstIntKeyHash",
+        "operator()",
+        "ConstFPKey",
+        "ConstFPKeyHash"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:aab890d1c01e2887"
+    },
+    {
+      "path": "SVM/IRVMModuleTool.h",
+      "language": "cpp",
+      "lines": 385,
+      "functions": [
+        {
+          "name": "IRVMModuleTool",
+          "signature": "IRVMModuleTool()",
+          "startLine": 37,
+          "endLine": 37
+        },
+        {
+          "name": "setGlobalFlag",
+          "signature": "setGlobalFlag(enabled)",
+          "startLine": 40,
+          "endLine": 40
+        },
+        {
+          "name": "run",
+          "signature": "run(&M)",
+          "startLine": 43,
+          "endLine": 168
+        },
+        {
+          "name": "getStats",
+          "signature": "getStats()",
+          "startLine": 170,
+          "endLine": 170
+        },
+        {
+          "name": "isCandidate",
+          "signature": "isCandidate(&F)",
+          "startLine": 178,
+          "endLine": 181
+        },
+        {
+          "name": "toObfuscate",
+          "signature": "toObfuscate(globalFlag, F, attr)",
+          "startLine": 184,
+          "endLine": 202
+        },
+        {
+          "name": "hasAnnotation",
+          "signature": "hasAnnotation(F, name)",
+          "startLine": 204,
+          "endLine": 243
+        },
+        {
+          "name": "sanitizeName",
+          "signature": "sanitizeName(S)",
+          "startLine": 245,
+          "endLine": 249
+        },
+        {
+          "name": "isVMFriendly",
+          "signature": "isVMFriendly(&F, &DL, &Why)",
+          "startLine": 252,
+          "endLine": 365
+        },
+        {
+          "name": "isVMFriendlyPostNormalize",
+          "signature": "isVMFriendlyPostNormalize(&F, &DL, &Why)",
+          "startLine": 368,
+          "endLine": 381
+        }
+      ],
+      "classes": [
+        {
+          "name": "IRVMModuleTool",
+          "startLine": 25,
+          "endLine": 382
+        },
+        {
+          "name": "Stats",
+          "startLine": 27,
+          "endLine": 35
+        }
+      ],
+      "types": [
+        {
+          "name": "IRVMModuleTool",
+          "kind": "class",
+          "startLine": 25,
+          "endLine": 382
+        },
+        {
+          "name": "Stats",
+          "kind": "struct",
+          "startLine": 27,
+          "endLine": 35
+        },
+        {
+          "name": "vmp",
+          "kind": "namespace",
+          "startLine": 23,
+          "endLine": 384
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InstIterator.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "string",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cctype",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SVM/FuncRedirector.hpp",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SVM/GlobalInit.hpp",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SVM/HandleCallTool.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SVM/VMCodeGen.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SVM/PhiSimplifyTool.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SVM/SwitchToIf.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "IRVMModuleTool",
+        "Stats",
+        "setGlobalFlag",
+        "run",
+        "getStats",
+        "isCandidate"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:b8111636bb5cc67e"
+    },
+    {
+      "path": "SVM/PhiSimplifyTool.h",
+      "language": "cpp",
+      "lines": 158,
+      "functions": [
+        {
+          "name": "PhiEliminateTool",
+          "signature": "PhiEliminateTool()",
+          "startLine": 26,
+          "endLine": 27
+        },
+        {
+          "name": "run",
+          "signature": "run(&F)",
+          "startLine": 31,
+          "endLine": 37
+        },
+        {
+          "name": "getStats",
+          "signature": "getStats()",
+          "startLine": 39,
+          "endLine": 39
+        },
+        {
+          "name": "foldSimpleSelect01",
+          "signature": "foldSimpleSelect01(&F)",
+          "startLine": 46,
+          "endLine": 80
+        },
+        {
+          "name": "eliminateAllPhi",
+          "signature": "eliminateAllPhi(&F)",
+          "startLine": 83,
+          "endLine": 154
+        }
+      ],
+      "classes": [
+        {
+          "name": "PhiEliminateTool",
+          "startLine": 17,
+          "endLine": 155
+        },
+        {
+          "name": "Stats",
+          "startLine": 19,
+          "endLine": 23
+        }
+      ],
+      "types": [
+        {
+          "name": "PhiEliminateTool",
+          "kind": "class",
+          "startLine": 17,
+          "endLine": 155
+        },
+        {
+          "name": "Stats",
+          "kind": "struct",
+          "startLine": 19,
+          "endLine": 23
+        },
+        {
+          "name": "vmp",
+          "kind": "namespace",
+          "startLine": 15,
+          "endLine": 157
+        }
+      ],
+      "imports": [
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "utility",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/CFG.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SmallVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/BasicBlockUtils.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "PhiEliminateTool",
+        "Stats",
+        "run",
+        "getStats",
+        "foldSimpleSelect01",
+        "eliminateAllPhi"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:c3dd7a86ce99da2b"
+    },
+    {
+      "path": "SVM/SVMInterpreterGen.h",
+      "language": "cpp",
+      "lines": 1380,
+      "functions": [
+        {
+          "name": "SVMInterpreterGen",
+          "signature": "SVMInterpreterGen(&M)",
+          "startLine": 72,
+          "endLine": 84
+        },
+        {
+          "name": "getOrCreateVMExec",
+          "signature": "getOrCreateVMExec()",
+          "startLine": 88,
+          "endLine": 112
+        },
+        {
+          "name": "getMalloc",
+          "signature": "getMalloc()",
+          "startLine": 123,
+          "endLine": 125
+        },
+        {
+          "name": "getRealloc",
+          "signature": "getRealloc()",
+          "startLine": 127,
+          "endLine": 129
+        },
+        {
+          "name": "getFree",
+          "signature": "getFree()",
+          "startLine": 131,
+          "endLine": 133
+        },
+        {
+          "name": "getMemcpy",
+          "signature": "getMemcpy()",
+          "startLine": 135,
+          "endLine": 137
+        },
+        {
+          "name": "getMemset",
+          "signature": "getMemset()",
+          "startLine": 139,
+          "endLine": 141
+        },
+        {
+          "name": "getHandleCall",
+          "signature": "getHandleCall()",
+          "startLine": 143,
+          "endLine": 156
+        },
+        {
+          "name": "getPrintf",
+          "signature": "getPrintf()",
+          "startLine": 159,
+          "endLine": 162
+        },
+        {
+          "name": "generateBody",
+          "signature": "generateBody(F, ArgCode, ArgSize, ArgArgs, ArgNum)",
+          "startLine": 165,
+          "endLine": 396
+        },
+        {
+          "name": "rotl64",
+          "signature": "rotl64(&B, V, r)",
+          "startLine": 399,
+          "endLine": 404
+        },
+        {
+          "name": "mixKey",
+          "signature": "mixKey(&B, Prev, Ip, Opcode, Len)",
+          "startLine": 406,
+          "endLine": 429
+        },
+        {
+          "name": "hashSeedIp",
+          "signature": "hashSeedIp(&B, Seed, Ip)",
+          "startLine": 431,
+          "endLine": 447
+        },
+        {
+          "name": "nextStreamByte",
+          "signature": "nextStreamByte(&B, KeyState)",
+          "startLine": 449,
+          "endLine": 458
+        },
+        {
+          "name": "readEncU8",
+          "signature": "readEncU8(&B, CodePtr, EndPtr, KeyState)",
+          "startLine": 461,
+          "endLine": 471
+        },
+        {
+          "name": "readEncU16",
+          "signature": "readEncU16(&B, CodePtr, EndPtr, KeyState)",
+          "startLine": 473,
+          "endLine": 481
+        },
+        {
+          "name": "readEncU32",
+          "signature": "readEncU32(&B, CodePtr, EndPtr, KeyState)",
+          "startLine": 484,
+          "endLine": 496
+        },
+        {
+          "name": "readEncU64",
+          "signature": "readEncU64(&B, CodePtr, EndPtr, KeyState)",
+          "startLine": 499,
+          "endLine": 509
+        },
+        {
+          "name": "crc16Update",
+          "signature": "crc16Update(&B, Crc, Byte)",
+          "startLine": 511,
+          "endLine": 522
+        },
+        {
+          "name": "computeCrcOverPayload",
+          "signature": "computeCrcOverPayload(&B, TmpPtr, EndPtr, KeyState, Len)",
+          "startLine": 524,
+          "endLine": 556
+        },
+        {
+          "name": "emitDebugDecode",
+          "signature": "emitDebugDecode(&B, Ip, Len, Opcode, Key, KeyMode)",
+          "startLine": 559,
+          "endLine": 570
+        },
+        {
+          "name": "emitDebugBadKey",
+          "signature": "emitDebugBadKey(&B, Ip)",
+          "startLine": 572,
+          "endLine": 577
+        },
+        {
+          "name": "emitDebugFetch",
+          "signature": "emitDebugFetch(&B, Ip, Key)",
+          "startLine": 579,
+          "endLine": 585
+        },
+        {
+          "name": "emitDebugPtr",
+          "signature": "emitDebugPtr(&B, P, End)",
+          "startLine": 587,
+          "endLine": 594
+        },
+        {
+          "name": "emitDebugHdr",
+          "signature": "emitDebugHdr(&B, Ip, Len, Crc, LenOk)",
+          "startLine": 596,
+          "endLine": 607
+        },
+        {
+          "name": "emitDebugCrcFail",
+          "signature": "emitDebugCrcFail(&B, Ip, Len, Crc, LenOk)",
+          "startLine": 609,
+          "endLine": 620
+        },
+        {
+          "name": "emitDebugStore",
+          "signature": "emitDebugStore(&B, Ip, Ptr, Val, IsSlot)",
+          "startLine": 622,
+          "endLine": 633
+        },
+        {
+          "name": "emitDebugBr",
+          "signature": "emitDebugBr(&B, Ip, TargetOff)",
+          "startLine": 635,
+          "endLine": 642
+        },
+        {
+          "name": "emitDebugAlloca",
+          "signature": "emitDebugAlloca(&B, Ip, Dst, Area, PtrVal)",
+          "startLine": 644,
+          "endLine": 655
+        },
+        {
+          "name": "ensureData",
+          "signature": "ensureData(&B, DsBuf, DsSz, DsCap, Need)",
+          "startLine": 659,
+          "endLine": 704
+        },
+        {
+          "name": "dsStoreU64",
+          "signature": "dsStoreU64(&B, DsBuf, DsSz, DsCap, Off, Val)",
+          "startLine": 707,
+          "endLine": 715
+        },
+        {
+          "name": "dsLoadU64",
+          "signature": "dsLoadU64(&B, DsBuf, DsSz, DsCap, Off)",
+          "startLine": 718,
+          "endLine": 726
+        },
+        {
+          "name": "readValue",
+          "signature": "readValue(&B, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap)",
+          "startLine": 736,
+          "endLine": 787
+        },
+        {
+          "name": "generateOpParamMap",
+          "signature": "generateOpParamMap(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, ArgArgs, ArgNum, LoopNext)",
+          "startLine": 790,
+          "endLine": 867
+        },
+        {
+          "name": "generateOpAlloca",
+          "signature": "generateOpAlloca(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, CurIp, LoopNext)",
+          "startLine": 870,
+          "endLine": 896
+        },
+        {
+          "name": "generateOpLoad",
+          "signature": "generateOpLoad(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, CurIp, LoopNext)",
+          "startLine": 899,
+          "endLine": 920
+        },
+        {
+          "name": "generateOpStore",
+          "signature": "generateOpStore(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, CurIp, LoopNext)",
+          "startLine": 923,
+          "endLine": 945
+        },
+        {
+          "name": "generateOpGep",
+          "signature": "generateOpGep(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, LoopNext)",
+          "startLine": 948,
+          "endLine": 995
+        },
+        {
+          "name": "generateOpCmp",
+          "signature": "generateOpCmp(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, LoopNext)",
+          "startLine": 998,
+          "endLine": 1084
+        },
+        {
+          "name": "generateOpCast",
+          "signature": "generateOpCast(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, LoopNext)",
+          "startLine": 1087,
+          "endLine": 1108
+        },
+        {
+          "name": "generateOpBr",
+          "signature": "generateOpBr(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, ArgCode, CurIp, Seed, NextKey, LoopNext)",
+          "startLine": 1111,
+          "endLine": 1162
+        },
+        {
+          "name": "generateOpArith",
+          "signature": "generateOpArith(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, LoopNext)",
+          "startLine": 1165,
+          "endLine": 1258
+        },
+        {
+          "name": "generateOpCall",
+          "signature": "generateOpCall(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, LoopNext)",
+          "startLine": 1261,
+          "endLine": 1332
+        },
+        {
+          "name": "generateOpRet",
+          "signature": "generateOpRet(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, RetVal, ExitBlock)",
+          "startLine": 1335,
+          "endLine": 1350
+        },
+        {
+          "name": "generateOpSelect",
+          "signature": "generateOpSelect(F, Sw, CodePtr, EndPtr, KeyState, DsBuf, DsSz, DsCap, LoopNext)",
+          "startLine": 1353,
+          "endLine": 1376
+        }
+      ],
+      "classes": [
+        {
+          "name": "SVMInterpreterGen",
+          "startLine": 70,
+          "endLine": 1377
+        },
+        {
+          "name": "EncodedValue",
+          "startLine": 730,
+          "endLine": 734
+        }
+      ],
+      "types": [
+        {
+          "name": "SVMInterpreterGen",
+          "kind": "class",
+          "startLine": 70,
+          "endLine": 1377
+        },
+        {
+          "name": "EncodedValue",
+          "kind": "struct",
+          "startLine": 730,
+          "endLine": 734
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 23,
+          "endLine": 37
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 40,
+          "endLine": 40
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 41,
+          "endLine": 41
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 44,
+          "endLine": 50
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 53,
+          "endLine": 53
+        },
+        {
+          "name": "svm",
+          "kind": "namespace",
+          "startLine": 20,
+          "endLine": 1379
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Intrinsics.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/StringRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "",
+        "SVMInterpreterGen",
+        "getOrCreateVMExec",
+        "getMalloc",
+        "getRealloc",
+        "getFree",
+        "getMemcpy",
+        "getMemset",
+        "getHandleCall",
+        "getPrintf",
+        "generateBody",
+        "rotl64",
+        "mixKey",
+        "hashSeedIp",
+        "nextStreamByte",
+        "readEncU8",
+        "readEncU16",
+        "readEncU32",
+        "readEncU64",
+        "crc16Update",
+        "computeCrcOverPayload",
+        "emitDebugDecode",
+        "emitDebugBadKey",
+        "emitDebugFetch",
+        "emitDebugPtr",
+        "emitDebugHdr",
+        "emitDebugCrcFail",
+        "emitDebugStore",
+        "emitDebugBr",
+        "emitDebugAlloca",
+        "ensureData",
+        "dsStoreU64",
+        "dsLoadU64",
+        "EncodedValue",
+        "readValue",
+        "generateOpParamMap",
+        "generateOpAlloca",
+        "generateOpLoad",
+        "generateOpStore",
+        "generateOpGep",
+        "generateOpCmp",
+        "generateOpCast",
+        "generateOpBr",
+        "generateOpArith",
+        "generateOpCall",
+        "generateOpRet",
+        "generateOpSelect"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:910b3a8cf1cad81f"
+    },
+    {
+      "path": "SVM/SwitchToIf.h",
+      "language": "cpp",
+      "lines": 97,
+      "functions": [
+        {
+          "name": "transform",
+          "signature": "transform(&F)",
+          "startLine": 14,
+          "endLine": 25
+        },
+        {
+          "name": "lowerOneSwitch",
+          "signature": "lowerOneSwitch(SI)",
+          "startLine": 28,
+          "endLine": 93
+        }
+      ],
+      "classes": [
+        {
+          "name": "SwitchToIfTool",
+          "startLine": 13,
+          "endLine": 94
+        }
+      ],
+      "types": [
+        {
+          "name": "SwitchToIfTool",
+          "kind": "struct",
+          "startLine": 13,
+          "endLine": 94
+        },
+        {
+          "name": "vmp",
+          "kind": "namespace",
+          "startLine": 11,
+          "endLine": 96
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SmallVector.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "SwitchToIfTool",
+        "transform"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:724fe3fbb82cff76"
+    },
+    {
+      "path": "SVM/VMCodeGen.h",
+      "language": "cpp",
+      "lines": 638,
+      "functions": [
+        {
+          "name": "p8",
+          "signature": "p8(& out, v)",
+          "startLine": 59,
+          "endLine": 59
+        },
+        {
+          "name": "p16",
+          "signature": "p16(& out, v)",
+          "startLine": 60,
+          "endLine": 62
+        },
+        {
+          "name": "p32",
+          "signature": "p32(& out, v)",
+          "startLine": 63,
+          "endLine": 66
+        },
+        {
+          "name": "p64",
+          "signature": "p64(& out, v)",
+          "startLine": 67,
+          "endLine": 69
+        },
+        {
+          "name": "isConstLike",
+          "signature": "isConstLike(V)",
+          "startLine": 72,
+          "endLine": 85
+        },
+        {
+          "name": "VMCodeGen",
+          "signature": "VMCodeGen(&F, &tool)",
+          "startLine": 89,
+          "endLine": 91
+        },
+        {
+          "name": "run",
+          "signature": "run()",
+          "startLine": 93,
+          "endLine": 113
+        },
+        {
+          "name": "code",
+          "signature": "code()",
+          "startLine": 115,
+          "endLine": 115
+        },
+        {
+          "name": "dumpHex",
+          "signature": "dumpHex()",
+          "startLine": 116,
+          "endLine": 118
+        },
+        {
+          "name": "slotSizeForType",
+          "signature": "slotSizeForType(&DL, Ty)",
+          "startLine": 149,
+          "endLine": 153
+        },
+        {
+          "name": "align8",
+          "signature": "align8(v)",
+          "startLine": 155,
+          "endLine": 155
+        },
+        {
+          "name": "rotl64",
+          "signature": "rotl64(x, r)",
+          "startLine": 157,
+          "endLine": 159
+        },
+        {
+          "name": "mixKey",
+          "signature": "mixKey(prev, ip, opcode, len)",
+          "startLine": 167,
+          "endLine": 176
+        },
+        {
+          "name": "hashSeedIp",
+          "signature": "hashSeedIp(seed, ip)",
+          "startLine": 178,
+          "endLine": 184
+        },
+        {
+          "name": "nextStreamByte",
+          "signature": "nextStreamByte(&state)",
+          "startLine": 186,
+          "endLine": 189
+        },
+        {
+          "name": "crc16_ccitt",
+          "signature": "crc16_ccitt(data, len)",
+          "startLine": 191,
+          "endLine": 201
+        },
+        {
+          "name": "hashName",
+          "signature": "hashName(S)",
+          "startLine": 203,
+          "endLine": 210
+        },
+        {
+          "name": "makeSeed",
+          "signature": "makeSeed(&F)",
+          "startLine": 212,
+          "endLine": 220
+        },
+        {
+          "name": "beginInst",
+          "signature": "beginInst()",
+          "startLine": 222,
+          "endLine": 222
+        },
+        {
+          "name": "endInst",
+          "signature": "endInst()",
+          "startLine": 224,
+          "endLine": 233
+        },
+        {
+          "name": "emit8",
+          "signature": "emit8(v)",
+          "startLine": 235,
+          "endLine": 235
+        },
+        {
+          "name": "emit16",
+          "signature": "emit16(v)",
+          "startLine": 236,
+          "endLine": 236
+        },
+        {
+          "name": "emit32",
+          "signature": "emit32(v)",
+          "startLine": 237,
+          "endLine": 237
+        },
+        {
+          "name": "emit64",
+          "signature": "emit64(v)",
+          "startLine": 238,
+          "endLine": 238
+        },
+        {
+          "name": "expandConstantExprs",
+          "signature": "expandConstantExprs()",
+          "startLine": 241,
+          "endLine": 254
+        },
+        {
+          "name": "enterFunction",
+          "signature": "enterFunction()",
+          "startLine": 257,
+          "endLine": 267
+        },
+        {
+          "name": "emitParamMap",
+          "signature": "emitParamMap()",
+          "startLine": 269,
+          "endLine": 275
+        },
+        {
+          "name": "allocSlot",
+          "signature": "allocSlot( V,  Ty)",
+          "startLine": 277,
+          "endLine": 285
+        },
+        {
+          "name": "materializeConstPtrIfPossible",
+          "signature": "materializeConstPtrIfPossible(V)",
+          "startLine": 288,
+          "endLine": 306
+        },
+        {
+          "name": "encodeValue",
+          "signature": "encodeValue( V)",
+          "startLine": 308,
+          "endLine": 341
+        },
+        {
+          "name": "markBB",
+          "signature": "markBB( BB)",
+          "startLine": 343,
+          "endLine": 343
+        },
+        {
+          "name": "translateInst",
+          "signature": "translateInst(&I)",
+          "startLine": 345,
+          "endLine": 374
+        },
+        {
+          "name": "t_allo",
+          "signature": "t_allo(&I)",
+          "startLine": 376,
+          "endLine": 382
+        },
+        {
+          "name": "t_load",
+          "signature": "t_load(&I)",
+          "startLine": 384,
+          "endLine": 391
+        },
+        {
+          "name": "t_store",
+          "signature": "t_store(&I)",
+          "startLine": 393,
+          "endLine": 403
+        },
+        {
+          "name": "mapLLVMArith",
+          "signature": "mapLLVMArith(&I)",
+          "startLine": 406,
+          "endLine": 441
+        },
+        {
+          "name": "t_binop",
+          "signature": "t_binop(&I)",
+          "startLine": 443,
+          "endLine": 455
+        },
+        {
+          "name": "t_cmp",
+          "signature": "t_cmp(&I)",
+          "startLine": 457,
+          "endLine": 468
+        },
+        {
+          "name": "t_cast",
+          "signature": "t_cast(&I)",
+          "startLine": 470,
+          "endLine": 484
+        },
+        {
+          "name": "t_gep",
+          "signature": "t_gep(&I)",
+          "startLine": 486,
+          "endLine": 501
+        },
+        {
+          "name": "t_br",
+          "signature": "t_br(&I)",
+          "startLine": 503,
+          "endLine": 522
+        },
+        {
+          "name": "t_ret",
+          "signature": "t_ret(&I)",
+          "startLine": 524,
+          "endLine": 535
+        },
+        {
+          "name": "t_call",
+          "signature": "t_call(&CB)",
+          "startLine": 537,
+          "endLine": 563
+        },
+        {
+          "name": "patchBranches",
+          "signature": "patchBranches()",
+          "startLine": 565,
+          "endLine": 575
+        },
+        {
+          "name": "refreshCrcs",
+          "signature": "refreshCrcs()",
+          "startLine": 577,
+          "endLine": 587
+        },
+        {
+          "name": "buildIpHashSet",
+          "signature": "buildIpHashSet()",
+          "startLine": 589,
+          "endLine": 608
+        },
+        {
+          "name": "encryptInstructions",
+          "signature": "encryptInstructions(seed)",
+          "startLine": 610,
+          "endLine": 634
+        }
+      ],
+      "classes": [
+        {
+          "name": "VMCodeGen",
+          "startLine": 87,
+          "endLine": 635
+        },
+        {
+          "name": "InstrSlice",
+          "startLine": 130,
+          "endLine": 130
+        },
+        {
+          "name": "Fixup",
+          "startLine": 135,
+          "endLine": 135
+        },
+        {
+          "name": "ParamDesc",
+          "startLine": 139,
+          "endLine": 139
+        },
+        {
+          "name": "ArithEnc",
+          "startLine": 405,
+          "endLine": 405
+        }
+      ],
+      "types": [
+        {
+          "name": "VMCodeGen",
+          "kind": "class",
+          "startLine": 87,
+          "endLine": 635
+        },
+        {
+          "name": "InstrSlice",
+          "kind": "struct",
+          "startLine": 130,
+          "endLine": 130
+        },
+        {
+          "name": "Fixup",
+          "kind": "struct",
+          "startLine": 135,
+          "endLine": 135
+        },
+        {
+          "name": "ParamDesc",
+          "kind": "struct",
+          "startLine": 139,
+          "endLine": 139
+        },
+        {
+          "name": "ArithEnc",
+          "kind": "struct",
+          "startLine": 405,
+          "endLine": 405
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 30,
+          "endLine": 42
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 45,
+          "endLine": 45
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 46,
+          "endLine": 46
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 49,
+          "endLine": 55
+        },
+        {
+          "name": "",
+          "kind": "enum",
+          "startLine": 56,
+          "endLine": 56
+        },
+        {
+          "name": "vmp",
+          "kind": "namespace",
+          "startLine": 27,
+          "endLine": 637
+        }
+      ],
+      "imports": [
+        {
+          "source": "SVM/HandleCallTool.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InstIterator.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/CFG.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "../Utils.h",
+          "symbols": [],
+          "isExternal": false
+        },
+        {
+          "source": "llvm/ADT/SmallPtrSet.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/Format.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "unordered_set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "optional",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cassert",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "",
+        "VMCodeGen",
+        "run",
+        "code",
+        "dumpHex",
+        "InstrSlice",
+        "Fixup",
+        "ParamDesc",
+        "beginInst",
+        "endInst",
+        "emit8",
+        "emit16",
+        "emit32",
+        "emit64",
+        "expandConstantExprs",
+        "enterFunction",
+        "emitParamMap",
+        "allocSlot",
+        "materializeConstPtrIfPossible",
+        "encodeValue",
+        "markBB",
+        "translateInst",
+        "t_allo",
+        "t_load",
+        "t_store",
+        "ArithEnc",
+        "mapLLVMArith",
+        "t_binop",
+        "t_cmp",
+        "t_cast",
+        "t_gep",
+        "t_br",
+        "t_ret",
+        "t_call",
+        "patchBranches",
+        "refreshCrcs",
+        "buildIpHashSet",
+        "encryptInstructions"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:68befca87ac20da6"
+    }
+  ],
+  "exports": [
+    "",
+    "ArgSpec",
+    "ArithEnc",
+    "CallEntry",
+    "ConstEntry",
+    "ConstFPKey",
+    "ConstFPKeyHash",
+    "ConstIntKey",
+    "ConstIntKeyHash",
+    "EncodedValue",
+    "Fixup",
+    "HandleCallTool",
+    "IRVMModuleTool",
+    "InstrSlice",
+    "IntPtrTy",
+    "Kind",
+    "ParamDesc",
+    "PhiEliminateTool",
+    "PrefPtrAlign",
+    "SVMInterpreterGen",
+    "Stats",
+    "SwitchToIfTool",
+    "VMCodeGen",
+    "VMExecOptions",
+    "allocSlot",
+    "beginInst",
+    "bindModule",
+    "buildFreshDispatch",
+    "buildIpHashSet",
+    "code",
+    "collectFromFunction",
+    "computeCrcOverPayload",
+    "constGEP_0_0",
+    "crc16Update",
+    "createChar2DGV",
+    "createGlobalCStringTable",
+    "dsLoadU64",
+    "dsStoreU64",
+    "dumpHex",
+    "eliminateAllPhi",
+    "emit16",
+    "emit32",
+    "emit64",
+    "emit8",
+    "emitCtorStore",
+    "emitDebugAlloca",
+    "emitDebugBadKey",
+    "emitDebugBr",
+    "emitDebugCrcFail",
+    "emitDebugDecode",
+    "emitDebugFetch",
+    "emitDebugHdr",
+    "emitDebugPtr",
+    "emitDebugStore",
+    "emitParamMap",
+    "encodeValue",
+    "encryptInstructions",
+    "endInst",
+    "ensureCallId",
+    "ensureConstAddrId",
+    "ensureConstFPBitsId",
+    "ensureConstIntId",
+    "ensureData",
+    "ensureDefinableGV",
+    "ensureModuleBoundOrDerive",
+    "enterFunction",
+    "expandConstantExprs",
+    "foldSimpleSelect01",
+    "generateBody",
+    "generateOpAlloca",
+    "generateOpArith",
+    "generateOpBr",
+    "generateOpCall",
+    "generateOpCast",
+    "generateOpCmp",
+    "generateOpGep",
+    "generateOpLoad",
+    "generateOpParamMap",
+    "generateOpRet",
+    "generateOpSelect",
+    "generateOpStore",
+    "getCallId",
+    "getFree",
+    "getHandleCall",
+    "getMalloc",
+    "getMemcpy",
+    "getMemset",
+    "getOrCreateMethodId",
+    "getOrCreateVMExec",
+    "getPrintf",
+    "getRealloc",
+    "getStats",
+    "hashSeedIp",
+    "isCandidate",
+    "isDefinableGlobal",
+    "makePrivateROStringPtr",
+    "mapLLVMArith",
+    "markBB",
+    "materializeConstPtrIfPossible",
+    "materializeHandle",
+    "materializeImpl",
+    "mixKey",
+    "nextStreamByte",
+    "operator()",
+    "operator==",
+    "patchBranches",
+    "prependDispatchChain",
+    "readEncU16",
+    "readEncU32",
+    "readEncU64",
+    "readEncU8",
+    "readIdFromMD",
+    "readValue",
+    "refreshCrcs",
+    "registerCallSite",
+    "rewriteToVMExec",
+    "rotl64",
+    "run",
+    "setBytes",
+    "setFP",
+    "setFuncAddress",
+    "setGlobalAddress",
+    "setGlobalFlag",
+    "setInt",
+    "setZero",
+    "t_allo",
+    "t_binop",
+    "t_br",
+    "t_call",
+    "t_cast",
+    "t_cmp",
+    "t_gep",
+    "t_load",
+    "t_ret",
+    "t_store",
+    "toU64",
+    "transform",
+    "translateInst",
+    "tryGetCallId",
+    "tryMakeConstPtrExpr",
+    "writeIdMD"
+  ],
+  "dependsOn": [
+    "_root"
+  ],
+  "dependedBy": [],
+  "stats": {
+    "totalFiles": 8,
+    "totalFunctions": 158,
+    "totalClasses": 21,
+    "totalLines": 3677
+  }
+}

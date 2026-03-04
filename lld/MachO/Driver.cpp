@@ -52,6 +52,7 @@
 #include "llvm/TextAPI/PackedVersion.h"
 
 #include <algorithm>
+#include <vector>
 
 using namespace llvm;
 using namespace llvm::MachO;
@@ -538,6 +539,63 @@ static void addFileList(StringRef path, bool isLazy) {
   MemoryBufferRef mbref = *buffer;
   for (StringRef path : args::getLines(mbref))
     addFile(rerootPath(path), LoadType::CommandLine, isLazy);
+}
+
+static void prefetchInputFiles(const InputArgList &args) {
+  TimeTraceScope timeScope("Prefetch input files");
+  SmallVector<StringRef, 0> paths;
+  paths.reserve(args.size());
+
+  auto pushPath = [&](StringRef path) {
+    if (path.empty())
+      return;
+    paths.push_back(saver().save(rerootPath(path)));
+  };
+
+  for (const Arg *arg : args) {
+    const Option &opt = arg->getOption();
+    switch (opt.getID()) {
+    case OPT_INPUT:
+    case OPT_needed_library:
+    case OPT_reexport_library:
+    case OPT_weak_library:
+    case OPT_force_load:
+    case OPT_load_hidden:
+      pushPath(arg->getValue());
+      break;
+    case OPT_filelist: {
+      std::optional<MemoryBufferRef> buffer =
+          readFile(arg->getValue(), /*reportError=*/false);
+      if (!buffer)
+        break;
+      for (StringRef path : args::getLines(*buffer))
+        pushPath(path);
+      break;
+    }
+    default:
+      break;
+    }
+  }
+
+  if (paths.empty())
+    return;
+
+  DenseSet<StringRef> seen;
+  SmallVector<StringRef, 0> uniquePaths;
+  uniquePaths.reserve(paths.size());
+  for (StringRef path : paths)
+    if (seen.insert(path).second)
+      uniquePaths.push_back(path);
+
+  if (parallel::strategy.ThreadsRequested == 1 || uniquePaths.size() < 8) {
+    for (StringRef path : uniquePaths)
+      (void)readFile(path, /*reportError=*/false);
+    return;
+  }
+
+  parallelForEach(uniquePaths, [](StringRef path) {
+    (void)readFile(path, /*reportError=*/false);
+  });
 }
 
 // We expect sub-library names of the form "libfoo", which will match a dylib
@@ -1129,6 +1187,9 @@ static void handleSymbolPatterns(InputArgList &args,
 
 static void createFiles(const InputArgList &args) {
   TimeTraceScope timeScope("Load input files");
+  // Keep --reproduce artifact sequencing identical to the legacy load path.
+  if (!tar)
+    prefetchInputFiles(args);
   // This loop should be reserved for options whose exact ordering matters.
   // Other options should be handled via filtered() and/or getLastArg().
   bool isLazy = false;
@@ -1204,52 +1265,128 @@ static void createFiles(const InputArgList &args) {
   }
 }
 
+struct GatheredInputAction {
+  enum class Kind {
+    Concat,
+    InitOffset,
+    ObjcMethnameCString,
+    CString,
+    WordLiteral,
+  };
+
+  Kind kind;
+  InputSection *isec;
+  const Section *sourceSection;
+};
+
+struct GatheredFileSections {
+  SmallVector<GatheredInputAction, 0> actions;
+  bool hasObjCImageInfo = false;
+};
+
 static void gatherInputSections() {
   TimeTraceScope timeScope("Gathering input sections");
-  int inputOrder = 0;
-  for (const InputFile *file : inputFiles) {
+
+  SmallVector<const InputFile *> files(inputFiles.begin(), inputFiles.end());
+  std::vector<GatheredFileSections> gatheredFiles(files.size());
+
+  auto gatherFile = [&](size_t idx) {
+    const InputFile *file = files[idx];
+    GatheredFileSections &gathered = gatheredFiles[idx];
     for (const Section *section : file->sections) {
       // Compact unwind entries require special handling elsewhere. (In
       // contrast, EH frames are handled like regular ConcatInputSections.)
       if (section->name == section_names::compactUnwind)
         continue;
-      ConcatOutputSection *osec = nullptr;
       for (const Subsection &subsection : section->subsections) {
         if (auto *isec = dyn_cast<ConcatInputSection>(subsection.isec)) {
           if (isec->isCoalescedWeak())
             continue;
           if (config->emitInitOffsets &&
               sectionType(isec->getFlags()) == S_MOD_INIT_FUNC_POINTERS) {
-            in.initOffsets->addInput(isec);
+            gathered.actions.push_back(
+                {GatheredInputAction::Kind::InitOffset, isec, nullptr});
             continue;
           }
-          isec->outSecOff = inputOrder++;
-          if (!osec)
-            osec = ConcatOutputSection::getOrCreateForInput(isec);
-          isec->parent = osec;
-          inputSections.push_back(isec);
+          gathered.actions.push_back(
+              {GatheredInputAction::Kind::Concat, isec, section});
         } else if (auto *isec =
                        dyn_cast<CStringInputSection>(subsection.isec)) {
-          if (isec->getName() == section_names::objcMethname) {
-            if (in.objcMethnameSection->inputOrder == UnspecifiedInputOrder)
-              in.objcMethnameSection->inputOrder = inputOrder++;
-            in.objcMethnameSection->addInput(isec);
-          } else {
-            if (in.cStringSection->inputOrder == UnspecifiedInputOrder)
-              in.cStringSection->inputOrder = inputOrder++;
-            in.cStringSection->addInput(isec);
-          }
+          gathered.actions.push_back(
+              {isec->getName() == section_names::objcMethname
+                   ? GatheredInputAction::Kind::ObjcMethnameCString
+                   : GatheredInputAction::Kind::CString,
+               isec, nullptr});
         } else if (auto *isec =
                        dyn_cast<WordLiteralInputSection>(subsection.isec)) {
-          if (in.wordLiteralSection->inputOrder == UnspecifiedInputOrder)
-            in.wordLiteralSection->inputOrder = inputOrder++;
-          in.wordLiteralSection->addInput(isec);
+          gathered.actions.push_back(
+              {GatheredInputAction::Kind::WordLiteral, isec, nullptr});
         } else {
           llvm_unreachable("unexpected input section kind");
         }
       }
     }
-    if (!file->objCImageInfo.empty())
+    gathered.hasObjCImageInfo = !file->objCImageInfo.empty();
+  };
+
+  static constexpr size_t kParallelGatherInputFileThreshold = 32;
+  bool shouldParallelGather =
+      parallel::strategy.ThreadsRequested != 1 &&
+      files.size() >= kParallelGatherInputFileThreshold;
+  if (shouldParallelGather) {
+    parallelFor(0, files.size(), gatherFile);
+  } else {
+    for (size_t i = 0; i < files.size(); ++i)
+      gatherFile(i);
+  }
+
+  int inputOrder = 0;
+  for (size_t fileIdx = 0; fileIdx < files.size(); ++fileIdx) {
+    const InputFile *file = files[fileIdx];
+    const GatheredFileSections &gathered = gatheredFiles[fileIdx];
+    ConcatOutputSection *osec = nullptr;
+    const Section *currentConcatSection = nullptr;
+
+    for (const GatheredInputAction &action : gathered.actions) {
+      switch (action.kind) {
+      case GatheredInputAction::Kind::Concat: {
+        auto *isec = cast<ConcatInputSection>(action.isec);
+        isec->outSecOff = inputOrder++;
+        if (action.sourceSection != currentConcatSection) {
+          currentConcatSection = action.sourceSection;
+          osec = ConcatOutputSection::getOrCreateForInput(isec);
+        }
+        isec->parent = osec;
+        inputSections.push_back(isec);
+        break;
+      }
+      case GatheredInputAction::Kind::InitOffset:
+        in.initOffsets->addInput(cast<ConcatInputSection>(action.isec));
+        break;
+      case GatheredInputAction::Kind::ObjcMethnameCString: {
+        auto *isec = cast<CStringInputSection>(action.isec);
+        if (in.objcMethnameSection->inputOrder == UnspecifiedInputOrder)
+          in.objcMethnameSection->inputOrder = inputOrder++;
+        in.objcMethnameSection->addInput(isec);
+        break;
+      }
+      case GatheredInputAction::Kind::CString: {
+        auto *isec = cast<CStringInputSection>(action.isec);
+        if (in.cStringSection->inputOrder == UnspecifiedInputOrder)
+          in.cStringSection->inputOrder = inputOrder++;
+        in.cStringSection->addInput(isec);
+        break;
+      }
+      case GatheredInputAction::Kind::WordLiteral: {
+        auto *isec = cast<WordLiteralInputSection>(action.isec);
+        if (in.wordLiteralSection->inputOrder == UnspecifiedInputOrder)
+          in.wordLiteralSection->inputOrder = inputOrder++;
+        in.wordLiteralSection->addInput(isec);
+        break;
+      }
+      }
+    }
+    if (gathered.hasObjCImageInfo)
       in.objCImageInfo->addFile(file);
   }
   assert(inputOrder <= UnspecifiedInputOrder);
@@ -1260,9 +1397,22 @@ static void foldIdenticalLiterals() {
   // We always create a cStringSection, regardless of whether dedupLiterals is
   // true. If it isn't, we simply create a non-deduplicating CStringSection.
   // Either way, we must unconditionally finalize it here.
-  in.cStringSection->finalizeContents();
-  in.objcMethnameSection->finalizeContents();
-  in.wordLiteralSection->finalizeContents();
+  // The three sections are independent, so finalize them in parallel.
+  parallelFor(0, 3, [](size_t i) {
+    switch (i) {
+    case 0:
+      in.cStringSection->finalizeContents();
+      break;
+    case 1:
+      in.objcMethnameSection->finalizeContents();
+      break;
+    case 2:
+      in.wordLiteralSection->finalizeContents();
+      break;
+    default:
+      llvm_unreachable("unexpected literal section index");
+    }
+  });
 }
 
 static void addSynthenticMethnames() {

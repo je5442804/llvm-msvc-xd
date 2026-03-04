@@ -1,0 +1,7360 @@
+{
+  "module": "_root",
+  "path": "_root",
+  "files": [
+    {
+      "path": "AliasAccess.cpp",
+      "language": "cpp",
+      "lines": 247,
+      "functions": [
+        {
+          "name": "AliasAccess::run",
+          "signature": "AliasAccess::run(&M, &AM)",
+          "startLine": 58,
+          "endLine": 67
+        },
+        {
+          "name": "AliasAccess::buildGetterFunction",
+          "signature": "AliasAccess::buildGetterFunction(&M, ST, Index)",
+          "startLine": 68,
+          "endLine": 82
+        },
+        {
+          "name": "AliasAccess::process",
+          "signature": "AliasAccess::process(&F)",
+          "startLine": 83,
+          "endLine": 245
+        }
+      ],
+      "classes": [
+        {
+          "name": "ElementPos",
+          "startLine": 44,
+          "endLine": 47
+        },
+        {
+          "name": "ReferenceNode",
+          "startLine": 48,
+          "endLine": 55
+        }
+      ],
+      "types": [
+        {
+          "name": "ElementPos",
+          "kind": "struct",
+          "startLine": 44,
+          "endLine": 47
+        },
+        {
+          "name": "ReferenceNode",
+          "kind": "struct",
+          "startLine": 48,
+          "endLine": 55
+        },
+        {
+          "name": "alias",
+          "kind": "namespace",
+          "startLine": 43,
+          "endLine": 56
+        }
+      ],
+      "imports": [
+        {
+          "source": "AliasAccess.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SetVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Cloning.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ValueMapper.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "regex",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vcruntime_string.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VMFlatten.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "ElementPos",
+        "ReferenceNode",
+        "run",
+        "buildGetterFunction",
+        "process"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:5c1230c288cb3519"
+    },
+    {
+      "path": "AliasAccess.h",
+      "language": "cpp",
+      "lines": 23,
+      "functions": [
+        {
+          "name": "AliasAccess",
+          "signature": "AliasAccess()",
+          "startLine": 13,
+          "endLine": 13
+        },
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 19,
+          "endLine": 19
+        }
+      ],
+      "classes": [
+        {
+          "name": "AliasAccess",
+          "startLine": 11,
+          "endLine": 20
+        }
+      ],
+      "types": [
+        {
+          "name": "AliasAccess",
+          "kind": "class",
+          "startLine": 11,
+          "endLine": 20
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 10,
+          "endLine": 21
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "AliasAccess"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:08ab83a613a96bee"
+    },
+    {
+      "path": "AntiIDA.cpp",
+      "language": "cpp",
+      "lines": 94,
+      "functions": [
+        {
+          "name": "AntiIDAPass::run",
+          "signature": "AntiIDAPass::run(&M, &)",
+          "startLine": 28,
+          "endLine": 45
+        },
+        {
+          "name": "AntiIDAPass::injectBytes",
+          "signature": "AntiIDAPass::injectBytes(&F)",
+          "startLine": 46,
+          "endLine": 93
+        }
+      ],
+      "classes": [],
+      "types": [
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 26,
+          "endLine": 94
+        }
+      ],
+      "imports": [
+        {
+          "source": "AntiIDA.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InlineAsm.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Cloning.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ValueMapper.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "regex",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "run",
+        "injectBytes"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:4e5b1d901542045c"
+    },
+    {
+      "path": "AntiIDA.h",
+      "language": "cpp",
+      "lines": 22,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 14,
+          "endLine": 14
+        }
+      ],
+      "classes": [
+        {
+          "name": "AntiIDAPass",
+          "startLine": 10,
+          "endLine": 18
+        }
+      ],
+      "types": [
+        {
+          "name": "AntiIDAPass",
+          "kind": "class",
+          "startLine": 10,
+          "endLine": 18
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 8,
+          "endLine": 20
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "AntiIDAPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:77421000bde10800"
+    },
+    {
+      "path": "BogusControlFlow.cpp",
+      "language": "cpp",
+      "lines": 694,
+      "functions": [
+        {
+          "name": "bogus",
+          "signature": "bogus(&F)",
+          "startLine": 159,
+          "endLine": 235
+        },
+        {
+          "name": "addBogusFlow",
+          "signature": "addBogusFlow(basicBlock, &F)",
+          "startLine": 242,
+          "endLine": 332
+        },
+        {
+          "name": "createAlteredBasicBlock",
+          "signature": "createAlteredBasicBlock(basicBlock, &Name, F)",
+          "startLine": 344,
+          "endLine": 559
+        },
+        {
+          "name": "doF",
+          "signature": "doF(&M, &F)",
+          "startLine": 568,
+          "endLine": 668
+        },
+        {
+          "name": "BogusControlFlowPass::run",
+          "signature": "BogusControlFlowPass::run(&F, &AM)",
+          "startLine": 671,
+          "endLine": 693
+        }
+      ],
+      "classes": [],
+      "types": [
+        {
+          "name": "ollvm",
+          "kind": "namespace",
+          "startLine": 134,
+          "endLine": 669
+        }
+      ],
+      "imports": [
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/Statistic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DebugInfo.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InstrTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IntrinsicInst.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/Debug.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/BasicBlockUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Cloning.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "list",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "bogus",
+        "addBogusFlow",
+        "createAlteredBasicBlock",
+        "doF",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:ae2549a70bb04137"
+    },
+    {
+      "path": "BogusControlFlow.h",
+      "language": "cpp",
+      "lines": 32,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 24,
+          "endLine": 24
+        }
+      ],
+      "classes": [
+        {
+          "name": "BogusControlFlowPass",
+          "startLine": 21,
+          "endLine": 25
+        }
+      ],
+      "types": [
+        {
+          "name": "BogusControlFlowPass",
+          "kind": "class",
+          "startLine": 21,
+          "endLine": 25
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 20,
+          "endLine": 26
+        },
+        {
+          "name": "ollvm",
+          "kind": "namespace",
+          "startLine": 27,
+          "endLine": 30
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "BogusControlFlowPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:eb51df59e6b067fb"
+    },
+    {
+      "path": "CodePicPass.cpp",
+      "language": "cpp",
+      "lines": 613,
+      "functions": [
+        {
+          "name": "moduleIsEnabled",
+          "signature": "moduleIsEnabled()",
+          "startLine": 73,
+          "endLine": 75
+        },
+        {
+          "name": "run",
+          "signature": "run(&F)",
+          "startLine": 85,
+          "endLine": 135
+        },
+        {
+          "name": "moduleIsEnabled",
+          "signature": "moduleIsEnabled()",
+          "startLine": 157,
+          "endLine": 159
+        },
+        {
+          "name": "run",
+          "signature": "run(&F)",
+          "startLine": 169,
+          "endLine": 218
+        },
+        {
+          "name": "moduleIsEnabled",
+          "signature": "moduleIsEnabled()",
+          "startLine": 235,
+          "endLine": 237
+        },
+        {
+          "name": "run",
+          "signature": "run(&M, &)",
+          "startLine": 248,
+          "endLine": 268
+        },
+        {
+          "name": "getUsingFunction",
+          "signature": "getUsingFunction(& V)",
+          "startLine": 272,
+          "endLine": 309
+        },
+        {
+          "name": "shouldInline",
+          "signature": "shouldInline(& G)",
+          "startLine": 311,
+          "endLine": 319
+        },
+        {
+          "name": "inlineGlobals",
+          "signature": "inlineGlobals(&M, F, &Vars)",
+          "startLine": 321,
+          "endLine": 475
+        },
+        {
+          "name": "makeAllConstantUsesInstructions",
+          "signature": "makeAllConstantUsesInstructions( C)",
+          "startLine": 481,
+          "endLine": 530
+        },
+        {
+          "name": "disaggregateVars",
+          "signature": "disaggregateVars( After,  Ptr, & Idx, & C, & Vars)",
+          "startLine": 534,
+          "endLine": 565
+        },
+        {
+          "name": "extractValuesFromStore",
+          "signature": "extractValuesFromStore( inst, & Vars)",
+          "startLine": 567,
+          "endLine": 579
+        },
+        {
+          "name": "CodePicPass::run",
+          "signature": "CodePicPass::run(&F, &FM)",
+          "startLine": 584,
+          "endLine": 596
+        },
+        {
+          "name": "CodePicPass::run",
+          "signature": "CodePicPass::run(&M, &AM)",
+          "startLine": 598,
+          "endLine": 609
+        },
+        {
+          "name": "CodePicPass::CodePicPass",
+          "signature": "CodePicPass::CodePicPass()",
+          "startLine": 611,
+          "endLine": 611
+        }
+      ],
+      "classes": [
+        {
+          "name": "ExpandMemcpyCallsModule",
+          "startLine": 59,
+          "endLine": 137
+        },
+        {
+          "name": "ExpandMemsetCallsModule",
+          "startLine": 143,
+          "endLine": 220
+        },
+        {
+          "name": "MoveGlobalsToStackModule",
+          "startLine": 226,
+          "endLine": 581
+        }
+      ],
+      "types": [
+        {
+          "name": "ExpandMemcpyCallsModule",
+          "kind": "class",
+          "startLine": 59,
+          "endLine": 137
+        },
+        {
+          "name": "ExpandMemsetCallsModule",
+          "kind": "class",
+          "startLine": 143,
+          "endLine": 220
+        },
+        {
+          "name": "MoveGlobalsToStackModule",
+          "kind": "class",
+          "startLine": 226,
+          "endLine": 581
+        }
+      ],
+      "imports": [
+        {
+          "source": "CodePicPass.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constant.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IntrinsicInst.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Verifier.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/FormatVariadic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/MapVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SetVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SmallSet.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Pass.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/IPO/GlobalOpt.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "ExpandMemcpyCallsModule",
+        "moduleIsEnabled",
+        "run",
+        "ExpandMemsetCallsModule",
+        "MoveGlobalsToStackModule",
+        "getUsingFunction",
+        "shouldInline",
+        "inlineGlobals",
+        "makeAllConstantUsesInstructions",
+        "disaggregateVars",
+        "extractValuesFromStore",
+        "CodePicPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:8ad6b8b92171e1b5"
+    },
+    {
+      "path": "CodePicPass.h",
+      "language": "cpp",
+      "lines": 20,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 15,
+          "endLine": 15
+        }
+      ],
+      "classes": [
+        {
+          "name": "CodePicPass",
+          "startLine": 10,
+          "endLine": 16
+        }
+      ],
+      "types": [
+        {
+          "name": "CodePicPass",
+          "kind": "class",
+          "startLine": 10,
+          "endLine": 16
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 8,
+          "endLine": 18
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "CodePicPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:6622bd21687682bc"
+    },
+    {
+      "path": "CombineFunctions.cpp",
+      "language": "cpp",
+      "lines": 341,
+      "functions": [
+        {
+          "name": "CombineFunction::getBlocks",
+          "signature": "CombineFunction::getBlocks(function, &lists)",
+          "startLine": 64,
+          "endLine": 69
+        },
+        {
+          "name": "CombineFunction::getFunctions",
+          "signature": "CombineFunction::getFunctions(module, &lists)",
+          "startLine": 71,
+          "endLine": 77
+        },
+        {
+          "name": "CombineFunction::Combine",
+          "signature": "CombineFunction::Combine(&func_list, VMap, name, &argPosList)",
+          "startLine": 79,
+          "endLine": 133
+        },
+        {
+          "name": "CombineFunction::getUniqueNumber",
+          "signature": "CombineFunction::getUniqueNumber(&rand_list)",
+          "startLine": 135,
+          "endLine": 150
+        },
+        {
+          "name": "CombineFunction::FixFunction",
+          "signature": "CombineFunction::FixFunction(target, &orig_list, v_map, &value_list)",
+          "startLine": 152,
+          "endLine": 225
+        },
+        {
+          "name": "CombineFunction::FixCallInst",
+          "signature": "CombineFunction::FixCallInst(target, &orig_list, &value_list, &arg_pos_list)",
+          "startLine": 227,
+          "endLine": 267
+        },
+        {
+          "name": "CombineFunction::CombineFunctions",
+          "signature": "CombineFunction::CombineFunctions(&m, &func_list)",
+          "startLine": 269,
+          "endLine": 293
+        },
+        {
+          "name": "CombineFunction::runOnModule",
+          "signature": "CombineFunction::runOnModule(&module)",
+          "startLine": 295,
+          "endLine": 325
+        },
+        {
+          "name": "CombineFunctionsPass::run",
+          "signature": "CombineFunctionsPass::run(&M, &AM)",
+          "startLine": 328,
+          "endLine": 338
+        },
+        {
+          "name": "CombineFunctionsPass::CombineFunctionsPass",
+          "signature": "CombineFunctionsPass::CombineFunctionsPass()",
+          "startLine": 340,
+          "endLine": 340
+        }
+      ],
+      "classes": [
+        {
+          "name": "CombineFunction",
+          "startLine": 47,
+          "endLine": 62
+        }
+      ],
+      "types": [
+        {
+          "name": "CombineFunction",
+          "kind": "struct",
+          "startLine": 47,
+          "endLine": 62
+        }
+      ],
+      "imports": [
+        {
+          "source": "CombineFunctions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "ConstObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "IndirectGlobalVars.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VMFlatten.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SetVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constant.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Verifier.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Cloning.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/LowerSwitch.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ValueMapper.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "regex",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vcruntime_string.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "CombineFunction",
+        "getBlocks",
+        "getFunctions",
+        "Combine",
+        "getUniqueNumber",
+        "FixFunction",
+        "FixCallInst",
+        "CombineFunctions",
+        "runOnModule",
+        "run",
+        "CombineFunctionsPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:66de7bbc319cb6b7"
+    },
+    {
+      "path": "CombineFunctions.h",
+      "language": "cpp",
+      "lines": 20,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 15,
+          "endLine": 15
+        }
+      ],
+      "classes": [
+        {
+          "name": "CombineFunctionsPass",
+          "startLine": 10,
+          "endLine": 16
+        }
+      ],
+      "types": [
+        {
+          "name": "CombineFunctionsPass",
+          "kind": "class",
+          "startLine": 10,
+          "endLine": 16
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 8,
+          "endLine": 18
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "CombineFunctionsPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:18378e533a58cd2e"
+    },
+    {
+      "path": "ConstObfuscation.cpp",
+      "language": "cpp",
+      "lines": 284,
+      "functions": [
+        {
+          "name": "ConstEncryption::shouldEncryptConstant",
+          "signature": "ConstEncryption::shouldEncryptConstant(I)",
+          "startLine": 46,
+          "endLine": 60
+        },
+        {
+          "name": "ConstEncryption::bitwiseSubstitute",
+          "signature": "ConstEncryption::bitwiseSubstitute(I, i)",
+          "startLine": 62,
+          "endLine": 87
+        },
+        {
+          "name": "ConstEncryption::linearSubstitute",
+          "signature": "ConstEncryption::linearSubstitute(I, i)",
+          "startLine": 89,
+          "endLine": 107
+        },
+        {
+          "name": "ConstEncryption::substitute",
+          "signature": "ConstEncryption::substitute(I)",
+          "startLine": 108,
+          "endLine": 124
+        },
+        {
+          "name": "ConstEncryption::runOnFunction",
+          "signature": "ConstEncryption::runOnFunction(&F, vm_fla)",
+          "startLine": 126,
+          "endLine": 155
+        },
+        {
+          "name": "DataObfuscator::runOnFunction",
+          "signature": "DataObfuscator::runOnFunction(&F)",
+          "startLine": 159,
+          "endLine": 185
+        },
+        {
+          "name": "DataObfuscator::insertFastRem3",
+          "signature": "DataObfuscator::insertFastRem3(n, insertAfter)",
+          "startLine": 187,
+          "endLine": 197
+        },
+        {
+          "name": "DataObfuscator::genRandIndex",
+          "signature": "DataObfuscator::genRandIndex(I)",
+          "startLine": 199,
+          "endLine": 222
+        },
+        {
+          "name": "DataObfuscator::substitute",
+          "signature": "DataObfuscator::substitute(I, i)",
+          "startLine": 224,
+          "endLine": 239
+        },
+        {
+          "name": "ConstObfPass::run",
+          "signature": "ConstObfPass::run(&F, &AM)",
+          "startLine": 245,
+          "endLine": 262
+        },
+        {
+          "name": "DataIndirectionPass::run",
+          "signature": "DataIndirectionPass::run(&F, &AM)",
+          "startLine": 266,
+          "endLine": 283
+        }
+      ],
+      "classes": [],
+      "types": [
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 45,
+          "endLine": 241
+        }
+      ],
+      "imports": [
+        {
+          "source": "ConstObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VMFlatten.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constant.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IntrinsicInst.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/FormatVariadic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "shouldEncryptConstant",
+        "bitwiseSubstitute",
+        "linearSubstitute",
+        "substitute",
+        "runOnFunction",
+        "insertFastRem3",
+        "genRandIndex",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:a4ad1dba1cfd01bc"
+    },
+    {
+      "path": "ConstObfuscation.h",
+      "language": "cpp",
+      "lines": 78,
+      "functions": [
+        {
+          "name": "ConstEncryption",
+          "signature": "ConstEncryption()",
+          "startLine": 11,
+          "endLine": 11
+        },
+        {
+          "name": "DataObfuscator",
+          "signature": "DataObfuscator()",
+          "startLine": 24,
+          "endLine": 24
+        },
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 47,
+          "endLine": 47
+        },
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 68,
+          "endLine": 68
+        }
+      ],
+      "classes": [
+        {
+          "name": "ConstEncryption",
+          "startLine": 10,
+          "endLine": 19
+        },
+        {
+          "name": "DataObfuscator",
+          "startLine": 22,
+          "endLine": 29
+        },
+        {
+          "name": "ConstObfPass",
+          "startLine": 44,
+          "endLine": 48
+        },
+        {
+          "name": "DataIndirectionPass",
+          "startLine": 65,
+          "endLine": 69
+        }
+      ],
+      "types": [
+        {
+          "name": "ConstEncryption",
+          "kind": "struct",
+          "startLine": 10,
+          "endLine": 19
+        },
+        {
+          "name": "DataObfuscator",
+          "kind": "struct",
+          "startLine": 22,
+          "endLine": 29
+        },
+        {
+          "name": "ConstObfPass",
+          "kind": "class",
+          "startLine": 44,
+          "endLine": 48
+        },
+        {
+          "name": "DataIndirectionPass",
+          "kind": "class",
+          "startLine": 65,
+          "endLine": 69
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 7,
+          "endLine": 75
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "ConstEncryption",
+        "DataObfuscator",
+        "ConstObfPass",
+        "DataIndirectionPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:970e6c504865d593"
+    },
+    {
+      "path": "CryptoUtils.cpp",
+      "language": "cpp",
+      "lines": 1155,
+      "functions": [
+        {
+          "name": "CryptoUtils::CryptoUtils",
+          "signature": "CryptoUtils::CryptoUtils()",
+          "startLine": 500,
+          "endLine": 508
+        },
+        {
+          "name": "CryptoUtils::scramble32",
+          "signature": "CryptoUtils::scramble32(in, key[16])",
+          "startLine": 510,
+          "endLine": 548
+        },
+        {
+          "name": "CryptoUtils::prng_seed",
+          "signature": "CryptoUtils::prng_seed(_seed)",
+          "startLine": 550,
+          "endLine": 593
+        },
+        {
+          "name": "CryptoUtils::~CryptoUtils",
+          "signature": "CryptoUtils::~CryptoUtils()",
+          "startLine": 595,
+          "endLine": 603
+        },
+        {
+          "name": "CryptoUtils::populate_pool",
+          "signature": "CryptoUtils::populate_pool()",
+          "startLine": 605,
+          "endLine": 621
+        },
+        {
+          "name": "WinDevRandom",
+          "signature": "WinDevRandom()",
+          "startLine": 629,
+          "endLine": 638
+        },
+        {
+          "name": "~WinDevRandom",
+          "signature": "~WinDevRandom()",
+          "startLine": 640,
+          "endLine": 640
+        },
+        {
+          "name": "read",
+          "signature": "read(key, sz)",
+          "startLine": 642,
+          "endLine": 649
+        },
+        {
+          "name": "close",
+          "signature": "close()",
+          "startLine": 651,
+          "endLine": 658
+        },
+        {
+          "name": "gcount",
+          "signature": "gcount()",
+          "startLine": 660,
+          "endLine": 660
+        },
+        {
+          "name": "good",
+          "signature": "good()",
+          "startLine": 664,
+          "endLine": 664
+        },
+        {
+          "name": "CryptoUtils::prng_seed",
+          "signature": "CryptoUtils::prng_seed()",
+          "startLine": 672,
+          "endLine": 709
+        },
+        {
+          "name": "CryptoUtils::inc_ctr",
+          "signature": "CryptoUtils::inc_ctr()",
+          "startLine": 711,
+          "endLine": 717
+        },
+        {
+          "name": "CryptoUtils::get_seed",
+          "signature": "CryptoUtils::get_seed()",
+          "startLine": 719,
+          "endLine": 726
+        },
+        {
+          "name": "CryptoUtils::get_bytes",
+          "signature": "CryptoUtils::get_bytes(buffer, len)",
+          "startLine": 728,
+          "endLine": 761
+        },
+        {
+          "name": "CryptoUtils::get_uint8_t",
+          "signature": "CryptoUtils::get_uint8_t()",
+          "startLine": 763,
+          "endLine": 771
+        },
+        {
+          "name": "CryptoUtils::get_char",
+          "signature": "CryptoUtils::get_char()",
+          "startLine": 773,
+          "endLine": 781
+        },
+        {
+          "name": "CryptoUtils::get_uint32_t",
+          "signature": "CryptoUtils::get_uint32_t()",
+          "startLine": 783,
+          "endLine": 794
+        },
+        {
+          "name": "CryptoUtils::get_uint16_t",
+          "signature": "CryptoUtils::get_uint16_t()",
+          "startLine": 796,
+          "endLine": 807
+        },
+        {
+          "name": "CryptoUtils::get_uint64_t",
+          "signature": "CryptoUtils::get_uint64_t()",
+          "startLine": 809,
+          "endLine": 820
+        },
+        {
+          "name": "CryptoUtils::get_range",
+          "signature": "CryptoUtils::get_range(max)",
+          "startLine": 822,
+          "endLine": 847
+        },
+        {
+          "name": "CryptoUtils::aes_compute_ks",
+          "signature": "CryptoUtils::aes_compute_ks(ks, k)",
+          "startLine": 849,
+          "endLine": 877
+        },
+        {
+          "name": "CryptoUtils::aes_encrypt",
+          "signature": "CryptoUtils::aes_encrypt(out, in, ks)",
+          "startLine": 879,
+          "endLine": 941
+        },
+        {
+          "name": "CryptoUtils::sha256_process",
+          "signature": "CryptoUtils::sha256_process(md, in, inlen)",
+          "startLine": 943,
+          "endLine": 977
+        },
+        {
+          "name": "CryptoUtils::sha256_compress",
+          "signature": "CryptoUtils::sha256_compress(md, buf)",
+          "startLine": 979,
+          "endLine": 1070
+        },
+        {
+          "name": "CryptoUtils::sha256_init",
+          "signature": "CryptoUtils::sha256_init(md)",
+          "startLine": 1077,
+          "endLine": 1091
+        },
+        {
+          "name": "CryptoUtils::sha256_done",
+          "signature": "CryptoUtils::sha256_done(md, out)",
+          "startLine": 1099,
+          "endLine": 1141
+        },
+        {
+          "name": "CryptoUtils::sha256",
+          "signature": "CryptoUtils::sha256(msg, hash)",
+          "startLine": 1143,
+          "endLine": 1154
+        }
+      ],
+      "classes": [
+        {
+          "name": "WinDevRandom",
+          "startLine": 628,
+          "endLine": 669
+        }
+      ],
+      "types": [
+        {
+          "name": "WinDevRandom",
+          "kind": "struct",
+          "startLine": 628,
+          "endLine": 669
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 48,
+          "endLine": 50
+        }
+      ],
+      "imports": [
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/Statistic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/Twine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/Debug.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/ManagedStatic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cassert",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdlib",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "fstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "string",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "windows.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "wincrypt.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "CryptoUtils",
+        "scramble32",
+        "prng_seed",
+        "~CryptoUtils",
+        "populate_pool",
+        "WinDevRandom",
+        "~WinDevRandom",
+        "read",
+        "close",
+        "gcount",
+        "good",
+        "inc_ctr",
+        "get_seed",
+        "get_bytes",
+        "get_uint8_t",
+        "get_char",
+        "get_uint32_t",
+        "get_uint16_t",
+        "get_uint64_t",
+        "get_range",
+        "aes_compute_ks",
+        "aes_encrypt",
+        "sha256_process",
+        "sha256_compress",
+        "sha256_init",
+        "sha256_done",
+        "sha256"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:9c3e48cdee807dca"
+    },
+    {
+      "path": "CryptoUtils.h",
+      "language": "cpp",
+      "lines": 270,
+      "functions": [],
+      "classes": [
+        {
+          "name": "CryptoUtils",
+          "startLine": 215,
+          "endLine": 265
+        }
+      ],
+      "types": [
+        {
+          "name": "CryptoUtils",
+          "kind": "class",
+          "startLine": 215,
+          "endLine": 265
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 31,
+          "endLine": 266
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/Support/ManagedStatic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "stdint.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdio",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "string",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "CryptoUtils",
+        "sha256_state"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:da44e4f3cc7dd549"
+    },
+    {
+      "path": "CustomCC.cpp",
+      "language": "cpp",
+      "lines": 85,
+      "functions": [
+        {
+          "name": "CustomCC::run",
+          "signature": "CustomCC::run(&M, &AM)",
+          "startLine": 42,
+          "endLine": 58
+        },
+        {
+          "name": "CustomCC::FixInstrCallingConv",
+          "signature": "CustomCC::FixInstrCallingConv(&M, &Target, CC)",
+          "startLine": 59,
+          "endLine": 83
+        }
+      ],
+      "classes": [],
+      "types": [
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 41,
+          "endLine": 84
+        }
+      ],
+      "imports": [
+        {
+          "source": "CustomCC.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SetVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Cloning.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ValueMapper.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Verifier.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "regex",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vcruntime_string.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VMFlatten.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "run",
+        "FixInstrCallingConv"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:595031cf987d5cb1"
+    },
+    {
+      "path": "CustomCC.h",
+      "language": "cpp",
+      "lines": 24,
+      "functions": [
+        {
+          "name": "CustomCC",
+          "signature": "CustomCC()",
+          "startLine": 14,
+          "endLine": 14
+        },
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 19,
+          "endLine": 19
+        }
+      ],
+      "classes": [
+        {
+          "name": "CustomCC",
+          "startLine": 12,
+          "endLine": 20
+        }
+      ],
+      "types": [
+        {
+          "name": "CustomCC",
+          "kind": "class",
+          "startLine": 12,
+          "endLine": 20
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 11,
+          "endLine": 21
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "CustomCC"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:99dab87d9a1ff789"
+    },
+    {
+      "path": "DataObfuscation.h",
+      "language": "cpp",
+      "lines": 6,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "ConstObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:c6b0ea2afc1e9360"
+    },
+    {
+      "path": "EasyCFG.cpp",
+      "language": "cpp",
+      "lines": 162,
+      "functions": [
+        {
+          "name": "splitEntryBlock",
+          "signature": "splitEntryBlock(entryBlock)",
+          "startLine": 26,
+          "endLine": 37
+        },
+        {
+          "name": "flatten",
+          "signature": "flatten(&F, oldLoads)",
+          "startLine": 43,
+          "endLine": 112
+        },
+        {
+          "name": "EasyCfgPass::run",
+          "signature": "EasyCfgPass::run(&M, &AM)",
+          "startLine": 114,
+          "endLine": 161
+        }
+      ],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "EasyCFG.hpp",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Analysis/LoopInfo.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Analysis/PostDominators.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Passes/PassBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Passes/PassPlugin.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Scalar/Reg2Mem.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/LowerSwitch.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:ebab73842aa656ce"
+    },
+    {
+      "path": "EasyCFG.hpp",
+      "language": "cpp",
+      "lines": 17,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 13,
+          "endLine": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "EasyCfgPass",
+          "startLine": 10,
+          "endLine": 14
+        }
+      ],
+      "types": [
+        {
+          "name": "EasyCfgPass",
+          "kind": "class",
+          "startLine": 10,
+          "endLine": 14
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 8,
+          "endLine": 15
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "EasyCfgPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:87bc533e63e9b1aa"
+    },
+    {
+      "path": "Flattening.cpp",
+      "language": "cpp",
+      "lines": 261,
+      "functions": [
+        {
+          "name": "flatten",
+          "signature": "flatten(&F)",
+          "startLine": 47,
+          "endLine": 230
+        },
+        {
+          "name": "llvm::cff_detail::isUnifiedCFFEnabled",
+          "signature": "llvm::cff_detail::isUnifiedCFFEnabled(&F, level)",
+          "startLine": 234,
+          "endLine": 239
+        },
+        {
+          "name": "llvm::cff_detail::runFlattening",
+          "signature": "llvm::cff_detail::runFlattening(&F, &AM, forced)",
+          "startLine": 242,
+          "endLine": 253
+        },
+        {
+          "name": "FlatteningPass::run",
+          "signature": "FlatteningPass::run(&F, &AM)",
+          "startLine": 255,
+          "endLine": 260
+        }
+      ],
+      "classes": [],
+      "types": [
+        {
+          "name": "ollvm",
+          "kind": "namespace",
+          "startLine": 40,
+          "endLine": 231
+        }
+      ],
+      "imports": [
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/Statistic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/LowerSwitch.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "flatten",
+        "isUnifiedCFFEnabled",
+        "runFlattening",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:53119d968c8b8ee7"
+    },
+    {
+      "path": "Flattening.h",
+      "language": "cpp",
+      "lines": 75,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 39,
+          "endLine": 39
+        },
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 45,
+          "endLine": 45
+        },
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 51,
+          "endLine": 51
+        }
+      ],
+      "classes": [
+        {
+          "name": "FlatteningPass",
+          "startLine": 36,
+          "endLine": 40
+        },
+        {
+          "name": "FlatteningEnhanced",
+          "startLine": 42,
+          "endLine": 46
+        },
+        {
+          "name": "VmFlatObfuscationPass",
+          "startLine": 48,
+          "endLine": 52
+        }
+      ],
+      "types": [
+        {
+          "name": "FlatteningPass",
+          "kind": "class",
+          "startLine": 36,
+          "endLine": 40
+        },
+        {
+          "name": "FlatteningEnhanced",
+          "kind": "class",
+          "startLine": 42,
+          "endLine": 46
+        },
+        {
+          "name": "VmFlatObfuscationPass",
+          "kind": "class",
+          "startLine": 48,
+          "endLine": 52
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 32,
+          "endLine": 67
+        },
+        {
+          "name": "cff_detail",
+          "kind": "namespace",
+          "startLine": 58,
+          "endLine": 65
+        },
+        {
+          "name": "ollvm",
+          "kind": "namespace",
+          "startLine": 70,
+          "endLine": 72
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "FlatteningPass",
+        "FlatteningEnhanced",
+        "VmFlatObfuscationPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:e9e98cfbb9043c76"
+    },
+    {
+      "path": "FlatteningEnhanced.cpp",
+      "language": "cpp",
+      "lines": 352,
+      "functions": [
+        {
+          "name": "~FlaEnhPass",
+          "signature": "~FlaEnhPass()",
+          "startLine": 36,
+          "endLine": 39
+        },
+        {
+          "name": "FlaEnhPass::runOnFunction",
+          "signature": "FlaEnhPass::runOnFunction(f)",
+          "startLine": 62,
+          "endLine": 193
+        },
+        {
+          "name": "FlaEnhPass::random_element",
+          "signature": "FlaEnhPass::random_element(x)",
+          "startLine": 195,
+          "endLine": 202
+        },
+        {
+          "name": "FlaEnhPass::expandNode",
+          "signature": "FlaEnhPass::expandNode(node)",
+          "startLine": 204,
+          "endLine": 211
+        },
+        {
+          "name": "FlaEnhPass::genRandomTree",
+          "signature": "FlaEnhPass::genRandomTree(node, node_limit)",
+          "startLine": 213,
+          "endLine": 231
+        },
+        {
+          "name": "FlaEnhPass::walkTree",
+          "signature": "FlaEnhPass::walkTree(node)",
+          "startLine": 233,
+          "endLine": 244
+        },
+        {
+          "name": "FlaEnhPass::allocNode",
+          "signature": "FlaEnhPass::allocNode(node, l, r)",
+          "startLine": 246,
+          "endLine": 262
+        },
+        {
+          "name": "FlaEnhPass::createRandomBasicBlock",
+          "signature": "FlaEnhPass::createRandomBasicBlock(node, f, var, &iter, bb_info)",
+          "startLine": 264,
+          "endLine": 288
+        },
+        {
+          "name": "FlaEnhPass::spawnRandomIf",
+          "signature": "FlaEnhPass::spawnRandomIf(from, son, var, bb_info)",
+          "startLine": 290,
+          "endLine": 303
+        },
+        {
+          "name": "FlaEnhPass::getBlocks",
+          "signature": "FlaEnhPass::getBlocks(function, lists)",
+          "startLine": 305,
+          "endLine": 311
+        },
+        {
+          "name": "FlaEnhPass::getUniqueNumber",
+          "signature": "FlaEnhPass::getUniqueNumber(rand_list)",
+          "startLine": 313,
+          "endLine": 327
+        },
+        {
+          "name": "llvm::cff_detail::runFlatteningEnhanced",
+          "signature": "llvm::cff_detail::runFlatteningEnhanced(&F, &AM, forced)",
+          "startLine": 331,
+          "endLine": 344
+        },
+        {
+          "name": "FlatteningEnhanced::run",
+          "signature": "FlatteningEnhanced::run(&F, &AM)",
+          "startLine": 346,
+          "endLine": 351
+        }
+      ],
+      "classes": [
+        {
+          "name": "TreeNode",
+          "startLine": 29,
+          "endLine": 33
+        },
+        {
+          "name": "FlaEnhPass",
+          "startLine": 34,
+          "endLine": 60
+        }
+      ],
+      "types": [
+        {
+          "name": "TreeNode",
+          "kind": "struct",
+          "startLine": 29,
+          "endLine": 33
+        },
+        {
+          "name": "FlaEnhPass",
+          "kind": "struct",
+          "startLine": 34,
+          "endLine": 60
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 28,
+          "endLine": 328
+        }
+      ],
+      "imports": [
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Dominators.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/InitializePasses.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Scalar.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/LowerSwitch.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdlib",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "ctime",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "list",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "utility",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "TreeNode",
+        "FlaEnhPass",
+        "~FlaEnhPass",
+        "runOnFunction",
+        "random_element",
+        "expandNode",
+        "genRandomTree",
+        "walkTree",
+        "allocNode",
+        "createRandomBasicBlock",
+        "spawnRandomIf",
+        "getBlocks",
+        "getUniqueNumber",
+        "runFlatteningEnhanced",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:8579914b404d906e"
+    },
+    {
+      "path": "FlatteningEnhanced.h",
+      "language": "cpp",
+      "lines": 8,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:f2b35cbd02ea2418"
+    },
+    {
+      "path": "GlobalsEncryption.h",
+      "language": "cpp",
+      "lines": 6,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "StringObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:8ed7043dda689b0e"
+    },
+    {
+      "path": "IndirectBranch.h",
+      "language": "cpp",
+      "lines": 6,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "IndirectRef.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:9e93976a85071d19"
+    },
+    {
+      "path": "IndirectCall.h",
+      "language": "cpp",
+      "lines": 6,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "IndirectRef.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:1d1cccdb2577176d"
+    },
+    {
+      "path": "IndirectGlobalVars.h",
+      "language": "cpp",
+      "lines": 6,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "IndirectRef.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:96460cc6e546c5f8"
+    },
+    {
+      "path": "IndirectRef.cpp",
+      "language": "cpp",
+      "lines": 395,
+      "functions": [
+        {
+          "name": "getPtrInfo",
+          "signature": "getPtrInfo(&F)",
+          "startLine": 49,
+          "endLine": 57
+        },
+        {
+          "name": "IndirectGlobalVariable::NumberGlobalVariable",
+          "signature": "IndirectGlobalVariable::NumberGlobalVariable(&F)",
+          "startLine": 62,
+          "endLine": 75
+        },
+        {
+          "name": "IndirectGlobalVariable::get_indirect_global_variables",
+          "signature": "IndirectGlobalVariable::get_indirect_global_variables(&F, EncKey)",
+          "startLine": 77,
+          "endLine": 100
+        },
+        {
+          "name": "IndirectGlobalVariable::runOnFunction",
+          "signature": "IndirectGlobalVariable::runOnFunction(&F)",
+          "startLine": 102,
+          "endLine": 164
+        },
+        {
+          "name": "IndirectRefPass::numberCallees",
+          "signature": "IndirectRefPass::numberCallees(&F)",
+          "startLine": 168,
+          "endLine": 183
+        },
+        {
+          "name": "IndirectRefPass::getIndirectCallees",
+          "signature": "IndirectRefPass::getIndirectCallees(&F, EncKey)",
+          "startLine": 184,
+          "endLine": 206
+        },
+        {
+          "name": "IndirectRefPass::runIndirectCall",
+          "signature": "IndirectRefPass::runIndirectCall(&F)",
+          "startLine": 208,
+          "endLine": 244
+        },
+        {
+          "name": "IndirectRefPass::runIndirectBranch",
+          "signature": "IndirectRefPass::runIndirectBranch(&F)",
+          "startLine": 247,
+          "endLine": 334
+        },
+        {
+          "name": "IndirectRefPass::runIndirectGV",
+          "signature": "IndirectRefPass::runIndirectGV(&F)",
+          "startLine": 337,
+          "endLine": 340
+        },
+        {
+          "name": "IndirectRefPass::run",
+          "signature": "IndirectRefPass::run(&M, &AM)",
+          "startLine": 344,
+          "endLine": 377
+        },
+        {
+          "name": "IndirectBranch::run",
+          "signature": "IndirectBranch::run(&F, &AM)",
+          "startLine": 381,
+          "endLine": 388
+        },
+        {
+          "name": "IndirectBranch::process",
+          "signature": "IndirectBranch::process(&F)",
+          "startLine": 390,
+          "endLine": 394
+        }
+      ],
+      "classes": [
+        {
+          "name": "PtrInfo",
+          "startLine": 43,
+          "endLine": 47
+        },
+        {
+          "name": "BlockInfo",
+          "startLine": 259,
+          "endLine": 262
+        }
+      ],
+      "types": [
+        {
+          "name": "PtrInfo",
+          "kind": "struct",
+          "startLine": 43,
+          "endLine": 47
+        },
+        {
+          "name": "BlockInfo",
+          "kind": "struct",
+          "startLine": 259,
+          "endLine": 262
+        }
+      ],
+      "imports": [
+        {
+          "source": "IndirectRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SmallVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constant.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InstIterator.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ModuleUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "PtrInfo",
+        "NumberGlobalVariable",
+        "get_indirect_global_variables",
+        "runOnFunction",
+        "numberCallees",
+        "getIndirectCallees",
+        "runIndirectCall",
+        "runIndirectBranch",
+        "BlockInfo",
+        "runIndirectGV",
+        "run",
+        "process"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:3b1bd489c1a2a718"
+    },
+    {
+      "path": "IndirectRef.h",
+      "language": "cpp",
+      "lines": 81,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 45,
+          "endLine": 45
+        },
+        {
+          "name": "IndirectBranch",
+          "signature": "IndirectBranch()",
+          "startLine": 70,
+          "endLine": 70
+        },
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 72,
+          "endLine": 72
+        }
+      ],
+      "classes": [
+        {
+          "name": "IndirectGlobalVariable",
+          "startLine": 18,
+          "endLine": 25
+        },
+        {
+          "name": "IndirectRefPass",
+          "startLine": 42,
+          "endLine": 60
+        },
+        {
+          "name": "IndirectBranch",
+          "startLine": 68,
+          "endLine": 76
+        }
+      ],
+      "types": [
+        {
+          "name": "IndirectGlobalVariable",
+          "kind": "struct",
+          "startLine": 18,
+          "endLine": 25
+        },
+        {
+          "name": "IndirectRefPass",
+          "kind": "class",
+          "startLine": 42,
+          "endLine": 60
+        },
+        {
+          "name": "IndirectBranch",
+          "kind": "class",
+          "startLine": 68,
+          "endLine": 76
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 13,
+          "endLine": 78
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "IndirectGlobalVariable",
+        "IndirectRefPass",
+        "IndirectBranch"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:55451a09f821c25f"
+    },
+    {
+      "path": "LinearMBA.cpp",
+      "language": "cpp",
+      "lines": 289,
+      "functions": [
+        {
+          "name": "buildExpr0",
+          "signature": "buildExpr0(&IRB, X, Y)",
+          "startLine": 31,
+          "endLine": 33
+        },
+        {
+          "name": "buildExpr1",
+          "signature": "buildExpr1(&IRB, X, Y)",
+          "startLine": 35,
+          "endLine": 37
+        },
+        {
+          "name": "buildExpr2",
+          "signature": "buildExpr2(&IRB, X, Y)",
+          "startLine": 39,
+          "endLine": 39
+        },
+        {
+          "name": "buildExpr3",
+          "signature": "buildExpr3(&IRB, X, Y)",
+          "startLine": 41,
+          "endLine": 43
+        },
+        {
+          "name": "buildExpr4",
+          "signature": "buildExpr4(&IRB, X, Y)",
+          "startLine": 45,
+          "endLine": 45
+        },
+        {
+          "name": "buildExpr5",
+          "signature": "buildExpr5(&IRB, X, Y)",
+          "startLine": 47,
+          "endLine": 49
+        },
+        {
+          "name": "buildExpr6",
+          "signature": "buildExpr6(&IRB, X, Y)",
+          "startLine": 51,
+          "endLine": 53
+        },
+        {
+          "name": "buildExpr7",
+          "signature": "buildExpr7(&IRB, X, Y)",
+          "startLine": 55,
+          "endLine": 57
+        },
+        {
+          "name": "buildExpr8",
+          "signature": "buildExpr8(&IRB, X, Y)",
+          "startLine": 59,
+          "endLine": 61
+        },
+        {
+          "name": "buildExpr9",
+          "signature": "buildExpr9(&IRB, X, Y)",
+          "startLine": 63,
+          "endLine": 65
+        },
+        {
+          "name": "buildExpr10",
+          "signature": "buildExpr10(&IRB, X, Y)",
+          "startLine": 67,
+          "endLine": 69
+        },
+        {
+          "name": "buildExpr11",
+          "signature": "buildExpr11(&IRB, X, Y)",
+          "startLine": 71,
+          "endLine": 73
+        },
+        {
+          "name": "buildExpr12",
+          "signature": "buildExpr12(&IRB, X, Y)",
+          "startLine": 75,
+          "endLine": 77
+        },
+        {
+          "name": "buildExpr13",
+          "signature": "buildExpr13(&IRB, X, Y)",
+          "startLine": 79,
+          "endLine": 81
+        },
+        {
+          "name": "randomSelectTerms",
+          "signature": "randomSelectTerms(&SelectedTerms)",
+          "startLine": 121,
+          "endLine": 145
+        },
+        {
+          "name": "calcCoefficients",
+          "signature": "calcCoefficients(&SelectedTerms)",
+          "startLine": 147,
+          "endLine": 164
+        },
+        {
+          "name": "buildLinearMBA",
+          "signature": "buildLinearMBA(OriginalInsn, &Terms)",
+          "startLine": 166,
+          "endLine": 194
+        },
+        {
+          "name": "processAt",
+          "signature": "processAt(&Insn)",
+          "startLine": 196,
+          "endLine": 251
+        },
+        {
+          "name": "process",
+          "signature": "process(&F)",
+          "startLine": 253,
+          "endLine": 273
+        },
+        {
+          "name": "runLinearMBA",
+          "signature": "runLinearMBA(&F)",
+          "startLine": 275,
+          "endLine": 278
+        },
+        {
+          "name": "llvm::arith_detail::runLinearMBA",
+          "signature": "llvm::arith_detail::runLinearMBA(&F, forced)",
+          "startLine": 283,
+          "endLine": 288
+        }
+      ],
+      "classes": [
+        {
+          "name": "BitwiseTerm",
+          "startLine": 84,
+          "endLine": 87
+        },
+        {
+          "name": "LinearMBATerm",
+          "startLine": 89,
+          "endLine": 92
+        }
+      ],
+      "types": [
+        {
+          "name": "BitwiseTerm",
+          "kind": "struct",
+          "startLine": 84,
+          "endLine": 87
+        },
+        {
+          "name": "LinearMBATerm",
+          "kind": "struct",
+          "startLine": 89,
+          "endLine": 92
+        },
+        {
+          "name": "ollvm",
+          "kind": "namespace",
+          "startLine": 28,
+          "endLine": 280
+        }
+      ],
+      "imports": [
+        {
+          "source": "Substitution.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "MBAMatrix.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/CFG.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instruction.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "algorithm",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "random",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "buildExpr0",
+        "buildExpr1",
+        "buildExpr2",
+        "buildExpr3",
+        "buildExpr4",
+        "buildExpr5",
+        "buildExpr6",
+        "buildExpr7",
+        "buildExpr8",
+        "buildExpr9",
+        "buildExpr10",
+        "buildExpr11",
+        "buildExpr12",
+        "buildExpr13",
+        "BitwiseTerm",
+        "LinearMBATerm",
+        "randomSelectTerms",
+        "calcCoefficients",
+        "buildLinearMBA",
+        "processAt",
+        "process",
+        "runLinearMBA"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:0f2584e06e99e134"
+    },
+    {
+      "path": "LinearMBA.h",
+      "language": "cpp",
+      "lines": 6,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "Substitution.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:c229e78c7b7ee4b2"
+    },
+    {
+      "path": "Linearize.cpp",
+      "language": "cpp",
+      "lines": 907,
+      "functions": [
+        {
+          "name": "removeIntrin",
+          "signature": "removeIntrin(ci)",
+          "startLine": 60,
+          "endLine": 63
+        },
+        {
+          "name": "translateMemset",
+          "signature": "translateMemset(ci)",
+          "startLine": 65,
+          "endLine": 84
+        },
+        {
+          "name": "translateMemcpy",
+          "signature": "translateMemcpy(ci)",
+          "startLine": 86,
+          "endLine": 103
+        },
+        {
+          "name": "LinearizeX::handleIntrinsics",
+          "signature": "LinearizeX::handleIntrinsics(&BB)",
+          "startLine": 111,
+          "endLine": 147
+        },
+        {
+          "name": "LinearizeX::resolveContinuityErrors",
+          "signature": "LinearizeX::resolveContinuityErrors(&F)",
+          "startLine": 149,
+          "endLine": 210
+        },
+        {
+          "name": "LinearizeX::eliminatePhis",
+          "signature": "LinearizeX::eliminatePhis(&F)",
+          "startLine": 216,
+          "endLine": 267
+        },
+        {
+          "name": "LinearizeX::shuffleBlocks",
+          "signature": "LinearizeX::shuffleBlocks(&F, numlbl)",
+          "startLine": 269,
+          "endLine": 296
+        },
+        {
+          "name": "LinearizeX::getLabels",
+          "signature": "LinearizeX::getLabels(&F)",
+          "startLine": 298,
+          "endLine": 333
+        },
+        {
+          "name": "LinearizeX::linearizeIns<LoadInst>",
+          "signature": "LinearizeX::linearizeIns<LoadInst>(ins, on, discard)",
+          "startLine": 336,
+          "endLine": 345
+        },
+        {
+          "name": "LinearizeX::linearizeIns<StoreInst>",
+          "signature": "LinearizeX::linearizeIns<StoreInst>(ins, on, discard)",
+          "startLine": 348,
+          "endLine": 354
+        },
+        {
+          "name": "LinearizeX::linearizeIns<AtomicCmpXchgInst>",
+          "signature": "LinearizeX::linearizeIns<AtomicCmpXchgInst>(ins, on, discard)",
+          "startLine": 357,
+          "endLine": 364
+        },
+        {
+          "name": "LinearizeX::linearizeIns<AtomicRMWInst>",
+          "signature": "LinearizeX::linearizeIns<AtomicRMWInst>(ins, on, discard)",
+          "startLine": 367,
+          "endLine": 373
+        },
+        {
+          "name": "LinearizeX::linearizeIns<CallInst>",
+          "signature": "LinearizeX::linearizeIns<CallInst>(ins, on, discard)",
+          "startLine": 376,
+          "endLine": 382
+        },
+        {
+          "name": "LinearizeX::linearizeIns<GetElementPtrInst>",
+          "signature": "LinearizeX::linearizeIns<GetElementPtrInst>(ins, on, discard)",
+          "startLine": 385,
+          "endLine": 389
+        },
+        {
+          "name": "LinearizeX::linearizeIns<BinaryOperator>",
+          "signature": "LinearizeX::linearizeIns<BinaryOperator>(op, on, discard)",
+          "startLine": 392,
+          "endLine": 423
+        },
+        {
+          "name": "LinearizeX::prepareBlock",
+          "signature": "LinearizeX::prepareBlock(&bb, on, selector, label, discard)",
+          "startLine": 425,
+          "endLine": 507
+        },
+        {
+          "name": "LinearizeX::getDiscardSizeAlign",
+          "signature": "LinearizeX::getDiscardSizeAlign(&F, &DataLayout)",
+          "startLine": 509,
+          "endLine": 575
+        },
+        {
+          "name": "LinearizeX::runOnFunction",
+          "signature": "LinearizeX::runOnFunction(&F)",
+          "startLine": 577,
+          "endLine": 868
+        },
+        {
+          "name": "Linearize::run",
+          "signature": "Linearize::run(&M, &MAM)",
+          "startLine": 870,
+          "endLine": 906
+        }
+      ],
+      "classes": [
+        {
+          "name": "label",
+          "startLine": 32,
+          "endLine": 35
+        },
+        {
+          "name": "LinearizeX",
+          "startLine": 37,
+          "endLine": 57
+        }
+      ],
+      "types": [
+        {
+          "name": "label",
+          "kind": "struct",
+          "startLine": 32,
+          "endLine": 35
+        },
+        {
+          "name": "LinearizeX",
+          "kind": "struct",
+          "startLine": 37,
+          "endLine": 57
+        },
+        {
+          "name": "labelkind",
+          "kind": "enum",
+          "startLine": 27,
+          "endLine": 30
+        }
+      ],
+      "imports": [
+        {
+          "source": "Linearize.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Analysis/LoopInfo.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Analysis/PostDominators.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Passes/PassBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Passes/PassPlugin.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/Debug.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/RandomNumberGenerator.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/BasicBlockUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "algorithm",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "list",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "unordered_map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "utility",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "labelkind",
+        "label",
+        "LinearizeX",
+        "removeIntrin",
+        "translateMemset",
+        "translateMemcpy",
+        "handleIntrinsics",
+        "resolveContinuityErrors",
+        "eliminatePhis",
+        "shuffleBlocks",
+        "getLabels",
+        "linearizeIns<LoadInst>",
+        "linearizeIns<StoreInst>",
+        "linearizeIns<AtomicCmpXchgInst>",
+        "linearizeIns<AtomicRMWInst>",
+        "linearizeIns<CallInst>",
+        "linearizeIns<GetElementPtrInst>",
+        "linearizeIns<BinaryOperator>",
+        "prepareBlock",
+        "getDiscardSizeAlign",
+        "runOnFunction",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:3f390c7db6e2d238"
+    },
+    {
+      "path": "Linearize.h",
+      "language": "cpp",
+      "lines": 17,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 13,
+          "endLine": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "Linearize",
+          "startLine": 10,
+          "endLine": 14
+        }
+      ],
+      "types": [
+        {
+          "name": "Linearize",
+          "kind": "class",
+          "startLine": 10,
+          "endLine": 14
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 8,
+          "endLine": 15
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "Linearize"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:ce4fdceb9a89db84"
+    },
+    {
+      "path": "MBAMatrix.cpp",
+      "language": "cpp",
+      "lines": 196,
+      "functions": [
+        {
+          "name": "MBAMatrix::simplify",
+          "signature": "MBAMatrix::simplify()",
+          "startLine": 10,
+          "endLine": 30
+        },
+        {
+          "name": "MBAMatrix::getLineFirstNonZero",
+          "signature": "MBAMatrix::getLineFirstNonZero(LineIdx)",
+          "startLine": 32,
+          "endLine": 39
+        },
+        {
+          "name": "MBAMatrix::sortLine",
+          "signature": "MBAMatrix::sortLine()",
+          "startLine": 41,
+          "endLine": 68
+        },
+        {
+          "name": "MBAMatrix::calcLine",
+          "signature": "MBAMatrix::calcLine(Factor1, Dst, Factor2, Src, IsAdd)",
+          "startLine": 70,
+          "endLine": 81
+        },
+        {
+          "name": "MBAMatrix::lineElimate",
+          "signature": "MBAMatrix::lineElimate(Dst, Src, ColumnIdx)",
+          "startLine": 83,
+          "endLine": 92
+        },
+        {
+          "name": "MBAMatrix::gaussian",
+          "signature": "MBAMatrix::gaussian()",
+          "startLine": 94,
+          "endLine": 123
+        },
+        {
+          "name": "MBAMatrix::setElement",
+          "signature": "MBAMatrix::setElement(X, Y, Val)",
+          "startLine": 125,
+          "endLine": 127
+        },
+        {
+          "name": "MBAMatrix::getElement",
+          "signature": "MBAMatrix::getElement(X, Y)",
+          "startLine": 129,
+          "endLine": 131
+        },
+        {
+          "name": "MBAMatrix::fromArray",
+          "signature": "MBAMatrix::fromArray(Arr)",
+          "startLine": 133,
+          "endLine": 139
+        },
+        {
+          "name": "MBAMatrix::getRank",
+          "signature": "MBAMatrix::getRank()",
+          "startLine": 141,
+          "endLine": 149
+        },
+        {
+          "name": "MBAMatrix::solve",
+          "signature": "MBAMatrix::solve(&Solution)",
+          "startLine": 151,
+          "endLine": 193
+        }
+      ],
+      "classes": [],
+      "types": [
+        {
+          "name": "ollvm",
+          "kind": "namespace",
+          "startLine": 8,
+          "endLine": 195
+        }
+      ],
+      "imports": [
+        {
+          "source": "MBAMatrix.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "algorithm",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdlib",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "simplify",
+        "getLineFirstNonZero",
+        "sortLine",
+        "calcLine",
+        "lineElimate",
+        "gaussian",
+        "setElement",
+        "getElement",
+        "fromArray",
+        "getRank",
+        "solve"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:0867b7f4034179d1"
+    },
+    {
+      "path": "MBAMatrix.h",
+      "language": "cpp",
+      "lines": 46,
+      "functions": [
+        {
+          "name": "gcd",
+          "signature": "gcd(A, B)",
+          "startLine": 16,
+          "endLine": 16
+        },
+        {
+          "name": "lcm",
+          "signature": "lcm(A, B)",
+          "startLine": 17,
+          "endLine": 17
+        },
+        {
+          "name": "MBAMatrix",
+          "signature": "MBAMatrix(Line, Column)",
+          "startLine": 26,
+          "endLine": 34
+        }
+      ],
+      "classes": [
+        {
+          "name": "MBAMatrix",
+          "startLine": 12,
+          "endLine": 41
+        }
+      ],
+      "types": [
+        {
+          "name": "MBAMatrix",
+          "kind": "class",
+          "startLine": 12,
+          "endLine": 41
+        },
+        {
+          "name": "ollvm",
+          "kind": "namespace",
+          "startLine": 10,
+          "endLine": 43
+        }
+      ],
+      "imports": [
+        {
+          "source": "algorithm",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdlib",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "MBAMatrix",
+        "gcd",
+        "lcm"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:4a57015ecd2391b1"
+    },
+    {
+      "path": "MBAObfuscation.cpp",
+      "language": "cpp",
+      "lines": 407,
+      "functions": [
+        {
+          "name": "generateLinearMBA",
+          "signature": "generateLinearMBA(exprNumber)",
+          "startLine": 67,
+          "endLine": 108
+        },
+        {
+          "name": "insertLinearMBA",
+          "signature": "insertLinearMBA(params, insertBefore)",
+          "startLine": 110,
+          "endLine": 188
+        },
+        {
+          "name": "exgcd",
+          "signature": "exgcd(a, b, &x, &y)",
+          "startLine": 190,
+          "endLine": 198
+        },
+        {
+          "name": "inv",
+          "signature": "inv(a, p)",
+          "startLine": 200,
+          "endLine": 205
+        },
+        {
+          "name": "inverse",
+          "signature": "inverse(n, bitWidth)",
+          "startLine": 207,
+          "endLine": 210
+        },
+        {
+          "name": "generateUnivariatePoly",
+          "signature": "generateUnivariatePoly(a, b, bitWidth)",
+          "startLine": 212,
+          "endLine": 226
+        },
+        {
+          "name": "insertPolynomialMBA",
+          "signature": "insertPolynomialMBA(linearMBAExpr, insertBefore)",
+          "startLine": 228,
+          "endLine": 242
+        },
+        {
+          "name": "substituteAdd",
+          "signature": "substituteAdd(BI)",
+          "startLine": 244,
+          "endLine": 251
+        },
+        {
+          "name": "substituteSub",
+          "signature": "substituteSub(BI)",
+          "startLine": 253,
+          "endLine": 260
+        },
+        {
+          "name": "substituteXor",
+          "signature": "substituteXor(BI)",
+          "startLine": 262,
+          "endLine": 268
+        },
+        {
+          "name": "substituteAnd",
+          "signature": "substituteAnd(BI)",
+          "startLine": 270,
+          "endLine": 276
+        },
+        {
+          "name": "substituteOr",
+          "signature": "substituteOr(BI)",
+          "startLine": 278,
+          "endLine": 284
+        },
+        {
+          "name": "substitute",
+          "signature": "substitute(BI)",
+          "startLine": 286,
+          "endLine": 313
+        },
+        {
+          "name": "substituteConstant",
+          "signature": "substituteConstant(Inst, i)",
+          "startLine": 315,
+          "endLine": 327
+        },
+        {
+          "name": "runMBAObfuscation",
+          "signature": "runMBAObfuscation(&F)",
+          "startLine": 331,
+          "endLine": 398
+        },
+        {
+          "name": "llvm::arith_detail::runMBAObfuscation",
+          "signature": "llvm::arith_detail::runMBAObfuscation(&F, forced)",
+          "startLine": 403,
+          "endLine": 407
+        }
+      ],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "Substitution.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Eigen/Dense",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Eigen/src/Core/Matrix.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InstrTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instruction.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/Statistic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IntrinsicInst.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Cloning.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "algorithm",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "generateLinearMBA",
+        "insertLinearMBA",
+        "exgcd",
+        "inv",
+        "inverse",
+        "generateUnivariatePoly",
+        "insertPolynomialMBA",
+        "substituteAdd",
+        "substituteSub",
+        "substituteXor",
+        "substituteAnd",
+        "substituteOr",
+        "substitute",
+        "substituteConstant",
+        "runMBAObfuscation"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:601b7470ca29200d"
+    },
+    {
+      "path": "MBAObfuscation.h",
+      "language": "cpp",
+      "lines": 6,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "Substitution.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:9336fe0895623f0e"
+    },
+    {
+      "path": "Plugin.cpp",
+      "language": "cpp",
+      "lines": 89,
+      "functions": [
+        {
+          "name": "getObfuscationPluginInfo",
+          "signature": "getObfuscationPluginInfo()",
+          "startLine": 25,
+          "endLine": 81
+        },
+        {
+          "name": "llvmGetPassPluginInfo",
+          "signature": "llvmGetPassPluginInfo()",
+          "startLine": 84,
+          "endLine": 87
+        }
+      ],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CombineFunctions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "ConstObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "EasyCFG.hpp",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "IndirectRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Linearize.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SmallVmpPass.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SplitBasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "StringObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Substitution.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VariableRotation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "xVMProtect.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Passes/PassBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Passes/PassPlugin.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "AliasAccess.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CustomCC.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "AntiIDA.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CodePicPass.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VMObfuscatorPass.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "getObfuscationPluginInfo",
+        "llvmGetPassPluginInfo"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:d4428e27c5f1c8ea"
+    },
+    {
+      "path": "SmallVmpPass.cpp",
+      "language": "cpp",
+      "lines": 101,
+      "functions": [
+        {
+          "name": "SmallVmpPass::run",
+          "signature": "SmallVmpPass::run(&M, &AM)",
+          "startLine": 29,
+          "endLine": 100
+        }
+      ],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "SmallVmpPass.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "SVM/IRVMModuleTool.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:90d70ef29ad57d71"
+    },
+    {
+      "path": "SmallVmpPass.h",
+      "language": "cpp",
+      "lines": 24,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 18,
+          "endLine": 18
+        }
+      ],
+      "classes": [
+        {
+          "name": "SmallVmpPass",
+          "startLine": 15,
+          "endLine": 19
+        }
+      ],
+      "types": [
+        {
+          "name": "SmallVmpPass",
+          "kind": "class",
+          "startLine": 15,
+          "endLine": 19
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 13,
+          "endLine": 21
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "SmallVmpPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:01322a9f88c1b78f"
+    },
+    {
+      "path": "SplitBasicBlock.cpp",
+      "language": "cpp",
+      "lines": 128,
+      "functions": [
+        {
+          "name": "containsPHI",
+          "signature": "containsPHI(b)",
+          "startLine": 37,
+          "endLine": 44
+        },
+        {
+          "name": "shuffle",
+          "signature": "shuffle(&vec)",
+          "startLine": 46,
+          "endLine": 51
+        },
+        {
+          "name": "doSplit",
+          "signature": "doSplit(&F)",
+          "startLine": 53,
+          "endLine": 107
+        },
+        {
+          "name": "SplitBasicBlockPass::run",
+          "signature": "SplitBasicBlockPass::run(&F, &AM)",
+          "startLine": 110,
+          "endLine": 127
+        }
+      ],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "SplitBasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/Statistic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "containsPHI",
+        "shuffle",
+        "doSplit",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:0bc49d48490b7d18"
+    },
+    {
+      "path": "SplitBasicBlock.h",
+      "language": "cpp",
+      "lines": 28,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 23,
+          "endLine": 23
+        }
+      ],
+      "classes": [
+        {
+          "name": "SplitBasicBlockPass",
+          "startLine": 20,
+          "endLine": 24
+        }
+      ],
+      "types": [
+        {
+          "name": "SplitBasicBlockPass",
+          "kind": "class",
+          "startLine": 20,
+          "endLine": 24
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 19,
+          "endLine": 25
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "SplitBasicBlockPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:05ca7b56edb890c4"
+    },
+    {
+      "path": "StringObfuscation.cpp",
+      "language": "cpp",
+      "lines": 750,
+      "functions": [
+        {
+          "name": "CSPEntry",
+          "signature": "CSPEntry()",
+          "startLine": 59,
+          "endLine": 61
+        },
+        {
+          "name": "CSUser",
+          "signature": "CSUser(ETy, User, NewGV)",
+          "startLine": 72,
+          "endLine": 74
+        },
+        {
+          "name": "StringEncryption",
+          "signature": "StringEncryption()",
+          "startLine": 89,
+          "endLine": 89
+        },
+        {
+          "name": "~StringEncryption",
+          "signature": "~StringEncryption()",
+          "startLine": 91,
+          "endLine": 100
+        },
+        {
+          "name": "StringEncryption::runOnModule",
+          "signature": "StringEncryption::runOnModule(&M)",
+          "startLine": 121,
+          "endLine": 224
+        },
+        {
+          "name": "StringEncryption::getRandomBytes",
+          "signature": "StringEncryption::getRandomBytes(&Bytes, MinSize, MaxSize)",
+          "startLine": 226,
+          "endLine": 240
+        },
+        {
+          "name": "StringEncryption::buildDecryptFunction",
+          "signature": "StringEncryption::buildDecryptFunction(M, Entry)",
+          "startLine": 242,
+          "endLine": 306
+        },
+        {
+          "name": "StringEncryption::buildInitFunction",
+          "signature": "StringEncryption::buildInitFunction(M, User)",
+          "startLine": 308,
+          "endLine": 343
+        },
+        {
+          "name": "StringEncryption::lowerGlobalConstant",
+          "signature": "StringEncryption::lowerGlobalConstant(CV, &IRB, Ptr, Ty)",
+          "startLine": 345,
+          "endLine": 357
+        },
+        {
+          "name": "StringEncryption::lowerGlobalConstantArray",
+          "signature": "StringEncryption::lowerGlobalConstantArray(CA, &IRB, Ptr, Ty)",
+          "startLine": 359,
+          "endLine": 367
+        },
+        {
+          "name": "StringEncryption::lowerGlobalConstantStruct",
+          "signature": "StringEncryption::lowerGlobalConstantStruct(CS, &IRB, Ptr, Ty)",
+          "startLine": 369,
+          "endLine": 377
+        },
+        {
+          "name": "StringEncryption::processConstantStringUse",
+          "signature": "StringEncryption::processConstantStringUse(F)",
+          "startLine": 379,
+          "endLine": 483
+        },
+        {
+          "name": "StringEncryption::collectConstantStringUser",
+          "signature": "StringEncryption::collectConstantStringUser(CString, &Users)",
+          "startLine": 485,
+          "endLine": 502
+        },
+        {
+          "name": "StringEncryption::isValidToEncrypt",
+          "signature": "StringEncryption::isValidToEncrypt(GV)",
+          "startLine": 504,
+          "endLine": 508
+        },
+        {
+          "name": "StringEncryption::deleteUnusedGlobalVariable",
+          "signature": "StringEncryption::deleteUnusedGlobalVariable()",
+          "startLine": 510,
+          "endLine": 537
+        },
+        {
+          "name": "__obfu_globalenc_enc",
+          "signature": "__obfu_globalenc_enc(Data, Key, Len, KeyLen)",
+          "startLine": 545,
+          "endLine": 549
+        },
+        {
+          "name": "buildGlobalsDecryptFunction",
+          "signature": "buildGlobalsDecryptFunction(&M)",
+          "startLine": 551,
+          "endLine": 594
+        },
+        {
+          "name": "processGlobalsEncryption",
+          "signature": "processGlobalsEncryption(&M)",
+          "startLine": 596,
+          "endLine": 688
+        },
+        {
+          "name": "DataEncryptPass::run",
+          "signature": "DataEncryptPass::run(&M, &AM)",
+          "startLine": 695,
+          "endLine": 733
+        },
+        {
+          "name": "GlobalsEncryptPass::run",
+          "signature": "GlobalsEncryptPass::run(&M, &AM)",
+          "startLine": 737,
+          "endLine": 749
+        }
+      ],
+      "classes": [
+        {
+          "name": "StringEncryption",
+          "startLine": 56,
+          "endLine": 118
+        },
+        {
+          "name": "CSPEntry",
+          "startLine": 58,
+          "endLine": 69
+        },
+        {
+          "name": "CSUser",
+          "startLine": 71,
+          "endLine": 80
+        }
+      ],
+      "types": [
+        {
+          "name": "StringEncryption",
+          "kind": "struct",
+          "startLine": 56,
+          "endLine": 118
+        },
+        {
+          "name": "CSPEntry",
+          "kind": "struct",
+          "startLine": 58,
+          "endLine": 69
+        },
+        {
+          "name": "CSUser",
+          "kind": "struct",
+          "startLine": 71,
+          "endLine": 80
+        }
+      ],
+      "imports": [
+        {
+          "source": "StringObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VMFlatten.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SetVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constant.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Verifier.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Cloning.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/GlobalStatus.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/LowerSwitch.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ModuleUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ValueMapper.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vcruntime_string.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "StringEncryption",
+        "CSPEntry",
+        "CSUser",
+        "~StringEncryption",
+        "runOnModule",
+        "getRandomBytes",
+        "buildDecryptFunction",
+        "buildInitFunction",
+        "lowerGlobalConstant",
+        "lowerGlobalConstantArray",
+        "lowerGlobalConstantStruct",
+        "processConstantStringUse",
+        "collectConstantStringUser",
+        "isValidToEncrypt",
+        "deleteUnusedGlobalVariable",
+        "__obfu_globalenc_enc",
+        "buildGlobalsDecryptFunction",
+        "processGlobalsEncryption",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:928c0c58b1f38c49"
+    },
+    {
+      "path": "StringObfuscation.h",
+      "language": "cpp",
+      "lines": 49,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 23,
+          "endLine": 23
+        },
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 40,
+          "endLine": 40
+        }
+      ],
+      "classes": [
+        {
+          "name": "DataEncryptPass",
+          "startLine": 20,
+          "endLine": 24
+        },
+        {
+          "name": "GlobalsEncryptPass",
+          "startLine": 37,
+          "endLine": 41
+        }
+      ],
+      "types": [
+        {
+          "name": "DataEncryptPass",
+          "kind": "class",
+          "startLine": 20,
+          "endLine": 24
+        },
+        {
+          "name": "GlobalsEncryptPass",
+          "kind": "class",
+          "startLine": 37,
+          "endLine": 41
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 7,
+          "endLine": 46
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "DataEncryptPass",
+        "GlobalsEncryptPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:7d9af4601581530f"
+    },
+    {
+      "path": "Substitution.cpp",
+      "language": "cpp",
+      "lines": 587,
+      "functions": [
+        {
+          "name": "substitute",
+          "signature": "substitute(f)",
+          "startLine": 86,
+          "endLine": 156
+        },
+        {
+          "name": "addNeg",
+          "signature": "addNeg(bo)",
+          "startLine": 159,
+          "endLine": 178
+        },
+        {
+          "name": "addDoubleNeg",
+          "signature": "addDoubleNeg(bo)",
+          "startLine": 181,
+          "endLine": 201
+        },
+        {
+          "name": "addRand",
+          "signature": "addRand(bo)",
+          "startLine": 204,
+          "endLine": 231
+        },
+        {
+          "name": "addRand2",
+          "signature": "addRand2(bo)",
+          "startLine": 234,
+          "endLine": 261
+        },
+        {
+          "name": "subNeg",
+          "signature": "subNeg(bo)",
+          "startLine": 264,
+          "endLine": 282
+        },
+        {
+          "name": "subRand",
+          "signature": "subRand(bo)",
+          "startLine": 285,
+          "endLine": 312
+        },
+        {
+          "name": "subRand2",
+          "signature": "subRand2(bo)",
+          "startLine": 315,
+          "endLine": 342
+        },
+        {
+          "name": "andSubstitution",
+          "signature": "andSubstitution(bo)",
+          "startLine": 345,
+          "endLine": 358
+        },
+        {
+          "name": "andSubstitutionRand",
+          "signature": "andSubstitutionRand(bo)",
+          "startLine": 361,
+          "endLine": 394
+        },
+        {
+          "name": "orSubstitutionRand",
+          "signature": "orSubstitutionRand(bo)",
+          "startLine": 397,
+          "endLine": 453
+        },
+        {
+          "name": "orSubstitution",
+          "signature": "orSubstitution(bo)",
+          "startLine": 455,
+          "endLine": 469
+        },
+        {
+          "name": "xorSubstitution",
+          "signature": "xorSubstitution(bo)",
+          "startLine": 472,
+          "endLine": 494
+        },
+        {
+          "name": "xorSubstitutionRand",
+          "signature": "xorSubstitutionRand(bo)",
+          "startLine": 499,
+          "endLine": 538
+        },
+        {
+          "name": "llvm::arith_detail::runSubstitution",
+          "signature": "llvm::arith_detail::runSubstitution(&F, forced)",
+          "startLine": 542,
+          "endLine": 549
+        },
+        {
+          "name": "ArithObfPass::run",
+          "signature": "ArithObfPass::run(&F, &AM)",
+          "startLine": 553,
+          "endLine": 586
+        }
+      ],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "Substitution.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/Statistic.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "substitute",
+        "addNeg",
+        "addDoubleNeg",
+        "addRand",
+        "addRand2",
+        "subNeg",
+        "subRand",
+        "subRand2",
+        "andSubstitution",
+        "andSubstitutionRand",
+        "orSubstitutionRand",
+        "orSubstitution",
+        "xorSubstitution",
+        "xorSubstitutionRand",
+        "runSubstitution",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:5fe6bb52e0d1e337"
+    },
+    {
+      "path": "Substitution.h",
+      "language": "cpp",
+      "lines": 51,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 32,
+          "endLine": 32
+        }
+      ],
+      "classes": [
+        {
+          "name": "ArithObfPass",
+          "startLine": 29,
+          "endLine": 33
+        }
+      ],
+      "types": [
+        {
+          "name": "ArithObfPass",
+          "kind": "class",
+          "startLine": 29,
+          "endLine": 33
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 6,
+          "endLine": 48
+        },
+        {
+          "name": "arith_detail",
+          "kind": "namespace",
+          "startLine": 42,
+          "endLine": 46
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "ArithObfPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:cd2dfbb9ba6223ad"
+    },
+    {
+      "path": "Utils.cpp",
+      "language": "cpp",
+      "lines": 308,
+      "functions": [
+        {
+          "name": "turnOffOptimization",
+          "signature": "turnOffOptimization(f)",
+          "startLine": 16,
+          "endLine": 25
+        },
+        {
+          "name": "readAnnotate",
+          "signature": "readAnnotate(f)",
+          "startLine": 28,
+          "endLine": 72
+        },
+        {
+          "name": "isMemberFunction",
+          "signature": "isMemberFunction(F)",
+          "startLine": 74,
+          "endLine": 110
+        },
+        {
+          "name": "toObfuscate",
+          "signature": "toObfuscate(flag, f, attribute)",
+          "startLine": 113,
+          "endLine": 160
+        },
+        {
+          "name": "valueEscapes",
+          "signature": "valueEscapes(&Inst)",
+          "startLine": 162,
+          "endLine": 173
+        },
+        {
+          "name": "fixStack",
+          "signature": "fixStack(&F, use_alloc)",
+          "startLine": 174,
+          "endLine": 214
+        },
+        {
+          "name": "OutputIR",
+          "signature": "OutputIR(&Func)",
+          "startLine": 216,
+          "endLine": 223
+        },
+        {
+          "name": "LowerConstantExpr",
+          "signature": "LowerConstantExpr(&F)",
+          "startLine": 225,
+          "endLine": 271
+        },
+        {
+          "name": "getRandomNumber",
+          "signature": "getRandomNumber()",
+          "startLine": 272,
+          "endLine": 274
+        },
+        {
+          "name": "getUniqueNumber",
+          "signature": "getUniqueNumber(&rand_list)",
+          "startLine": 276,
+          "endLine": 292
+        },
+        {
+          "name": "getRandomNoRepeat",
+          "signature": "getRandomNoRepeat(upper_bound, size, &result)",
+          "startLine": 294,
+          "endLine": 306
+        }
+      ],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Demangle/Demangle.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InstIterator.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IntrinsicInst.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "turnOffOptimization",
+        "readAnnotate",
+        "isMemberFunction",
+        "toObfuscate",
+        "valueEscapes",
+        "fixStack",
+        "OutputIR",
+        "LowerConstantExpr",
+        "getRandomNumber",
+        "getUniqueNumber",
+        "getRandomNoRepeat"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:c718415b721f93ea"
+    },
+    {
+      "path": "Utils.h",
+      "language": "cpp",
+      "lines": 33,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:42dd95507b2e14bd"
+    },
+    {
+      "path": "VMFlatten.cpp",
+      "language": "cpp",
+      "lines": 815,
+      "functions": [
+        {
+          "name": "get_vm_fla_level",
+          "signature": "get_vm_fla_level()",
+          "startLine": 78,
+          "endLine": 80
+        },
+        {
+          "name": "isFunction32Bit",
+          "signature": "isFunction32Bit(F)",
+          "startLine": 133,
+          "endLine": 139
+        },
+        {
+          "name": "VMFlat::get_blocks",
+          "signature": "VMFlat::get_blocks(function, lists)",
+          "startLine": 142,
+          "endLine": 148
+        },
+        {
+          "name": "VMFlat::get_unique_number",
+          "signature": "VMFlat::get_unique_number(rand_list)",
+          "startLine": 150,
+          "endLine": 164
+        },
+        {
+          "name": "VMFlat::new_node",
+          "signature": "VMFlat::new_node(value)",
+          "startLine": 166,
+          "endLine": 171
+        },
+        {
+          "name": "VMFlat::new_inst",
+          "signature": "VMFlat::new_inst(type, op1, op2)",
+          "startLine": 197,
+          "endLine": 203
+        },
+        {
+          "name": "VMFlat::create_node_inst",
+          "signature": "VMFlat::create_node_inst(all_inst, inst_map, node)",
+          "startLine": 205,
+          "endLine": 212
+        },
+        {
+          "name": "VMFlat::gen_inst",
+          "signature": "VMFlat::gen_inst(all_inst, inst_map, node)",
+          "startLine": 214,
+          "endLine": 241
+        },
+        {
+          "name": "VMFlat::find_bb_node",
+          "signature": "VMFlat::find_bb_node(bb, all_node)",
+          "startLine": 243,
+          "endLine": 250
+        },
+        {
+          "name": "VMFlat::dump_inst",
+          "signature": "VMFlat::dump_inst(all_inst)",
+          "startLine": 252,
+          "endLine": 263
+        },
+        {
+          "name": "VMFlat::DoFlatten",
+          "signature": "VMFlat::DoFlatten(f)",
+          "startLine": 265,
+          "endLine": 531
+        },
+        {
+          "name": "VMFlat::insertMemoryAttackTaint",
+          "signature": "VMFlat::insertMemoryAttackTaint(&F)",
+          "startLine": 534,
+          "endLine": 634
+        },
+        {
+          "name": "VMFlat::insertSymbolicMemorySnippet",
+          "signature": "VMFlat::insertSymbolicMemorySnippet(&F)",
+          "startLine": 637,
+          "endLine": 742
+        },
+        {
+          "name": "VMFlat::hex2i64",
+          "signature": "VMFlat::hex2i64(hex, size, i64_arr)",
+          "startLine": 744,
+          "endLine": 748
+        },
+        {
+          "name": "VMFlat::hex2i32",
+          "signature": "VMFlat::hex2i32(hex, size, i32_arr)",
+          "startLine": 750,
+          "endLine": 754
+        },
+        {
+          "name": "VMFlat::runVmFlaOnFunction",
+          "signature": "VMFlat::runVmFlaOnFunction(&function)",
+          "startLine": 756,
+          "endLine": 795
+        },
+        {
+          "name": "llvm::cff_detail::runVMFlatten",
+          "signature": "llvm::cff_detail::runVMFlatten(&F, &AM, forced)",
+          "startLine": 799,
+          "endLine": 808
+        },
+        {
+          "name": "VmFlatObfuscationPass::run",
+          "signature": "VmFlatObfuscationPass::run(&F, &AM)",
+          "startLine": 810,
+          "endLine": 815
+        }
+      ],
+      "classes": [
+        {
+          "name": "VMFlat",
+          "startLine": 92,
+          "endLine": 140
+        },
+        {
+          "name": "Node",
+          "startLine": 93,
+          "endLine": 97
+        },
+        {
+          "name": "VMInst",
+          "startLine": 98,
+          "endLine": 101
+        }
+      ],
+      "types": [
+        {
+          "name": "VMFlat",
+          "kind": "struct",
+          "startLine": 92,
+          "endLine": 140
+        },
+        {
+          "name": "Node",
+          "kind": "struct",
+          "startLine": 93,
+          "endLine": 97
+        },
+        {
+          "name": "VMInst",
+          "kind": "struct",
+          "startLine": 98,
+          "endLine": 101
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 77,
+          "endLine": 81
+        }
+      ],
+      "imports": [
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "ConstObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "IndirectGlobalVars.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SetVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constant.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Verifier.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/LowerSwitch.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ValueMapper.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vcruntime_string.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "get_vm_fla_level",
+        "VMFlat",
+        "Node",
+        "VMInst",
+        "isFunction32Bit",
+        "get_blocks",
+        "get_unique_number",
+        "new_node",
+        "new_inst",
+        "create_node_inst",
+        "gen_inst",
+        "find_bb_node",
+        "dump_inst",
+        "DoFlatten",
+        "insertMemoryAttackTaint",
+        "insertSymbolicMemorySnippet",
+        "hex2i64",
+        "hex2i32",
+        "runVmFlaOnFunction",
+        "runVMFlatten",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:a8d8491b473c33c1"
+    },
+    {
+      "path": "VMFlatten.h",
+      "language": "cpp",
+      "lines": 8,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:fb61882f6828e2ef"
+    },
+    {
+      "path": "VMObfuscatorPass.cpp",
+      "language": "cpp",
+      "lines": 1633,
+      "functions": [
+        {
+          "name": "VmObfuscatorPass::VmObfuscatorPass",
+          "signature": "VmObfuscatorPass::VmObfuscatorPass()",
+          "startLine": 21,
+          "endLine": 27
+        },
+        {
+          "name": "VmObfuscatorPass::computeImmMask",
+          "signature": "VmObfuscatorPass::computeImmMask(key)",
+          "startLine": 30,
+          "endLine": 33
+        },
+        {
+          "name": "VmObfuscatorPass::refreshFunctionKey",
+          "signature": "VmObfuscatorPass::refreshFunctionKey()",
+          "startLine": 36,
+          "endLine": 41
+        },
+        {
+          "name": "VmObfuscatorPass::encryptImmediate",
+          "signature": "VmObfuscatorPass::encryptImmediate(value)",
+          "startLine": 44,
+          "endLine": 46
+        },
+        {
+          "name": "VmObfuscatorPass::tryExtractBytesFromGV",
+          "signature": "VmObfuscatorPass::tryExtractBytesFromGV(GV, &out)",
+          "startLine": 49,
+          "endLine": 66
+        },
+        {
+          "name": "VmObfuscatorPass::stream_next",
+          "signature": "VmObfuscatorPass::stream_next(&s)",
+          "startLine": 69,
+          "endLine": 76
+        },
+        {
+          "name": "VmObfuscatorPass::encryptBytesWithKey",
+          "signature": "VmObfuscatorPass::encryptBytesWithKey(&plain, &enc, salt, key)",
+          "startLine": 79,
+          "endLine": 97
+        },
+        {
+          "name": "VmObfuscatorPass::getOrAddGlobalDataIndex",
+          "signature": "VmObfuscatorPass::getOrAddGlobalDataIndex(GV)",
+          "startLine": 100,
+          "endLine": 111
+        },
+        {
+          "name": "VmObfuscatorPass::getOrAddEncryptedStringIndex",
+          "signature": "VmObfuscatorPass::getOrAddEncryptedStringIndex(F, GV)",
+          "startLine": 114,
+          "endLine": 163
+        },
+        {
+          "name": "VmObfuscatorPass::emitPushGlobalForCurrentFunction",
+          "signature": "VmObfuscatorPass::emitPushGlobalForCurrentFunction(GV)",
+          "startLine": 166,
+          "endLine": 183
+        },
+        {
+          "name": "VmObfuscatorPass::emitByte",
+          "signature": "VmObfuscatorPass::emitByte(byte)",
+          "startLine": 186,
+          "endLine": 186
+        },
+        {
+          "name": "VmObfuscatorPass::emitPushImm",
+          "signature": "VmObfuscatorPass::emitPushImm(value)",
+          "startLine": 189,
+          "endLine": 197
+        },
+        {
+          "name": "VmObfuscatorPass::emitPushArg",
+          "signature": "VmObfuscatorPass::emitPushArg(argIndex)",
+          "startLine": 200,
+          "endLine": 204
+        },
+        {
+          "name": "VmObfuscatorPass::emitStore",
+          "signature": "VmObfuscatorPass::emitStore(addr)",
+          "startLine": 207,
+          "endLine": 211
+        },
+        {
+          "name": "VmObfuscatorPass::emitLoad",
+          "signature": "VmObfuscatorPass::emitLoad(addr)",
+          "startLine": 214,
+          "endLine": 218
+        },
+        {
+          "name": "VmObfuscatorPass::emitAdd",
+          "signature": "VmObfuscatorPass::emitAdd()",
+          "startLine": 221,
+          "endLine": 224
+        },
+        {
+          "name": "VmObfuscatorPass::emitSub",
+          "signature": "VmObfuscatorPass::emitSub()",
+          "startLine": 227,
+          "endLine": 230
+        },
+        {
+          "name": "VmObfuscatorPass::emitMul",
+          "signature": "VmObfuscatorPass::emitMul()",
+          "startLine": 233,
+          "endLine": 236
+        },
+        {
+          "name": "VmObfuscatorPass::emitDiv",
+          "signature": "VmObfuscatorPass::emitDiv()",
+          "startLine": 239,
+          "endLine": 242
+        },
+        {
+          "name": "VmObfuscatorPass::emitCmpGT",
+          "signature": "VmObfuscatorPass::emitCmpGT()",
+          "startLine": 245,
+          "endLine": 248
+        },
+        {
+          "name": "VmObfuscatorPass::emitCmpLT",
+          "signature": "VmObfuscatorPass::emitCmpLT()",
+          "startLine": 251,
+          "endLine": 254
+        },
+        {
+          "name": "VmObfuscatorPass::emitCmpEQ",
+          "signature": "VmObfuscatorPass::emitCmpEQ()",
+          "startLine": 257,
+          "endLine": 260
+        },
+        {
+          "name": "VmObfuscatorPass::emitCmpNE",
+          "signature": "VmObfuscatorPass::emitCmpNE()",
+          "startLine": 263,
+          "endLine": 266
+        },
+        {
+          "name": "VmObfuscatorPass::emitBrCond",
+          "signature": "VmObfuscatorPass::emitBrCond(target)",
+          "startLine": 269,
+          "endLine": 275
+        },
+        {
+          "name": "VmObfuscatorPass::emitJmp",
+          "signature": "VmObfuscatorPass::emitJmp(target)",
+          "startLine": 278,
+          "endLine": 284
+        },
+        {
+          "name": "VmObfuscatorPass::emitRet",
+          "signature": "VmObfuscatorPass::emitRet()",
+          "startLine": 287,
+          "endLine": 290
+        },
+        {
+          "name": "VmObfuscatorPass::emitCall",
+          "signature": "VmObfuscatorPass::emitCall(index, argc, ptrMask)",
+          "startLine": 293,
+          "endLine": 307
+        },
+        {
+          "name": "VmObfuscatorPass::emitPushGlob",
+          "signature": "VmObfuscatorPass::emitPushGlob(index)",
+          "startLine": 310,
+          "endLine": 315
+        },
+        {
+          "name": "VmObfuscatorPass::getAllocaSlot",
+          "signature": "VmObfuscatorPass::getAllocaSlot(alloca)",
+          "startLine": 318,
+          "endLine": 325
+        },
+        {
+          "name": "VmObfuscatorPass::getTempSlot",
+          "signature": "VmObfuscatorPass::getTempSlot(v)",
+          "startLine": 328,
+          "endLine": 335
+        },
+        {
+          "name": "VmObfuscatorPass::forcePushValue",
+          "signature": "VmObfuscatorPass::forcePushValue(val)",
+          "startLine": 338,
+          "endLine": 369
+        },
+        {
+          "name": "VmObfuscatorPass::ensureOnStack",
+          "signature": "VmObfuscatorPass::ensureOnStack(val)",
+          "startLine": 372,
+          "endLine": 440
+        },
+        {
+          "name": "VmObfuscatorPass::patchBranches",
+          "signature": "VmObfuscatorPass::patchBranches(block, address)",
+          "startLine": 443,
+          "endLine": 454
+        },
+        {
+          "name": "VmObfuscatorPass::getOrAssignLocalBase",
+          "signature": "VmObfuscatorPass::getOrAssignLocalBase(AI)",
+          "startLine": 457,
+          "endLine": 479
+        },
+        {
+          "name": "VmObfuscatorPass::translateInstruction",
+          "signature": "VmObfuscatorPass::translateInstruction(&I)",
+          "startLine": 483,
+          "endLine": 1200
+        },
+        {
+          "name": "VmObfuscatorPass::run",
+          "signature": "VmObfuscatorPass::run(&M, &MAM)",
+          "startLine": 1203,
+          "endLine": 1630
+        }
+      ],
+      "classes": [],
+      "types": [
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 17,
+          "endLine": 1632
+        }
+      ],
+      "imports": [
+        {
+          "source": "VMObfuscatorPass.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vm_def.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DataLayout.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Passes/PassBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Passes/PassPlugin.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/ErrorHandling.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/raw_ostream.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ModuleUtils.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "VmObfuscatorPass",
+        "computeImmMask",
+        "refreshFunctionKey",
+        "encryptImmediate",
+        "tryExtractBytesFromGV",
+        "stream_next",
+        "encryptBytesWithKey",
+        "getOrAddGlobalDataIndex",
+        "getOrAddEncryptedStringIndex",
+        "emitPushGlobalForCurrentFunction",
+        "emitByte",
+        "emitPushImm",
+        "emitPushArg",
+        "emitStore",
+        "emitLoad",
+        "emitAdd",
+        "emitSub",
+        "emitMul",
+        "emitDiv",
+        "emitCmpGT",
+        "emitCmpLT",
+        "emitCmpEQ",
+        "emitCmpNE",
+        "emitBrCond",
+        "emitJmp",
+        "emitRet",
+        "emitCall",
+        "emitPushGlob",
+        "getAllocaSlot",
+        "getTempSlot",
+        "forcePushValue",
+        "ensureOnStack",
+        "patchBranches",
+        "getOrAssignLocalBase",
+        "translateInstruction",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:ea7bf95092be2390"
+    },
+    {
+      "path": "VMObfuscatorPass.h",
+      "language": "cpp",
+      "lines": 94,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 88,
+          "endLine": 88
+        }
+      ],
+      "classes": [
+        {
+          "name": "VmObfuscatorPass",
+          "startLine": 22,
+          "endLine": 89
+        }
+      ],
+      "types": [
+        {
+          "name": "VmObfuscatorPass",
+          "kind": "class",
+          "startLine": 22,
+          "endLine": 89
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 20,
+          "endLine": 91
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "random",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Value.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Module.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DataLayout.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "VmObfuscatorPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:d39709207a4395fc"
+    },
+    {
+      "path": "VariableRotation.cpp",
+      "language": "cpp",
+      "lines": 286,
+      "functions": [
+        {
+          "name": "VariableRotation::createRotateFunc",
+          "signature": "VariableRotation::createRotateFunc(m, ptrType, &name)",
+          "startLine": 53,
+          "endLine": 155
+        },
+        {
+          "name": "VariableRotation::processFunction",
+          "signature": "VariableRotation::processFunction(&f, &shift)",
+          "startLine": 157,
+          "endLine": 170
+        },
+        {
+          "name": "VariableRotation::processVars",
+          "signature": "VariableRotation::processVars(&f, &vars, rotateFunc)",
+          "startLine": 172,
+          "endLine": 240
+        },
+        {
+          "name": "VariableRotation::isUsedByInst",
+          "signature": "VariableRotation::isUsedByInst(inst, var)",
+          "startLine": 242,
+          "endLine": 248
+        },
+        {
+          "name": "VariableRotation::runOnModule",
+          "signature": "VariableRotation::runOnModule(&m)",
+          "startLine": 250,
+          "endLine": 273
+        },
+        {
+          "name": "VariableRotationPass::run",
+          "signature": "VariableRotationPass::run(&M, &AM)",
+          "startLine": 278,
+          "endLine": 286
+        }
+      ],
+      "classes": [
+        {
+          "name": "VariableRotation",
+          "startLine": 44,
+          "endLine": 51
+        }
+      ],
+      "types": [
+        {
+          "name": "VariableRotation",
+          "kind": "struct",
+          "startLine": 44,
+          "endLine": 51
+        }
+      ],
+      "imports": [
+        {
+          "source": "VariableRotation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "ConstObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "IndirectGlobalVars.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VMFlatten.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SetVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constant.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Verifier.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/LowerSwitch.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ValueMapper.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vcruntime_string.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "VariableRotation",
+        "createRotateFunc",
+        "processFunction",
+        "processVars",
+        "isUsedByInst",
+        "runOnModule",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:0e3ce2a21daf0b0a"
+    },
+    {
+      "path": "VariableRotation.h",
+      "language": "cpp",
+      "lines": 19,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 14,
+          "endLine": 14
+        }
+      ],
+      "classes": [
+        {
+          "name": "VariableRotationPass",
+          "startLine": 10,
+          "endLine": 15
+        }
+      ],
+      "types": [
+        {
+          "name": "VariableRotationPass",
+          "kind": "class",
+          "startLine": 10,
+          "endLine": 15
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 8,
+          "endLine": 17
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "VariableRotationPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:9c8e9fb7d86fa88d"
+    },
+    {
+      "path": "vm.h",
+      "language": "cpp",
+      "lines": 14,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "string",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [],
+      "isEntryPoint": false,
+      "hash": "sha256:8f29d3f2a3ceca5d"
+    },
+    {
+      "path": "vm_def.h",
+      "language": "cpp",
+      "lines": 93,
+      "functions": [],
+      "classes": [],
+      "types": [],
+      "imports": [
+        {
+          "source": "stddef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "stdint.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "VMOpcode",
+        "VMState"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:7f4d5c45d720ab8a"
+    },
+    {
+      "path": "xVMProtect.cpp",
+      "language": "cpp",
+      "lines": 1089,
+      "functions": [
+        {
+          "name": "xvm_op_info",
+          "signature": "xvm_op_info(raw)",
+          "startLine": 57,
+          "endLine": 60
+        },
+        {
+          "name": "isFunction32Bit",
+          "signature": "isFunction32Bit(F)",
+          "startLine": 101,
+          "endLine": 107
+        },
+        {
+          "name": "xvmm::demote_registers",
+          "signature": "xvmm::demote_registers(f)",
+          "startLine": 110,
+          "endLine": 110
+        },
+        {
+          "name": "xvmm::handleAlloca",
+          "signature": "xvmm::handleAlloca(&f, &value_map, &remap, &space)",
+          "startLine": 112,
+          "endLine": 149
+        },
+        {
+          "name": "xvmm::virtualization",
+          "signature": "xvmm::virtualization(&f)",
+          "startLine": 151,
+          "endLine": 235
+        },
+        {
+          "name": "xvmm::getOrCreateRawOp",
+          "signature": "xvmm::getOrCreateRawOp(&instr, &ops, &cur_op)",
+          "startLine": 237,
+          "endLine": 291
+        },
+        {
+          "name": "xvmm::findOperand",
+          "signature": "xvmm::findOperand(&instr, &operand, &unsupported)",
+          "startLine": 293,
+          "endLine": 305
+        },
+        {
+          "name": "xvmm::check",
+          "signature": "xvmm::check(&f)",
+          "startLine": 307,
+          "endLine": 317
+        },
+        {
+          "name": "xvmm::FixCallInst",
+          "signature": "xvmm::FixCallInst(target, orig)",
+          "startLine": 319,
+          "endLine": 331
+        },
+        {
+          "name": "xvmm::createBuiltinOps",
+          "signature": "xvmm::createBuiltinOps(&ops, &cur_op)",
+          "startLine": 333,
+          "endLine": 358
+        },
+        {
+          "name": "xvmm::buildVMFunction",
+          "signature": "xvmm::buildVMFunction(&f, &vm, &ops, mem_size, opcodes, addr_stack_size, &remap, &value_map)",
+          "startLine": 360,
+          "endLine": 570
+        },
+        {
+          "name": "xvmm::pushBytes",
+          "signature": "xvmm::pushBytes(ptr, size, &buffer)",
+          "startLine": 572,
+          "endLine": 576
+        },
+        {
+          "name": "xvmm::queryAddr",
+          "signature": "xvmm::queryAddr(v, &locals_addr_map, &reg_addr_map)",
+          "startLine": 578,
+          "endLine": 587
+        },
+        {
+          "name": "xvmm::findStoreImmOp",
+          "signature": "xvmm::findStoreImmOp(&ops, store_size)",
+          "startLine": 589,
+          "endLine": 597
+        },
+        {
+          "name": "xvmm::findPushAddrOp",
+          "signature": "xvmm::findPushAddrOp(&ops)",
+          "startLine": 599,
+          "endLine": 606
+        },
+        {
+          "name": "xvmm::findBranchOp",
+          "signature": "xvmm::findBranchOp(&ops)",
+          "startLine": 608,
+          "endLine": 615
+        },
+        {
+          "name": "xvmm::generateOpcodes",
+          "signature": "xvmm::generateOpcodes(&code, &locals_addr_map, &instr_map, &ops, mem_size, &opcodes)",
+          "startLine": 617,
+          "endLine": 884
+        },
+        {
+          "name": "cmp",
+          "signature": "cmp(&a, &b)",
+          "startLine": 885,
+          "endLine": 888
+        },
+        {
+          "name": "xvmm::allocaMemory",
+          "signature": "xvmm::allocaMemory(&bb, &alloca_map, mem_base)",
+          "startLine": 889,
+          "endLine": 1031
+        },
+        {
+          "name": "xvmm::run_on_function",
+          "signature": "xvmm::run_on_function(&f)",
+          "startLine": 1044,
+          "endLine": 1066
+        },
+        {
+          "name": "xvmPass::run",
+          "signature": "xvmPass::run(&M, &AM)",
+          "startLine": 1070,
+          "endLine": 1088
+        }
+      ],
+      "classes": [
+        {
+          "name": "xvm_op_info",
+          "startLine": 48,
+          "endLine": 61
+        },
+        {
+          "name": "xvmm",
+          "startLine": 62,
+          "endLine": 108
+        }
+      ],
+      "types": [
+        {
+          "name": "xvm_op_info",
+          "kind": "struct",
+          "startLine": 48,
+          "endLine": 61
+        },
+        {
+          "name": "xvmm",
+          "kind": "struct",
+          "startLine": 62,
+          "endLine": 108
+        }
+      ],
+      "imports": [
+        {
+          "source": "xVMProtect.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "BogusControlFlow.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "ConstObfuscation.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "CryptoUtils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Flattening.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "IndirectGlobalVars.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "Utils.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "VMFlatten.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/ArrayRef.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/ADT/SetVector.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/BasicBlock.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constant.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Constants.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/DerivedTypes.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Function.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalValue.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/GlobalVariable.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/IRBuilder.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Instructions.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Type.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/Verifier.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Support/CommandLine.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/Local.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/LowerSwitch.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/Transforms/Utils/ValueMapper.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/InlineAsm.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstdint",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "cstring",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "iomanip",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "map",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "set",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "sstream",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vcruntime_string.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "vector",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "xvm_op_info",
+        "xvmm",
+        "isFunction32Bit",
+        "demote_registers",
+        "handleAlloca",
+        "virtualization",
+        "getOrCreateRawOp",
+        "findOperand",
+        "check",
+        "FixCallInst",
+        "createBuiltinOps",
+        "buildVMFunction",
+        "pushBytes",
+        "queryAddr",
+        "findStoreImmOp",
+        "findPushAddrOp",
+        "findBranchOp",
+        "generateOpcodes",
+        "cmp",
+        "allocaMemory",
+        "run_on_function",
+        "run"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:a64cd0dadc24d987"
+    },
+    {
+      "path": "xVMProtect.h",
+      "language": "cpp",
+      "lines": 19,
+      "functions": [
+        {
+          "name": "isRequired",
+          "signature": "isRequired()",
+          "startLine": 14,
+          "endLine": 14
+        }
+      ],
+      "classes": [
+        {
+          "name": "xvmPass",
+          "startLine": 10,
+          "endLine": 15
+        }
+      ],
+      "types": [
+        {
+          "name": "xvmPass",
+          "kind": "class",
+          "startLine": 10,
+          "endLine": 15
+        },
+        {
+          "name": "llvm",
+          "kind": "namespace",
+          "startLine": 8,
+          "endLine": 17
+        }
+      ],
+      "imports": [
+        {
+          "source": "llvm/IR/LLVMContext.h",
+          "symbols": [],
+          "isExternal": true
+        },
+        {
+          "source": "llvm/IR/PassManager.h",
+          "symbols": [],
+          "isExternal": true
+        }
+      ],
+      "exports": [
+        "xvmPass"
+      ],
+      "isEntryPoint": false,
+      "hash": "sha256:4c539ffc8ca7121d"
+    }
+  ],
+  "exports": [
+    "AliasAccess",
+    "AntiIDAPass",
+    "ArithObfPass",
+    "BitwiseTerm",
+    "BlockInfo",
+    "BogusControlFlowPass",
+    "CSPEntry",
+    "CSUser",
+    "CodePicPass",
+    "Combine",
+    "CombineFunction",
+    "CombineFunctions",
+    "CombineFunctionsPass",
+    "ConstEncryption",
+    "ConstObfPass",
+    "CryptoUtils",
+    "CustomCC",
+    "DataEncryptPass",
+    "DataIndirectionPass",
+    "DataObfuscator",
+    "DoFlatten",
+    "EasyCfgPass",
+    "ElementPos",
+    "ExpandMemcpyCallsModule",
+    "ExpandMemsetCallsModule",
+    "FixCallInst",
+    "FixFunction",
+    "FixInstrCallingConv",
+    "FlaEnhPass",
+    "FlatteningEnhanced",
+    "FlatteningPass",
+    "GlobalsEncryptPass",
+    "IndirectBranch",
+    "IndirectGlobalVariable",
+    "IndirectRefPass",
+    "LinearMBATerm",
+    "Linearize",
+    "LinearizeX",
+    "LowerConstantExpr",
+    "MBAMatrix",
+    "MoveGlobalsToStackModule",
+    "Node",
+    "NumberGlobalVariable",
+    "OutputIR",
+    "PtrInfo",
+    "ReferenceNode",
+    "SmallVmpPass",
+    "SplitBasicBlockPass",
+    "StringEncryption",
+    "TreeNode",
+    "VMFlat",
+    "VMInst",
+    "VMOpcode",
+    "VMState",
+    "VariableRotation",
+    "VariableRotationPass",
+    "VmFlatObfuscationPass",
+    "VmObfuscatorPass",
+    "WinDevRandom",
+    "__obfu_globalenc_enc",
+    "addBogusFlow",
+    "addDoubleNeg",
+    "addNeg",
+    "addRand",
+    "addRand2",
+    "aes_compute_ks",
+    "aes_encrypt",
+    "allocNode",
+    "allocaMemory",
+    "andSubstitution",
+    "andSubstitutionRand",
+    "bitwiseSubstitute",
+    "bogus",
+    "buildDecryptFunction",
+    "buildExpr0",
+    "buildExpr1",
+    "buildExpr10",
+    "buildExpr11",
+    "buildExpr12",
+    "buildExpr13",
+    "buildExpr2",
+    "buildExpr3",
+    "buildExpr4",
+    "buildExpr5",
+    "buildExpr6",
+    "buildExpr7",
+    "buildExpr8",
+    "buildExpr9",
+    "buildGetterFunction",
+    "buildGlobalsDecryptFunction",
+    "buildInitFunction",
+    "buildLinearMBA",
+    "buildVMFunction",
+    "calcCoefficients",
+    "calcLine",
+    "check",
+    "close",
+    "cmp",
+    "collectConstantStringUser",
+    "computeImmMask",
+    "containsPHI",
+    "createAlteredBasicBlock",
+    "createBuiltinOps",
+    "createRandomBasicBlock",
+    "createRotateFunc",
+    "create_node_inst",
+    "deleteUnusedGlobalVariable",
+    "demote_registers",
+    "disaggregateVars",
+    "doF",
+    "doSplit",
+    "dump_inst",
+    "eliminatePhis",
+    "emitAdd",
+    "emitBrCond",
+    "emitByte",
+    "emitCall",
+    "emitCmpEQ",
+    "emitCmpGT",
+    "emitCmpLT",
+    "emitCmpNE",
+    "emitDiv",
+    "emitJmp",
+    "emitLoad",
+    "emitMul",
+    "emitPushArg",
+    "emitPushGlob",
+    "emitPushGlobalForCurrentFunction",
+    "emitPushImm",
+    "emitRet",
+    "emitStore",
+    "emitSub",
+    "encryptBytesWithKey",
+    "encryptImmediate",
+    "ensureOnStack",
+    "exgcd",
+    "expandNode",
+    "extractValuesFromStore",
+    "findBranchOp",
+    "findOperand",
+    "findPushAddrOp",
+    "findStoreImmOp",
+    "find_bb_node",
+    "fixStack",
+    "flatten",
+    "forcePushValue",
+    "fromArray",
+    "gaussian",
+    "gcd",
+    "gcount",
+    "genRandIndex",
+    "genRandomTree",
+    "gen_inst",
+    "generateLinearMBA",
+    "generateOpcodes",
+    "generateUnivariatePoly",
+    "getAllocaSlot",
+    "getBlocks",
+    "getDiscardSizeAlign",
+    "getElement",
+    "getFunctions",
+    "getIndirectCallees",
+    "getLabels",
+    "getLineFirstNonZero",
+    "getObfuscationPluginInfo",
+    "getOrAddEncryptedStringIndex",
+    "getOrAddGlobalDataIndex",
+    "getOrAssignLocalBase",
+    "getOrCreateRawOp",
+    "getRandomBytes",
+    "getRandomNoRepeat",
+    "getRandomNumber",
+    "getRank",
+    "getTempSlot",
+    "getUniqueNumber",
+    "getUsingFunction",
+    "get_blocks",
+    "get_bytes",
+    "get_char",
+    "get_indirect_global_variables",
+    "get_range",
+    "get_seed",
+    "get_uint16_t",
+    "get_uint32_t",
+    "get_uint64_t",
+    "get_uint8_t",
+    "get_unique_number",
+    "get_vm_fla_level",
+    "good",
+    "handleAlloca",
+    "handleIntrinsics",
+    "hex2i32",
+    "hex2i64",
+    "inc_ctr",
+    "injectBytes",
+    "inlineGlobals",
+    "insertFastRem3",
+    "insertLinearMBA",
+    "insertMemoryAttackTaint",
+    "insertPolynomialMBA",
+    "insertSymbolicMemorySnippet",
+    "inv",
+    "inverse",
+    "isFunction32Bit",
+    "isMemberFunction",
+    "isUnifiedCFFEnabled",
+    "isUsedByInst",
+    "isValidToEncrypt",
+    "label",
+    "labelkind",
+    "lcm",
+    "lineElimate",
+    "linearSubstitute",
+    "linearizeIns<AtomicCmpXchgInst>",
+    "linearizeIns<AtomicRMWInst>",
+    "linearizeIns<BinaryOperator>",
+    "linearizeIns<CallInst>",
+    "linearizeIns<GetElementPtrInst>",
+    "linearizeIns<LoadInst>",
+    "linearizeIns<StoreInst>",
+    "llvmGetPassPluginInfo",
+    "lowerGlobalConstant",
+    "lowerGlobalConstantArray",
+    "lowerGlobalConstantStruct",
+    "makeAllConstantUsesInstructions",
+    "moduleIsEnabled",
+    "new_inst",
+    "new_node",
+    "numberCallees",
+    "orSubstitution",
+    "orSubstitutionRand",
+    "patchBranches",
+    "populate_pool",
+    "prepareBlock",
+    "prng_seed",
+    "process",
+    "processAt",
+    "processConstantStringUse",
+    "processFunction",
+    "processGlobalsEncryption",
+    "processVars",
+    "pushBytes",
+    "queryAddr",
+    "randomSelectTerms",
+    "random_element",
+    "read",
+    "readAnnotate",
+    "refreshFunctionKey",
+    "removeIntrin",
+    "resolveContinuityErrors",
+    "run",
+    "runFlattening",
+    "runFlatteningEnhanced",
+    "runIndirectBranch",
+    "runIndirectCall",
+    "runIndirectGV",
+    "runLinearMBA",
+    "runMBAObfuscation",
+    "runOnFunction",
+    "runOnModule",
+    "runSubstitution",
+    "runVMFlatten",
+    "runVmFlaOnFunction",
+    "run_on_function",
+    "scramble32",
+    "setElement",
+    "sha256",
+    "sha256_compress",
+    "sha256_done",
+    "sha256_init",
+    "sha256_process",
+    "sha256_state",
+    "shouldEncryptConstant",
+    "shouldInline",
+    "shuffle",
+    "shuffleBlocks",
+    "simplify",
+    "solve",
+    "sortLine",
+    "spawnRandomIf",
+    "stream_next",
+    "subNeg",
+    "subRand",
+    "subRand2",
+    "substitute",
+    "substituteAdd",
+    "substituteAnd",
+    "substituteConstant",
+    "substituteOr",
+    "substituteSub",
+    "substituteXor",
+    "toObfuscate",
+    "translateInstruction",
+    "translateMemcpy",
+    "translateMemset",
+    "tryExtractBytesFromGV",
+    "turnOffOptimization",
+    "valueEscapes",
+    "virtualization",
+    "walkTree",
+    "xorSubstitution",
+    "xorSubstitutionRand",
+    "xvmPass",
+    "xvm_op_info",
+    "xvmm",
+    "~CryptoUtils",
+    "~FlaEnhPass",
+    "~StringEncryption",
+    "~WinDevRandom"
+  ],
+  "dependsOn": [],
+  "dependedBy": [
+    "SVM"
+  ],
+  "stats": {
+    "totalFiles": 58,
+    "totalFunctions": 341,
+    "totalClasses": 52,
+    "totalLines": 13475
+  }
+}
