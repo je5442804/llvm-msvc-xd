@@ -6678,9 +6678,10 @@ isNullPointerValueTemplateArgument(Sema &S, NonTypeTemplateParmDecl *Param,
   }
 
   if (EvalResult.Val.isLValue() && !EvalResult.Val.getLValueBase()) {
-#ifdef _WIN32
-    return NPV_NotNullPointer;
-#endif
+    const llvm::Triple &Triple = S.Context.getTargetInfo().getTriple();
+    if (S.getLangOpts().MicrosoftExt || S.getLangOpts().MSVCCompat ||
+        Triple.isOSWindows() || Triple.isOSBinFormatCOFF())
+      return NPV_NotNullPointer;
     // We found a pointer that isn't null, but doesn't refer to an object.
     // We could just return NPV_NotNullPointer, but we can print a better
     // message with the information we have here.
@@ -6932,13 +6933,15 @@ static bool CheckTemplateArgumentAddressOfObjectOrFunction(
   }
 
   if (!Entity) {
-#ifdef _WIN32
+// #ifdef _WIN32
+//     S.Diag(Arg->getBeginLoc(), diag::warn_template_arg_not_decl_ref)
+//         << Arg->getSourceRange();
+// #else
+//     S.Diag(Arg->getBeginLoc(), diag::err_template_arg_not_decl_ref)
+//         << Arg->getSourceRange();
+// #endif
     S.Diag(Arg->getBeginLoc(), diag::warn_template_arg_not_decl_ref)
         << Arg->getSourceRange();
-#else
-    S.Diag(Arg->getBeginLoc(), diag::err_template_arg_not_decl_ref)
-        << Arg->getSourceRange();
-#endif
     S.NoteTemplateParameterLocation(*Param);
     return true;
   }

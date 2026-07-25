@@ -1784,6 +1784,13 @@ bool Sema::IsFunctionConversion(QualType FromType, QualType ToType,
     Changed = true;
   }
 
+  // [MSVC compatibility]: treat noreturn as not affecting function pointer type.
+  if (getLangOpts().MSVCCompat && !FromEInfo.getNoReturn() &&
+      ToEInfo.getNoReturn()) {
+    FromFn = Context.adjustFunctionType(FromFn, FromEInfo.withNoReturn(true));
+    Changed = true;
+  }
+
   // Drop the 'arm_preserves_za' if not present in the target type (we can do
   // that because it is merely a hint).
   if (const auto *FromFPT = dyn_cast<FunctionProtoType>(FromFn)) {
@@ -6221,13 +6228,15 @@ Sema::EvaluateConvertedConstantExpression(Expr *E, QualType T, APValue &Value,
     for (unsigned I = 0; I < Notes.size(); ++I)
       Diag(Notes[I].first, Notes[I].second);
   } else {
-#ifdef _WIN32
+// #ifdef _WIN32
+//     Diag(E->getBeginLoc(), diag::warn_expr_not_cce)
+//         << CCE << E->getSourceRange();
+// #else
+//     Diag(E->getBeginLoc(), diag::err_expr_not_cce)
+//         << CCE << E->getSourceRange();
+// #endif
     Diag(E->getBeginLoc(), diag::warn_expr_not_cce)
         << CCE << E->getSourceRange();
-#else
-    Diag(E->getBeginLoc(), diag::err_expr_not_cce)
-        << CCE << E->getSourceRange();
-#endif
     for (unsigned I = 0; I < Notes.size(); ++I)
       Diag(Notes[I].first, Notes[I].second);
   }

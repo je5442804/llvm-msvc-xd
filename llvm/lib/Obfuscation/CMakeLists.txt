@@ -16,10 +16,6 @@ add_llvm_pass_plugin(Obfuscation
         VMObfuscatorPass.cpp
         VMFlatten.cpp
         xVMProtect.cpp
-        xVMTranslator.cpp
-        xVMModifier.cpp
-        xVMInterpreterLLVM.cpp
-        xVMP.cpp
         CombineFunctions.cpp
         FlatteningEnhanced.cpp
         VariableRotation.cpp

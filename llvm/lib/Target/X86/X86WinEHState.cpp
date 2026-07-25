@@ -26,9 +26,14 @@
 #include "llvm/IR/Intrinsics.h"
 #include "llvm/IR/IntrinsicsX86.h"
 #include "llvm/IR/Module.h"
+#include "llvm/IRPrinter/IRAutoGeneratorPass.h"
 #include "llvm/Pass.h"
+#include "llvm/Support/CommandLine.h"
 #include "llvm/Support/Debug.h"
+#include "llvm/Support/raw_ostream.h"
 #include <deque>
+#include <mutex>
+#include <string>
 
 using namespace llvm;
 
@@ -36,6 +41,23 @@ using namespace llvm;
 
 namespace {
 const int OverdefinedState = INT_MIN;
+
+static cl::opt<std::string> WinehStateDumpFunc(
+    "winehstate-dump-func",
+    cl::desc(
+        "Dump x86 Windows EH state computation for a specific function name"),
+    cl::Hidden, cl::init(""));
+
+static cl::opt<bool> WinehStateDumpCleanupPad(
+    "winehstate-dump-cleanuppad",
+    cl::desc("Include cleanuppad/cleanup funclet details in winehstate dumps"),
+    cl::Hidden, cl::init(false));
+
+static bool shouldDumpWinEHState(const Function &F) {
+  if (WinehStateDumpFunc.empty())
+    return false;
+  return F.getName() == WinehStateDumpFunc;
+}
 
 class WinEHStatePass : public FunctionPass {
 public:
@@ -125,6 +147,12 @@ bool WinEHStatePass::doInitialization(Module &M) {
 
 bool WinEHStatePass::doFinalization(Module &M) {
   assert(TheModule == &M);
+  if (M.getModuleFlag("IRAutoGenerator")) {
+    static std::once_flag Flag;
+    std::call_once(Flag, [&M]() {
+      IRGen::autoGenerateIR(M, "IRAutoGeneratorX86WinEHState");
+    });
+  }
   TheModule = nullptr;
   EHLinkRegistrationTy = nullptr;
   CXXEHRegistrationTy = nullptr;
@@ -620,6 +648,8 @@ bool WinEHStatePass::isStateStoreNeeded(EHPersonality Personality,
 }
 
 void WinEHStatePass::addStateStores(Function &F, WinEHFuncInfo &FuncInfo) {
+  const bool DoDump = shouldDumpWinEHState(F);
+
   // Mark the registration node. The backend needs to know which alloca it is so
   // that it can recover the original frame pointer.
   IRBuilder<> Builder(RegNode->getNextNode());
@@ -726,6 +756,95 @@ void WinEHStatePass::addStateStores(Function &F, WinEHFuncInfo &FuncInfo) {
     FinalStates.insert({BB, SuccState});
   }
 
+  if (DoDump) {
+    errs() << "=== X86WinEHState dump: " << F.getName() << " ===\n";
+    errs() << "Personality: " << (PersonalityFn ? PersonalityFn->getName() : "")
+           << " (" << getEHPersonalityName(Personality) << ")\n";
+    errs() << "HasCXXEH=" << (HasCXXEH ? "true" : "false")
+           << " UseStackGuard=" << (UseStackGuard ? "true" : "false")
+           << " ParentBaseState=" << ParentBaseState
+           << " StateFieldIndex=" << StateFieldIndex << "\n";
+
+    errs() << "FuncletBaseStateMap entries: " << FuncInfo.FuncletBaseStateMap.size()
+           << "\n";
+    for (const auto &KV : FuncInfo.FuncletBaseStateMap) {
+      const FuncletPadInst *Pad = KV.first;
+      int State = KV.second;
+      errs() << "  BaseState=" << State << " Pad=";
+      Pad->print(errs());
+      errs() << "\n";
+    }
+
+    if (HasCXXEH) {
+      errs() << "InvokeStateMap entries: " << FuncInfo.InvokeStateMap.size()
+             << "\n";
+      for (const auto &KV : FuncInfo.InvokeStateMap) {
+        const InvokeInst *II = KV.first;
+        int State = KV.second;
+        errs() << "  InvokeState=" << State << " ";
+        if (II->getParent())
+          errs() << "BB=" << II->getParent()->getName() << " ";
+        II->print(errs());
+        errs() << "\n";
+      }
+    } else {
+      errs() << "BlockToStateMap entries: " << FuncInfo.BlockToStateMap.size()
+             << "\n";
+      for (const auto &KV : FuncInfo.BlockToStateMap) {
+        const BasicBlock *BB = KV.first;
+        int State = KV.second;
+        errs() << "  BB=" << BB->getName() << " State=" << State << "\n";
+      }
+    }
+
+    errs() << "Per-BB inferred states (RPO order):\n";
+    for (BasicBlock *BB : RPOT) {
+      errs() << "  BB=" << BB->getName();
+      auto ItI = InitialStates.find(BB);
+      auto ItF = FinalStates.find(BB);
+      if (ItI != InitialStates.end())
+        errs() << " Initial=" << ItI->second;
+      else
+        errs() << " Initial=<undef>";
+      if (ItF != FinalStates.end())
+        errs() << " Final=" << ItF->second;
+      else
+        errs() << " Final=<undef>";
+
+      auto ItC = BlockColors.find(BB);
+      if (ItC != BlockColors.end() && !ItC->second.empty()) {
+        BasicBlock *FuncletEntryBB = ItC->second.front();
+        errs() << " FuncletEntry=" << FuncletEntryBB->getName();
+        if (WinehStateDumpCleanupPad) {
+          Instruction *FirstNonPHI = FuncletEntryBB->getFirstNonPHI();
+          bool InCleanup = isa<CleanupPadInst>(FirstNonPHI);
+          errs() << " InCleanup=" << (InCleanup ? "true" : "false");
+        }
+      }
+      errs() << "\n";
+    }
+
+    if (WinehStateDumpCleanupPad) {
+      errs() << "CleanupPad funclets:\n";
+      for (BasicBlock &BB : F) {
+        Instruction *FirstNonPHI = BB.getFirstNonPHI();
+        if (!isa<CleanupPadInst>(FirstNonPHI))
+          continue;
+        errs() << "  FuncletEntryBB=" << BB.getName() << " ";
+        FirstNonPHI->print(errs());
+        errs() << "\n";
+        auto *FuncletPad = cast<FuncletPadInst>(FirstNonPHI);
+        auto It = FuncInfo.FuncletBaseStateMap.find(FuncletPad);
+        if (It != FuncInfo.FuncletBaseStateMap.end())
+          errs() << "    BaseState=" << It->second << "\n";
+        else
+          errs() << "    BaseState=<missing>\n";
+      }
+    }
+
+    errs() << "=== X86WinEHState dump end ===\n";
+  }
+
   // Finally, insert state stores before call-sites which transition us to a new
   // state.
   for (BasicBlock *BB : RPOT) {
@@ -757,7 +876,7 @@ void WinEHStatePass::addStateStores(Function &F, WinEHFuncInfo &FuncInfo) {
       if (BlockToState != FuncInfo.BlockToStateMap.end()) {
         int State = BlockToState->second;
         if (State != PrevState)
-          insertStateNumberStore(BB->getFirstNonPHI(), State);
+          insertStateNumberStore(FirstNonPHI, State);
         PrevState = State;
       }
     }
@@ -795,8 +914,10 @@ void WinEHStatePass::addStateStores(Function &F, WinEHFuncInfo &FuncInfo) {
     Value *State;
     if (InCleanup) {
       Value *StateField = Builder.CreateStructGEP(RegNode->getAllocatedType(),
-                                                  RegNode, StateFieldIndex);
-      State = Builder.CreateLoad(Builder.getInt32Ty(), StateField);
+                                                 RegNode, StateFieldIndex);
+      auto *L = Builder.CreateLoad(Builder.getInt32Ty(), StateField);
+      L->setVolatile(true);
+      State = L;
     } else {
       State = Builder.getInt32(getStateForCall(BlockColors, FuncInfo, *Call));
     }

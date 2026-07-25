@@ -1,0 +1,18 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-02-25T14:25:00Z",
+  "stats": {
+    "total": 1,
+    "totalSizeBytes": 1816
+  },
+  "entries": [
+    {
+      "file": "2026-02-25-codemap-scan-obfuscation.md",
+      "date": "2026-02-25",
+      "title": "CodeMap 全量扫描 Obfuscation 项目",
+      "tags": ["codemap", "项目结构", "代码图谱"],
+      "sizeBytes": 1816,
+      "hasOverview": true
+    }
+  ]
+}

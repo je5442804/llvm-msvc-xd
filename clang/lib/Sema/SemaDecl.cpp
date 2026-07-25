@@ -4374,10 +4374,10 @@ bool Sema::MergeFunctionDecl(FunctionDecl *New, NamedDecl *&OldD, Scope *S,
   if (getLangOpts().MicrosoftExt || getLangOpts().MSVCCompat)
     IsMergeRequiredForMSVC = true;
 
-  // In _WIN32 environment, merging is always required.
-#ifdef _WIN32
-  IsMergeRequiredForMSVC = true;
-#endif
+  // For Windows/COFF targets, merging is always required.
+  const llvm::Triple &Triple = Context.getTargetInfo().getTriple();
+  if (Triple.isOSWindows() || Triple.isOSBinFormatCOFF())
+    IsMergeRequiredForMSVC = true;
 
   // Perform the merge if required.
   if (IsMergeRequiredForMSVC) {
@@ -4494,27 +4494,19 @@ bool Sema::MergeMSVCCompatibleFunctionDecls(FunctionDecl *New,
     return true;
 
   if (MergeTypeWithOld) {
-    // The old declaration provided a function prototype, but the
-    // new declaration does not. Merge in the prototype.
     assert(!OldProto->hasExceptionSpec() && "Exception spec in C");
     NewQType = Context.getFunctionType(NewFuncType->getReturnType(),
                                        OldProto->getParamTypes(),
                                        OldProto->getExtProtoInfo());
     New->setType(NewQType);
-    New->setHasInheritedPrototype();
 
-    // Synthesize parameters with the same types.
-    SmallVector<ParmVarDecl *, 16> Params;
-    for (const auto &ParamType : OldProto->param_types()) {
-        ParmVarDecl *Param = ParmVarDecl::Create(
-            Context, New, SourceLocation(), SourceLocation(), nullptr,
-            ParamType, /*TInfo=*/nullptr, SC_None, nullptr);
-        Param->setScopeInfo(0, Params.size());
-        Param->setImplicit();
-        Params.push_back(Param);
-    }
-
-    New->setParams(Params);
+    // Both declarations have prototypes here (enforced by the
+    // FunctionProtoType casts above), so New already has params from
+    // ActOnFunctionDeclarator.  Update their types in-place to match
+    // Old's prototype instead of re-synthesizing + re-calling
+    // setParams (which would assert on the double-write).
+    for (unsigned i = 0, e = New->getNumParams(); i != e; ++i)
+      New->getParamDecl(i)->setType(OldProto->getParamType(i));
   }
   return MergeCompatibleFunctionDecls(New, Old, S, MergeTypeWithOld);
 }
@@ -5534,9 +5526,10 @@ static bool CheckAnonMemberRedeclaration(Sema &SemaRef, Scope *S,
     return false;
   }
 
-#ifdef _WIN32
-  return false;
-#endif
+  const llvm::Triple &Triple = SemaRef.Context.getTargetInfo().getTriple();
+  if (SemaRef.getLangOpts().MicrosoftExt || SemaRef.getLangOpts().MSVCCompat ||
+      Triple.isOSWindows() || Triple.isOSBinFormatCOFF())
+    return false;
 
   SemaRef.Diag(NameLoc, diag::err_anonymous_record_member_redecl)
     << IsUnion << Name;

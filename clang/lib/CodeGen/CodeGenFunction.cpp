@@ -55,14 +55,15 @@ using namespace CodeGen;
 /// shouldEmitLifetimeMarkers - Decide whether we need emit the life-time
 /// markers.
 static bool shouldEmitLifetimeMarkers(const CodeGenOptions &CGOpts,
-                                      const LangOptions &LangOpts) {
-#ifdef _WIN32
-  //[SEH] when we enable EHAsynch, we should not emit life time mark
-  //if (LangOpts.EHAsynch)
-  CodeGenOptions *CGOptsTemp = (CodeGenOptions *)&CGOpts;
-  CGOptsTemp->DisableLifetimeMarkers = true;
-  return false;
-#endif
+                                      const LangOptions &LangOpts,
+                                      const llvm::Triple &Triple) {
+  if (Triple.isOSWindows() || Triple.isOSBinFormatCOFF()) {
+    //[SEH] when we enable EHAsynch, we should not emit life time mark
+    //if (LangOpts.EHAsynch)
+    auto &MutableCGOpts = const_cast<CodeGenOptions &>(CGOpts);
+    MutableCGOpts.DisableLifetimeMarkers = true;
+    return false;
+  }
 
   if (CGOpts.DisableLifetimeMarkers)
     return false;
@@ -84,7 +85,8 @@ CodeGenFunction::CodeGenFunction(CodeGenModule &cgm, bool suppressNewContext)
       SanOpts(CGM.getLangOpts().Sanitize), CurFPFeatures(CGM.getLangOpts()),
       DebugInfo(CGM.getModuleDebugInfo()), PGO(cgm),
       ShouldEmitLifetimeMarkers(
-          shouldEmitLifetimeMarkers(CGM.getCodeGenOpts(), CGM.getLangOpts())) {
+          shouldEmitLifetimeMarkers(CGM.getCodeGenOpts(), CGM.getLangOpts(),
+                                    CGM.getTarget().getTriple())) {
   if (!suppressNewContext)
     CGM.getCXXABI().getMangleContext().startNewFunction();
   EHStack.setCGF(this);
@@ -2328,8 +2330,7 @@ void CodeGenFunction::EmitVariablyModifiedType(QualType type) {
       if (const Expr *sizeExpr = vat->getSizeExpr()) {
         // It's possible that we might have emitted this already,
         // e.g. with a typedef and a pointer to it.
-        llvm::Value *&entry = VLASizeMap[sizeExpr];
-        if (!entry) {
+        if (!VLASizeMap.lookup(sizeExpr)) {
           llvm::Value *size = EmitScalarExpr(sizeExpr);
 
           // C11 6.7.6.2p5:
@@ -2354,7 +2355,8 @@ void CodeGenFunction::EmitVariablyModifiedType(QualType type) {
           // Always zexting here would be wrong if it weren't
           // undefined behavior to have a negative bound.
           // FIXME: What about when size's type is larger than size_t?
-          entry = Builder.CreateIntCast(size, SizeTy, /*signed*/ false);
+          VLASizeMap[sizeExpr] =
+              Builder.CreateIntCast(size, SizeTy, /*signed*/ false);
         }
       }
       type = vat->getElementType();

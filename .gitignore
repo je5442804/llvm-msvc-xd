@@ -91,3 +91,8 @@ llvm/lib/Obfuscation/vmlib/vm_routine.c
 /docs/
 CLAUDE.md
 .claude/
+nul
+
+# CodeMap and GitNexus
+.codemap/
+.gitnexus/

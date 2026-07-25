@@ -33,6 +33,7 @@
 #include "llvm/MC/MCSymbol.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/LEB128.h"
+#include "llvm/Support/raw_ostream.h"
 #include "llvm/Target/TargetOptions.h"
 #include <cstdlib>
 
@@ -44,6 +45,11 @@ STATISTIC(NumFrameExtraProbe,
 STATISTIC(NumFunctionUsingPush2Pop2, "Number of funtions using push2/pop2");
 
 using namespace llvm;
+
+static cl::opt<std::string> X86Win32SEHRestoreTraceFunc(
+    "x86-win32-seh-trace-restore-func",
+    cl::desc("Dump Win32 SEH restore prologue details for this function name"),
+    cl::Hidden, cl::init(""));
 
 X86FrameLowering::X86FrameLowering(const X86Subtarget &STI,
                                    MaybeAlign StackAlignOverride)
@@ -3082,6 +3088,21 @@ void X86FrameLowering::determineCalleeSaves(MachineFunction &MF,
                                             RegScavenger *RS) const {
   TargetFrameLowering::determineCalleeSaves(MF, SavedRegs, RS);
 
+  // Win32 asynchronous SEH may clobber non-volatile GPRs on the exception path.
+  // To satisfy the Win32 ABI (EBX/ESI/EDI must be preserved across a call),
+  // force-save/restore them for SEH functions that have EH funclets.
+  if (STI.isTargetWindowsMSVC() && STI.isTargetWin32()) {
+    const Function &F = MF.getFunction();
+    if (F.hasPersonalityFn()) {
+      EHPersonality P = classifyEHPersonality(F.getPersonalityFn());
+      if (isAsynchronousEHPersonality(P) && MF.hasEHFunclets()) {
+        SavedRegs.set(X86::EBX);
+        SavedRegs.set(X86::ESI);
+        SavedRegs.set(X86::EDI);
+      }
+    }
+  }
+
   // Spill the BasePtr if it's used.
   if (TRI->hasBasePointer(MF)) {
     Register BasePtr = TRI->getBaseRegister();
@@ -3865,6 +3886,17 @@ MachineBasicBlock::iterator X86FrameLowering::restoreWin32EHStackPointers(
   int EHRegOffset = getFrameIndexReference(MF, FI, UsedReg).getFixed();
   int EndOffset = -EHRegOffset - EHRegSize;
   FuncInfo.EHRegNodeEndOffset = EndOffset;
+
+  if (!X86Win32SEHRestoreTraceFunc.empty() &&
+      MF.getName() == X86Win32SEHRestoreTraceFunc) {
+    errs() << "[x86-win32-seh] " << MF.getName() << " bb." << MBB.getNumber()
+           << " restoreWin32EHStackPointers RestoreSP=" << (RestoreSP ? "true" : "false")
+           << " EHRegSize=" << EHRegSize
+           << " EHRegOffset=" << EHRegOffset
+           << " EndOffset=" << EndOffset
+           << " UsedReg=" << (unsigned)UsedReg
+           << "\n";
+  }
 
   if (UsedReg == FramePtr) {
     // ADD $offset, %ebp

@@ -16,7 +16,6 @@
 #include "Substitution.h"
 #include "VMFlatten.h"
 #include "VariableRotation.h"
-#include "xVMP.h"
 #include "xVMProtect.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Passes/PassPlugin.h"
@@ -56,8 +55,6 @@ llvm::PassPluginLibraryInfo getObfuscationPluginInfo() {
           MPM.addPass(createModuleToFunctionPassAdaptor(MBAObfuscationPass()));
           MPM.addPass(createModuleToFunctionPassAdaptor(LinearMBAPass()));
           MPM.addPass(createModuleToFunctionPassAdaptor(FlatteningPass()));
-          MPM.addPass(createModuleToFunctionPassAdaptor(VmProtectPass()));
-          
           MPM.addPass(CodePicPass());
           MPM.addPass(createModuleToFunctionPassAdaptor(CodePicPass()));
 
